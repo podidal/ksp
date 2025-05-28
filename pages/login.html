@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Комфорт Сервис Плюс - Авторизация</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="../css/styles.css">
-  <!-- FirebaseUI CSS -->
-  <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.css" />
   <style>
     body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -19,114 +18,145 @@
     
     .login-container {
       text-align: center;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       max-width: 400px;
       width: 100%;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      background-color: white;
     }
     
-    .app-logo {
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1a237e;
+      margin-bottom: 10px;
+    }
+    
+    h1 {
+      margin-top: 0;
+      color: #333;
+    }
+    
+    .description {
+      color: #666;
       margin-bottom: 30px;
     }
     
-    .login-title {
-      margin-bottom: 20px;
+    .login-button {
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
     }
     
-    .login-subtitle {
-      margin-bottom: 30px;
-      color: #6c757d;
+    .login-button:hover {
+      background-color: #357ae8;
     }
     
-    .login-footer {
-      margin-top: 30px;
+    .google-icon {
+      margin-right: 10px;
+      width: 18px;
+      height: 18px;
+    }
+    
+    .warning-text {
       font-size: 14px;
-      color: #6c757d;
+      color: #666;
+      margin-top: 30px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #4285F4;
+      text-decoration: none;
+    }
+    
+    .back-link:hover {
+      text-decoration: underline;
     }
   </style>
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <!-- Firebase Auth -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
 </head>
 <body>
   <div class="login-container">
-    <div class="app-logo">
-      <h1>Film Manager Pro</h1>
-    </div>
+    <div class="logo">Комфорт Сервис Плюс</div>
+    <h1>Вход в систему</h1>
+    <p class="description">Система управления заказами бронепленки</p>
     
-    <div class="login-title">
-      <h2>Система управления</h2>
-    </div>
+    <button id="loginButton" class="login-button">
+      <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+        <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
+        <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
+        <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
+        <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
+      </svg>
+      Войти через Google
+    </button>
     
-    <div class="login-subtitle">
-      <p>заказами бронепленки</p>
-    </div>
-    
-    <!-- FirebaseUI auth container -->
-    <div id="firebaseui-auth-container"></div>
-    
-    <div class="login-footer">
-      <p>Только для авторизованных менеджеров</p>
-    </div>
+    <p class="warning-text">Только для авторизованных менеджеров</p>
+    <a href="../index.html" class="back-link">Вернуться на главную</a>
   </div>
-
-  <!-- Firebase SDK v9 with CDN -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <!-- FirebaseUI JavaScript -->
-  <script src="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.js"></script>
-
+  
   <script>
     // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
       authDomain: "ksplus-60132.firebaseapp.com",
       projectId: "ksplus-60132",
-      storageBucket: "ksplus-60132.firebasestorage.app",
+      storageBucket: "ksplus-60132.appspot.com",
       messagingSenderId: "1037863910173",
-      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
-      measurementId: "G-17JRYGSH0S"
+      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4"
     };
     
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     
-    // FirebaseUI config
-    const uiConfig = {
-      callbacks: {
-        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-          // User successfully signed in
-          console.log("Успешный вход:", authResult.user);
+    // Get elements
+    const loginButton = document.getElementById('loginButton');
+    
+    // Add login event
+    loginButton.addEventListener('click', () => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      
+      // Sign in with Google popup
+      firebase.auth().signInWithPopup(provider)
+        .then((result) => {
+          // This gives you a Google Access Token
+          const token = result.credential.accessToken;
+          // The signed-in user info
+          const user = result.user;
           
-          // Redirect to clients page
+          // Redirect to the management system
           window.location.href = 'clients.html';
-          return false;
-        },
-        uiShown: function() {
-          // The widget is rendered, hide the loader
-          document.getElementById('loader').style.display = 'none';
-        }
-      },
-      signInFlow: 'popup',
-      signInOptions: [
-        // Enable Google sign-in
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID
-      ],
-      // Terms of service URL
-      tosUrl: '#',
-      // Privacy policy URL
-      privacyPolicyUrl: '#'
-    };
+        }).catch((error) => {
+          // Handle Errors here
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used
+          const email = error.email;
+          
+          console.error('Error during authentication:', errorMessage);
+          alert('Ошибка авторизации: ' + errorMessage);
+        });
+    });
     
-    // Initialize the FirebaseUI Widget using Firebase
-    const ui = new firebaseui.auth.AuthUI(firebase.auth());
-    
-    // The start method will wait until the DOM is loaded
-    ui.start('#firebaseui-auth-container', uiConfig);
-    
-    // Track authentication state
-    firebase.auth().onAuthStateChanged(function(user) {
+    // Check if user is already signed in
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // User is signed in, redirect to client page
+        // User is signed in, redirect to the clients page
         window.location.href = 'clients.html';
       }
     });

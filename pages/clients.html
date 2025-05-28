@@ -7,209 +7,295 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="../css/styles.css">
   <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background: linear-gradient(to right, #1a237e, #283593);
+      color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .brand {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+    
+    .menu-toggle {
+      margin-left: 15px;
+      cursor: pointer;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    
     .add-client-btn {
       display: block;
-      width: 80%;
-      margin: 20px auto;
+      width: 100%;
       padding: 12px;
-      text-align: center;
-      background-color: var(--accent-color);
+      background-color: #4285F4;
       color: white;
       border: none;
       border-radius: 4px;
       font-size: 16px;
       cursor: pointer;
+      text-align: center;
+      margin: 20px 0;
     }
     
     .client-card {
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      padding: 12px;
-      margin-bottom: 15px;
       background-color: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .client-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     
     .client-name {
-      font-weight: 600;
-      font-size: 16px;
+      font-weight: bold;
       margin-bottom: 5px;
     }
     
-    .client-info {
+    .client-phone {
       display: flex;
       justify-content: space-between;
       margin-bottom: 5px;
+    }
+    
+    .client-date {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    
+    .client-status {
+      margin-top: 5px;
+    }
+    
+    .call-icon {
+      color: #4285F4;
+      cursor: pointer;
+    }
+    
+    .address-icon {
+      color: #4285F4;
+      cursor: pointer;
+    }
+    
+    .logout-btn {
+      background-color: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      margin-right: 10px;
+      cursor: pointer;
       font-size: 14px;
     }
     
-    .client-phone, .client-date {
+    .logout-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .no-clients {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .side-menu {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100%;
+      background-color: white;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      transition: right 0.3s ease;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    
+    .side-menu.open {
+      right: 0;
+    }
+    
+    .menu-header {
+      background: linear-gradient(to right, #1a237e, #283593);
+      color: white;
+      padding: 20px;
+    }
+    
+    .menu-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    
+    .menu-user {
+      margin-bottom: 15px;
+    }
+    
+    .menu-email {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    
+    .menu-items {
+      padding: 20px;
+    }
+    
+    .menu-item {
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
       display: flex;
       align-items: center;
     }
     
-    .client-phone i, .client-date i {
-      margin-right: 5px;
-      font-size: 14px;
+    .menu-item:last-child {
+      border-bottom: none;
     }
     
-    .client-status {
-      margin-top: 8px;
-      font-size: 14px;
-    }
-    
-    .call-icon {
-      color: #28a745;
-    }
-    
-    .location-icon {
-      color: #fd7e14;
-    }
-    
-    .status-badge {
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 500;
-      display: inline-block;
-    }
-    
-    .status-new {
-      background-color: #e0f7fa;
-      color: #0288d1;
-    }
-    
-    .status-scheduled {
-      background-color: #e8f5e9;
-      color: #388e3c;
-    }
-    
-    .status-sent {
-      background-color: #fff3e0;
-      color: #f57c00;
-    }
-    
-    .status-confirmed {
-      background-color: #e8eaf6;
-      color: #3f51b5;
-    }
-    
-    .status-completed {
-      background-color: #e0f2f1;
-      color: #00796b;
-    }
-    
-    .status-cancelled {
-      background-color: #ffebee;
-      color: #d32f2f;
-    }
-    
-    .loading-container {
+    .menu-icon {
+      margin-right: 10px;
+      width: 20px;
       text-align: center;
-      padding: 30px;
     }
     
-    .loading-spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-radius: 50%;
-      border-top: 4px solid var(--accent-color);
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 15px;
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 999;
     }
     
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .empty-state {
-      text-align: center;
-      padding: 30px;
-      color: #666;
-    }
-    
-    .empty-state p {
-      margin-bottom: 15px;
-    }
-    
-    .filter-container {
-      display: flex;
-      justify-content: center;
-      margin: 10px 0 20px;
-      overflow-x: auto;
-      padding: 5px 0;
-    }
-    
-    .filter-button {
-      background: none;
-      border: 1px solid var(--border-color);
-      padding: 5px 10px;
-      margin: 0 5px;
-      border-radius: 15px;
-      font-size: 12px;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-    
-    .filter-button.active {
-      background-color: var(--accent-color);
-      color: white;
-      border-color: var(--accent-color);
+    .menu-overlay.open {
+      display: block;
     }
   </style>
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <!-- Firebase Auth -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>Film Manager</h1>
-      <div id="userHeader">
-        <span id="userDisplay">👤 Загрузка...</span>
-        <button class="menu-button" onclick="toggleMenu()">☰</button>
-      </div>
-    </div>
-    
-    <button class="add-client-btn" onclick="location.href='add-client.html'">
-      ➕ Добавить нового клиента
-    </button>
-    
-    <!-- Filter buttons -->
-    <div class="filter-container">
-      <button class="filter-button active" data-status="all">Все</button>
-      <button class="filter-button" data-status="Новый лид">Новые</button>
-      <button class="filter-button" data-status="Замер назначен">Замер назначен</button>
-      <button class="filter-button" data-status="Смета отправлена">Смета отправлена</button>
-      <button class="filter-button" data-status="Заказ подтвержден">Подтверждены</button>
-      <button class="filter-button" data-status="Заказ завершен">Завершены</button>
-      <button class="filter-button" data-status="Отменен">Отменены</button>
-    </div>
-    
-    <!-- Loading indicator -->
-    <div id="loadingClients" class="loading-container">
-      <div class="loading-spinner"></div>
-      <p>Загрузка клиентов...</p>
-    </div>
-    
-    <!-- Empty state message -->
-    <div id="emptyState" class="empty-state" style="display:none;">
-      <p>Нет клиентов для отображения</p>
-      <p>Добавьте нового клиента, чтобы начать работу</p>
-    </div>
-    
-    <!-- Client list container -->
-    <div id="clientsList" class="clients-list" style="display:none;">
-      <!-- Client cards will be dynamically added here -->
+  <div class="header">
+    <div class="brand">Комфорт Сервис Плюс</div>
+    <div class="user-info">
+      <button class="logout-btn" id="logoutButton">Выйти</button>
+      <span id="userName">👤 Загрузка...</span>
+      <div class="menu-toggle">☰</div>
     </div>
   </div>
   
-  <!-- Include side menu component -->
-  <div id="sideMenuContainer"></div>
+  <div class="container">
+    <button class="add-client-btn">➕ Добавить нового клиента</button>
+    
+    <div id="clientsList">
+      <div class="client-card">
+        <div class="client-name">👤 Качан Д.Юван</div>
+        <div class="client-phone">
+          <span>📱 +380501234567</span>
+          <span class="call-icon">📞</span>
+        </div>
+        <div class="client-date">
+          <span>📅 15.03.2024</span>
+          <span class="address-icon">📍</span>
+        </div>
+        <div class="client-status">Статус: Замер назначен</div>
+      </div>
+      
+      <div class="client-card">
+        <div class="client-name">👤 Сидоров Петр</div>
+        <div class="client-phone">
+          <span>📱 +380679876543</span>
+          <span class="call-icon">📞</span>
+        </div>
+        <div class="client-date">
+          <span>📅 12.03.2024</span>
+          <span class="address-icon">📍</span>
+        </div>
+        <div class="client-status">Статус: Смета отправлена</div>
+      </div>
+      
+      <div class="client-card">
+        <div class="client-name">👤 Иванова Мария</div>
+        <div class="client-phone">
+          <span>📱 +380504445566</span>
+          <span class="call-icon">📞</span>
+        </div>
+        <div class="client-date">
+          <span>📅 10.03.2024</span>
+          <span class="address-icon">📍</span>
+        </div>
+        <div class="client-status">Статус: Заказ завершен</div>
+      </div>
+    </div>
+  </div>
   
-  <!-- Firebase SDK v9 with CDN -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  <script src="../js/main.js"></script>
+  <!-- Side Menu -->
+  <div class="menu-overlay"></div>
+  <div class="side-menu">
+    <div class="menu-header">
+      <div class="menu-close">✕</div>
+      <div class="menu-user" id="menuUserName">👤 Имя пользователя</div>
+      <div class="menu-email" id="menuUserEmail">email@example.com</div>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item" data-page="clients.html">
+        <div class="menu-icon">🏠</div>
+        <div>Главная</div>
+      </div>
+      <div class="menu-item" data-page="clients.html">
+        <div class="menu-icon">👥</div>
+        <div>Клиенты</div>
+      </div>
+      <div class="menu-item" data-page="statistics.html">
+        <div class="menu-icon">📊</div>
+        <div>Статистика</div>
+      </div>
+      <div class="menu-item" data-page="settings.html">
+        <div class="menu-icon">⚙️</div>
+        <div>Настройки</div>
+      </div>
+      <div class="menu-item" id="logoutMenuItem">
+        <div class="menu-icon">🚪</div>
+        <div>Выйти</div>
+      </div>
+    </div>
+  </div>
   
   <script>
     // Firebase configuration
@@ -217,230 +303,110 @@
       apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
       authDomain: "ksplus-60132.firebaseapp.com",
       projectId: "ksplus-60132",
-      storageBucket: "ksplus-60132.firebasestorage.app",
+      storageBucket: "ksplus-60132.appspot.com",
       messagingSenderId: "1037863910173",
-      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
-      measurementId: "G-17JRYGSH0S"
+      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4"
     };
     
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     
-    // Get Firestore reference
-    const db = firebase.firestore();
+    // Check authentication state
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in
+        document.getElementById('userName').textContent = '👤 ' + (user.displayName || 'Пользователь');
+        document.getElementById('menuUserName').textContent = '👤 ' + (user.displayName || 'Пользователь');
+        document.getElementById('menuUserEmail').textContent = user.email || '';
+      } else {
+        // No user is signed in, redirect to login
+        window.location.href = 'login.html';
+      }
+    });
     
-    document.addEventListener('DOMContentLoaded', function() {
-      // Load the side menu component
-      fetch('../components/sidebar.html')
-        .then(response => response.text())
-        .then(html => {
-          document.getElementById('sideMenuContainer').innerHTML = html;
-          
-          // Execute any scripts inside the loaded sidebar
-          const scripts = document.getElementById('sideMenuContainer').getElementsByTagName('script');
-          for (let i = 0; i < scripts.length; i++) {
-            eval(scripts[i].innerText);
-          }
-        });
-      
-      // Check authentication status
-      firebase.auth().onAuthStateChanged(function(user) {
-        const userDisplay = document.getElementById('userDisplay');
-        
-        if (user) {
-          // User is signed in
-          const displayName = user.displayName || 'Пользователь';
-          const firstName = displayName.split(' ')[0];
-          userDisplay.textContent = `👤 ${firstName}`;
-          
-          // Update user info in sidebar if it exists
-          const sidebarUserName = document.getElementById('userName');
-          const sidebarUserEmail = document.getElementById('userEmail');
-          
-          if (sidebarUserName) {
-            sidebarUserName.textContent = `👤 ${user.displayName || 'Пользователь'}`;
-          }
-          
-          if (sidebarUserEmail) {
-            sidebarUserEmail.textContent = user.email || '';
-          }
-          
-          // Load client data
-          loadClients();
-        } else {
-          // User is signed out, redirect to login
-          window.location.href = 'login.html';
-        }
-      });
-      
-      // Set up filter buttons
-      const filterButtons = document.querySelectorAll('.filter-button');
-      filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          // Remove active class from all buttons
-          filterButtons.forEach(btn => btn.classList.remove('active'));
-          
-          // Add active class to clicked button
-          this.classList.add('active');
-          
-          // Get status to filter by
-          const status = this.getAttribute('data-status');
-          
-          // Filter clients
-          if (status === 'all') {
-            loadClients();
-          } else {
-            filterClientsByStatus(status);
-          }
-        });
+    // Logout functionality
+    document.getElementById('logoutButton').addEventListener('click', function() {
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful, redirect to login
+        window.location.href = 'login.html';
+      }).catch(function(error) {
+        // An error happened
+        console.error('Error signing out:', error);
       });
     });
     
-    // Load all clients
-    async function loadClients() {
-      showLoading(true);
-      
-      try {
-        const clientsRef = db.collection('clients');
-        const snapshot = await clientsRef.orderBy('createdAt', 'desc').get();
-        
-        const clients = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        
-        renderClients(clients);
-      } catch (error) {
-        console.error("Error loading clients:", error);
-        showError("Не удалось загрузить список клиентов");
-      }
-      
-      showLoading(false);
-    }
-    
-    // Filter clients by status
-    async function filterClientsByStatus(status) {
-      showLoading(true);
-      
-      try {
-        const clientsRef = db.collection('clients');
-        const snapshot = await clientsRef
-          .where("status", "==", status)
-          .orderBy('createdAt', 'desc')
-          .get();
-        
-        const clients = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        
-        renderClients(clients);
-      } catch (error) {
-        console.error("Error filtering clients:", error);
-        showError("Не удалось отфильтровать клиентов");
-      }
-      
-      showLoading(false);
-    }
-    
-    // Render clients to the DOM
-    function renderClients(clients) {
-      const clientsList = document.getElementById('clientsList');
-      const emptyState = document.getElementById('emptyState');
-      
-      // Clear current list
-      clientsList.innerHTML = '';
-      
-      // Show empty state if no clients
-      if (clients.length === 0) {
-        clientsList.style.display = 'none';
-        emptyState.style.display = 'block';
-        return;
-      }
-      
-      // Hide empty state and show client list
-      emptyState.style.display = 'none';
-      clientsList.style.display = 'block';
-      
-      // Render each client
-      clients.forEach(client => {
-        const clientCard = createClientCard(client);
-        clientsList.appendChild(clientCard);
+    document.getElementById('logoutMenuItem').addEventListener('click', function() {
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful, redirect to login
+        window.location.href = 'login.html';
+      }).catch(function(error) {
+        // An error happened
+        console.error('Error signing out:', error);
       });
-    }
+    });
     
-    // Create a client card element
-    function createClientCard(client) {
-      const card = document.createElement('div');
-      card.className = 'client-card';
-      card.onclick = function() {
-        location.href = `client-details.html?id=${client.id}`;
-      };
-      
-      // Format date
-      const createdAt = client.createdAt ? new Date(client.createdAt.seconds * 1000) : new Date();
-      const formattedDate = createdAt.toLocaleDateString('ru-RU');
-      
-      // Get status class
-      const statusClass = getStatusClass(client.status);
-      
-      card.innerHTML = `
-        <div class="client-name">👤 ${client.name || 'Без имени'}</div>
-        <div class="client-info">
-          <div class="client-phone">
-            <span>📱 ${client.phone || 'Нет телефона'}</span>
-          </div>
-          <div class="client-phone-actions">
-            <span class="call-icon">📞</span>
-          </div>
-        </div>
-        <div class="client-info">
-          <div class="client-date">
-            <span>📅 ${formattedDate}</span>
-          </div>
-          <div class="client-location">
-            <span class="location-icon">📍</span>
-          </div>
-        </div>
-        <div class="client-status">
-          <span class="status-badge ${statusClass}">Статус: ${client.status || 'Новый лид'}</span>
-        </div>
-      `;
-      
-      return card;
-    }
+    // Add client button functionality
+    document.querySelector('.add-client-btn').addEventListener('click', function() {
+      window.location.href = 'add-client.html';
+    });
     
-    // Get CSS class for status
-    function getStatusClass(status) {
-      switch (status) {
-        case 'Новый лид':
-          return 'status-new';
-        case 'Замер назначен':
-          return 'status-scheduled';
-        case 'Смета отправлена':
-          return 'status-sent';
-        case 'Заказ подтвержден':
-          return 'status-confirmed';
-        case 'Заказ завершен':
-          return 'status-completed';
-        case 'Отменен':
-          return 'status-cancelled';
-        default:
-          return 'status-new';
-      }
-    }
+    // Client card click functionality
+    document.querySelectorAll('.client-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        // Don't navigate if clicking on call or map icons
+        if (!e.target.classList.contains('call-icon') && !e.target.classList.contains('address-icon')) {
+          const clientName = this.querySelector('.client-name').textContent.substring(2); // Remove emoji
+          window.location.href = 'client-details.html?name=' + encodeURIComponent(clientName);
+        }
+      });
+    });
     
-    // Show/hide loading indicator
-    function showLoading(show) {
-      document.getElementById('loadingClients').style.display = show ? 'block' : 'none';
-      document.getElementById('clientsList').style.display = show ? 'none' : 'block';
-    }
+    // Call icon functionality
+    document.querySelectorAll('.call-icon').forEach(icon => {
+      icon.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const phone = this.parentElement.querySelector('span').textContent.substring(2); // Remove emoji
+        window.location.href = 'tel:' + phone;
+      });
+    });
     
-    // Show error message
-    function showError(message) {
-      // You can implement a more sophisticated error UI here
-      alert(message);
-    }
+    // Address icon functionality
+    document.querySelectorAll('.address-icon').forEach(icon => {
+      icon.addEventListener('click', function(e) {
+        e.stopPropagation();
+        // This would open maps with the client's address
+        alert('Открытие карты с адресом клиента');
+      });
+    });
+    
+    // Menu toggle functionality
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sideMenu = document.querySelector('.side-menu');
+    const menuOverlay = document.querySelector('.menu-overlay');
+    const menuClose = document.querySelector('.menu-close');
+    
+    menuToggle.addEventListener('click', function() {
+      sideMenu.classList.add('open');
+      menuOverlay.classList.add('open');
+    });
+    
+    menuClose.addEventListener('click', function() {
+      sideMenu.classList.remove('open');
+      menuOverlay.classList.remove('open');
+    });
+    
+    menuOverlay.addEventListener('click', function() {
+      sideMenu.classList.remove('open');
+      menuOverlay.classList.remove('open');
+    });
+    
+    // Menu item navigation
+    document.querySelectorAll('.menu-item[data-page]').forEach(item => {
+      item.addEventListener('click', function() {
+        const page = this.getAttribute('data-page');
+        window.location.href = page;
+      });
+    });
   </script>
 </body>
 </html> 
