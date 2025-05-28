@@ -147,15 +147,41 @@
     }
     
     .cutting-map-visual {
-      height: 20px;
-      background: linear-gradient(to right, #4a6da7 85%, #f8f9fa 15%);
+      height: 40px;
       border-radius: 4px;
       margin-bottom: 5px;
+      display: flex;
+      overflow: hidden;
     }
     
     .cutting-map-info {
       font-size: 12px;
       text-align: center;
+    }
+    
+    .minimap-item {
+      height: 100%;
+    }
+    
+    .item-type-1 {
+      background-color: #4a6da7;
+    }
+    
+    .item-type-2 {
+      background-color: #28a745;
+    }
+    
+    .item-type-3 {
+      background-color: #fd7e14;
+    }
+    
+    .item-type-4 {
+      background-color: #dc3545;
+    }
+    
+    .waste-area {
+      background-color: #e9ecef;
+      border: 1px dashed #ced4da;
     }
 
     .edit-modal {
@@ -604,8 +630,55 @@
       
       // Update cutting map
       const utilization = totalArea / rollArea * 100;
-      document.getElementById('cuttingMapVisual').style.background = 
-        `linear-gradient(to right, #4a6da7 ${utilization.toFixed(0)}%, #f8f9fa ${100-utilization.toFixed(0)}%)`;
+      const cuttingMapVisual = document.getElementById('cuttingMapVisual');
+      cuttingMapVisual.innerHTML = '';
+      
+      // Create visualization blocks
+      if (items.length > 0) {
+        // Create blocks for each item type (simplified)
+        const itemTypes = {};
+        items.forEach((item, index) => {
+          const ratio = item.width / item.height;
+          let type = 'square';
+          if (ratio >= 1.5) type = 'horizontal';
+          else if (ratio <= 0.67) type = 'vertical';
+          
+          if (!itemTypes[type]) itemTypes[type] = 0;
+          itemTypes[type] += item.area;
+        });
+        
+        // Convert to percentage of total area
+        const totalItemArea = Object.values(itemTypes).reduce((sum, area) => sum + area, 0);
+        const typePercents = {};
+        Object.keys(itemTypes).forEach(type => {
+          typePercents[type] = (itemTypes[type] / totalArea) * utilization;
+        });
+        
+        // Create colored blocks
+        const types = Object.keys(typePercents);
+        types.forEach((type, index) => {
+          const percent = typePercents[type];
+          const block = document.createElement('div');
+          block.className = `minimap-item item-type-${index + 1}`;
+          block.style.width = `${percent}%`;
+          cuttingMapVisual.appendChild(block);
+        });
+        
+        // Add waste block if any
+        if (utilization < 100) {
+          const wasteBlock = document.createElement('div');
+          wasteBlock.className = 'minimap-item waste-area';
+          wasteBlock.style.width = `${100 - utilization}%`;
+          cuttingMapVisual.appendChild(wasteBlock);
+        }
+      } else {
+        // Empty state
+        const emptyBlock = document.createElement('div');
+        emptyBlock.className = 'minimap-item waste-area';
+        emptyBlock.style.width = '100%';
+        cuttingMapVisual.appendChild(emptyBlock);
+      }
+      
       document.getElementById('cuttingMapInfo').textContent = `${utilization.toFixed(0)}% использование`;
     }
 

@@ -37,10 +37,11 @@
     }
     
     .option-visual {
-      height: 60px;
+      height: 100px;
       margin-bottom: 10px;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      justify-content: center;
     }
     
     .option-metrics {
@@ -177,6 +178,50 @@
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+    
+    .minimap-container {
+      background-color: #f8f9fa;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #dee2e6;
+      height: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    
+    .minimap-row {
+      display: flex;
+      height: 20px;
+      margin-bottom: 5px;
+    }
+    
+    .minimap-item {
+      height: 100%;
+      margin-right: 3px;
+      border-radius: 2px;
+    }
+    
+    .item-type-1 {
+      background-color: #4a6da7;
+    }
+    
+    .item-type-2 {
+      background-color: #28a745;
+    }
+    
+    .item-type-3 {
+      background-color: #fd7e14;
+    }
+    
+    .item-type-4 {
+      background-color: #dc3545;
+    }
+    
+    .waste-area {
+      background-color: #e9ecef;
+      border: 1px dashed #ced4da;
     }
   </style>
 </head>
@@ -697,16 +742,36 @@
       const container = document.getElementById(containerId);
       container.innerHTML = '';
       
+      // Create a container for the minimap
+      const minimapContainer = document.createElement('div');
+      minimapContainer.className = 'minimap-container';
+      
       // Simple visualization for minimap
       layout.forEach(row => {
+        const rowElement = document.createElement('div');
+        rowElement.className = 'minimap-row';
+        
         row.forEach(item => {
           const itemElement = document.createElement('div');
-          itemElement.className = `visual-box ${item.type === 'waste' ? 'visual-box-empty' : 'visual-box-filled'}`;
-          itemElement.style.width = `${Math.max(10, item.width / 40)}px`; // Scale down for visualization
-          container.appendChild(itemElement);
+          
+          // Determine color based on item type and index
+          let itemClass = 'waste-area';
+          if (item.type === 'item') {
+            // Cycle through 4 colors based on item index
+            const colorIndex = (item.index % 4) + 1;
+            itemClass = `item-type-${colorIndex}`;
+          }
+          
+          itemElement.className = `minimap-item ${itemClass}`;
+          itemElement.style.width = `${Math.max(20, item.width / 20)}px`;
+          
+          rowElement.appendChild(itemElement);
         });
-        container.appendChild(document.createElement('br'));
+        
+        minimapContainer.appendChild(rowElement);
       });
+      
+      container.appendChild(minimapContainer);
     }
     
     // Show detailed cutting visualization
@@ -746,24 +811,36 @@
         const rowElement = document.createElement('div');
         rowElement.style.display = 'flex';
         rowElement.style.marginBottom = '10px';
+        rowElement.style.height = '60px';
         
         row.forEach(item => {
           const itemElement = document.createElement('div');
-          itemElement.style.border = item.type === 'waste' ? 'none' : '1px solid #dee2e6';
-          itemElement.style.backgroundColor = item.type === 'waste' ? '#f8f9fa' : 'white';
-          itemElement.style.padding = '10px';
-          itemElement.style.width = `${Math.max(20, item.width / 20)}px`; // Scale down for visualization
-          itemElement.style.textAlign = 'center';
-          itemElement.style.marginRight = '10px';
+          
+          // Determine color based on item type and index
+          let bgClass = 'waste-area';
+          if (item.type === 'item') {
+            // Cycle through colors
+            const colorIndex = (item.index % 4) + 1;
+            bgClass = `item-type-${colorIndex}`;
+          }
+          
+          itemElement.className = `minimap-item ${bgClass}`;
+          itemElement.style.height = '100%';
+          itemElement.style.width = `${Math.max(40, item.width / 15)}px`;
+          itemElement.style.position = 'relative';
           
           if (item.type === 'item') {
+            itemElement.style.color = 'white';
+            itemElement.style.padding = '5px';
+            itemElement.style.fontSize = '12px';
+            itemElement.style.display = 'flex';
+            itemElement.style.flexDirection = 'column';
+            itemElement.style.justifyContent = 'center';
+            itemElement.style.alignItems = 'center';
+            
             itemElement.innerHTML = `
               <div>${item.index + 1}</div>
               <div>${item.width}×${item.height}</div>
-            `;
-          } else {
-            itemElement.innerHTML = `
-              <div>ОТХОД</div>
             `;
           }
           
