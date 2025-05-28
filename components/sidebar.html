@@ -2,8 +2,10 @@
 <div class="side-menu" id="sideMenu">
   <div class="menu-header">
     <h2>Film Manager Pro</h2>
-    <p>👤 Иван Петренко</p>
-    <p>ivan.petrenko@gmail.com</p>
+    <div id="userInfo">
+      <p id="userName">👤 Загрузка...</p>
+      <p id="userEmail"></p>
+    </div>
   </div>
 
   <a href="index.html" class="menu-item">
@@ -24,10 +26,44 @@
   <a href="about.html" class="menu-item">
     <span>📱 О приложении</span>
   </a>
-  <a href="login.html" class="menu-item">
+  <a href="#" class="menu-item" id="logoutBtn">
     <span>🚪 Выйти</span>
   </a>
 </div>
 
 <!-- Overlay for closing the menu -->
-<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div> 
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+
+<script>
+  // Update user info in sidebar
+  if (window.authContext) {
+    authContext.subscribe(({ user }) => {
+      const userName = document.getElementById('userName');
+      const userEmail = document.getElementById('userEmail');
+      
+      if (user) {
+        // Display user info
+        userName.textContent = `👤 ${user.displayName || 'Пользователь'}`;
+        userEmail.textContent = user.email || '';
+      } else {
+        // Reset to default
+        userName.textContent = '👤 Не авторизован';
+        userEmail.textContent = '';
+      }
+    });
+    
+    // Set up logout button
+    document.getElementById('logoutBtn').addEventListener('click', async function(e) {
+      e.preventDefault();
+      
+      try {
+        // Sign out
+        await authContext.signOut();
+        // Redirect to login page
+        window.location.href = 'login.html';
+      } catch (error) {
+        console.error('Error signing out:', error);
+      }
+    });
+  }
+</script> 

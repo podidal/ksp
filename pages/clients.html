@@ -6,6 +6,13 @@
   <title>Комфорт Сервис Плюс - Клиенты</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="../css/styles.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="../js/firebase-config.js"></script>
+  <script src="../js/auth-context.js"></script>
+  <script src="../js/auth-guard.js"></script>
   <style>
     .add-client-btn {
       display: block;
@@ -70,8 +77,8 @@
   <div class="container">
     <div class="header">
       <h1>Film Manager</h1>
-      <div>
-        <span>👤 Иван П.</span>
+      <div id="userHeader">
+        <span id="userDisplay">👤 Загрузка...</span>
         <button class="menu-button" onclick="toggleMenu()">☰</button>
       </div>
     </div>
@@ -164,6 +171,21 @@
         .then(html => {
           document.getElementById('sideMenuContainer').innerHTML = html;
         });
+      
+      // Display current user in header
+      if (window.authContext) {
+        authContext.subscribe(({ user }) => {
+          const userDisplay = document.getElementById('userDisplay');
+          if (user) {
+            // Show first name or display name
+            const displayName = user.displayName || 'Пользователь';
+            const firstName = displayName.split(' ')[0];
+            userDisplay.textContent = `👤 ${firstName}`;
+          } else {
+            userDisplay.textContent = '👤 Гость';
+          }
+        });
+      }
     });
   </script>
 </body>

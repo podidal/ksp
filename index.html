@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Комфорт Сервис Плюс</title>
   <meta http-equiv="refresh" content="0;url=pages/login.html">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth-context.js"></script>
+  <script src="js/auth-guard.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
@@ -61,5 +68,20 @@
     <div class="spinner"></div>
     <p>Если перенаправление не произошло, <a href="pages/login.html">нажмите здесь</a></p>
   </div>
+
+  <script>
+    // Check if user is already logged in
+    document.addEventListener('DOMContentLoaded', function() {
+      // Subscribe to auth state
+      if (window.authContext) {
+        authContext.subscribe(({ user, isLoading }) => {
+          if (!isLoading && user) {
+            // If already authenticated, redirect to clients page
+            window.location.href = 'pages/clients.html';
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html> 
