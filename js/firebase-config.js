@@ -1,19 +1,21 @@
-// Firebase configuration
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyC-example-key-replace-with-your-actual-key",
-  authDomain: "komfort-service-plus.firebaseapp.com",
-  projectId: "komfort-service-plus",
-  storageBucket: "komfort-service-plus.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abc123def456ghi789jkl"
+  apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
+  authDomain: "ksplus-60132.firebaseapp.com",
+  projectId: "ksplus-60132",
+  storageBucket: "ksplus-60132.firebasestorage.app",
+  messagingSenderId: "1037863910173",
+  appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
+  measurementId: "G-17JRYGSH0S"
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-// Get auth and firestore references
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-// Google auth provider
-const googleProvider = new firebase.auth.GoogleAuthProvider(); 
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
