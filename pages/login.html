@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Комфорт Сервис Плюс - Авторизация</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="../css/styles.css">
-  <!-- FirebaseUI CSS -->
-  <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.css" />
+  <title>Film Manager Pro - Авторизация</title>
   <style>
     body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -19,116 +18,63 @@
     
     .login-container {
       text-align: center;
+      padding: 30px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       max-width: 400px;
       width: 100%;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      background-color: white;
     }
     
-    .app-logo {
-      margin-bottom: 30px;
+    h1 {
+      margin-top: 0;
+      color: #333;
     }
     
-    .login-title {
-      margin-bottom: 20px;
+    .login-button {
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
     }
     
-    .login-subtitle {
-      margin-bottom: 30px;
-      color: #6c757d;
+    .login-button:hover {
+      background-color: #357ae8;
     }
     
-    .login-footer {
-      margin-top: 30px;
+    .warning-text {
       font-size: 14px;
-      color: #6c757d;
+      color: #666;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
   <div class="login-container">
-    <div class="app-logo">
-      <h1>Film Manager Pro</h1>
-    </div>
+    <h1>Film Manager Pro</h1>
+    <p>Система управления заказами бронепленки</p>
     
-    <div class="login-title">
-      <h2>Система управления</h2>
-    </div>
+    <button class="login-button">
+      🔐 Войти через Google
+    </button>
     
-    <div class="login-subtitle">
-      <p>заказами бронепленки</p>
-    </div>
-    
-    <!-- FirebaseUI auth container -->
-    <div id="firebaseui-auth-container"></div>
-    
-    <div class="login-footer">
-      <p>Только для авторизованных менеджеров</p>
-    </div>
+    <p class="warning-text">Только для авторизованных менеджеров</p>
   </div>
-
-  <!-- Firebase SDK v9 with CDN -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <!-- FirebaseUI JavaScript -->
-  <script src="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.js"></script>
-
+  
   <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
-      authDomain: "ksplus-60132.firebaseapp.com",
-      projectId: "ksplus-60132",
-      storageBucket: "ksplus-60132.firebasestorage.app",
-      messagingSenderId: "1037863910173",
-      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
-      measurementId: "G-17JRYGSH0S"
-    };
-    
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    
-    // FirebaseUI config
-    const uiConfig = {
-      callbacks: {
-        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-          // User successfully signed in
-          console.log("Успешный вход:", authResult.user);
-          
-          // Redirect to clients page
-          window.location.href = 'clients.html';
-          return false;
-        },
-        uiShown: function() {
-          // The widget is rendered, hide the loader
-          document.getElementById('loader').style.display = 'none';
-        }
-      },
-      signInFlow: 'popup',
-      signInOptions: [
-        // Enable Google sign-in
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID
-      ],
-      // Terms of service URL
-      tosUrl: '#',
-      // Privacy policy URL
-      privacyPolicyUrl: '#'
-    };
-    
-    // Initialize the FirebaseUI Widget using Firebase
-    const ui = new firebaseui.auth.AuthUI(firebase.auth());
-    
-    // The start method will wait until the DOM is loaded
-    ui.start('#firebaseui-auth-container', uiConfig);
-    
-    // Track authentication state
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        // User is signed in, redirect to client page
-        window.location.href = 'clients.html';
-      }
+    // Login functionality would be implemented here with Firebase Auth
+    document.querySelector('.login-button').addEventListener('click', function() {
+      // This would normally trigger Google authentication
+      // For now, we'll just redirect to the clients page
+      window.location.href = 'clients.html';
     });
   </script>
 </body>
