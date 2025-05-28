@@ -6,19 +6,6 @@
   <title>Комфорт Сервис Плюс - Авторизация</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="../css/styles.css">
-  <!-- Firebase SDK v9 with compat -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-  
-  <!-- Check if Firebase is loaded correctly -->
-  <script>
-    console.log("Firebase loading check:", typeof firebase !== 'undefined' ? "Firebase loaded" : "Firebase NOT loaded");
-  </script>
-  
-  <!-- Firebase configuration must be loaded before auth-context -->
-  <script src="../js/firebase-config.js"></script>
-  <script src="../js/auth-context.js"></script>
   <style>
     body {
       display: flex;
@@ -138,45 +125,40 @@
     </div>
   </div>
 
-  <script src="../js/main.js"></script>
-  <script>
+  <script type="module">
+    import authContext from '../js/auth-context.js';
+    
     document.addEventListener('DOMContentLoaded', function() {
       const googleSignInBtn = document.getElementById('googleSignInBtn');
       const loadingSpinner = document.getElementById('loadingSpinner');
       const errorMessage = document.getElementById('errorMessage');
       
       // Check if user is already logged in
-      if (window.authContext) {
-        authContext.subscribe(({ user, isLoading, error }) => {
-          if (isLoading) {
-            // Show loading state
-            googleSignInBtn.disabled = true;
-            loadingSpinner.style.display = 'inline-block';
-          } else {
-            // Reset button state
-            googleSignInBtn.disabled = false;
-            loadingSpinner.style.display = 'none';
-            
-            // Check if already authenticated
-            if (user) {
-              // Redirect to main page if already logged in
-              window.location.href = 'clients.html';
-            }
-            
-            // Show error if any
-            if (error) {
-              errorMessage.style.display = 'block';
-              errorMessage.textContent = error;
-            } else {
-              errorMessage.style.display = 'none';
-            }
+      authContext.subscribe(({ user, isLoading, error }) => {
+        if (isLoading) {
+          // Show loading state
+          googleSignInBtn.disabled = true;
+          loadingSpinner.style.display = 'inline-block';
+        } else {
+          // Reset button state
+          googleSignInBtn.disabled = false;
+          loadingSpinner.style.display = 'none';
+          
+          // Check if already authenticated
+          if (user) {
+            // Redirect to main page if already logged in
+            window.location.href = 'clients.html';
           }
-        });
-      } else {
-        console.error('Auth context not initialized');
-        errorMessage.style.display = 'block';
-        errorMessage.textContent = 'Ошибка инициализации аутентификации';
-      }
+          
+          // Show error if any
+          if (error) {
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = error;
+          } else {
+            errorMessage.style.display = 'none';
+          }
+        }
+      });
       
       // Set up sign in button
       googleSignInBtn.addEventListener('click', async function() {
@@ -186,23 +168,16 @@
         errorMessage.style.display = 'none';
         
         try {
-          if (window.authContext) {
-            // Sign in with Google
-            const success = await authContext.signInWithGoogle();
-            if (success) {
-              // Redirect on success
-              window.location.href = 'clients.html';
-            }
-          } else {
-            throw new Error('Auth context not initialized');
+          // Sign in with Google
+          const success = await authContext.signInWithGoogle();
+          if (success) {
+            // Redirect on success
+            window.location.href = 'clients.html';
           }
         } catch (error) {
           console.error('Sign in error:', error);
           errorMessage.style.display = 'block';
           errorMessage.textContent = 'Ошибка авторизации. Пожалуйста, попробуйте еще раз.';
-        } finally {
-          googleSignInBtn.disabled = false;
-          loadingSpinner.style.display = 'none';
         }
       });
     });

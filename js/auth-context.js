@@ -1,62 +1,37 @@
 // Auth Context - manages user authentication state across the app
+import { auth, googleProvider } from './firebase-config.js';
+import { signInWithPopup, onAuthStateChanged, signOut } from "firebase/auth";
 
-// Create a context to store and provide auth state
+// Create an authentication context for managing state
 class AuthContext {
   constructor() {
     this.user = null;
     this.isLoading = true;
     this.error = null;
     this.subscribers = [];
-    
-    // Wait for DOM content to be loaded before initializing
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => this._initialize());
-    } else {
-      // DOM already loaded, initialize directly
-      setTimeout(() => this._initialize(), 100);
-    }
+    this._initialize();
   }
 
-  // Initialize auth state listener
+  // Initialize auth state listener with Firebase v9
   _initialize() {
-    // Check if Firebase auth is available
-    if (typeof window.auth === 'undefined') {
-      console.error('Firebase auth not initialized yet');
-      this.error = 'Firebase auth not initialized';
+    // Listen for auth state changes
+    onAuthStateChanged(auth, (user) => {
+      this.isLoading = false;
+      this.user = user;
+      this._notifySubscribers();
+    }, (error) => {
+      this.error = error;
       this.isLoading = false;
       this._notifySubscribers();
-      return;
-    }
-    
-    try {
-      // Listen for auth state changes
-      window.auth.onAuthStateChanged((user) => {
-        this.isLoading = false;
-        this.user = user;
-        this._notifySubscribers();
-      }, (error) => {
-        this.error = error;
-        this.isLoading = false;
-        this._notifySubscribers();
-      });
-    } catch (error) {
-      console.error('Error initializing auth listener:', error);
-      this.error = error.message;
-      this.isLoading = false;
-      this._notifySubscribers();
-    }
+    });
   }
 
-  // Sign in with Google
+  // Sign in with Google using Firebase v9
   async signInWithGoogle() {
     try {
-      if (!window.auth || !window.googleProvider) {
-        throw new Error('Firebase auth not initialized');
-      }
-      
       this.isLoading = true;
       this._notifySubscribers();
-      await window.auth.signInWithPopup(window.googleProvider);
+      await signInWithPopup(auth, googleProvider);
       return true;
     } catch (error) {
       console.error("Error signing in with Google", error);
@@ -69,16 +44,12 @@ class AuthContext {
     }
   }
 
-  // Sign out
+  // Sign out using Firebase v9
   async signOut() {
     try {
-      if (!window.auth) {
-        throw new Error('Firebase auth not initialized');
-      }
-      
       this.isLoading = true;
       this._notifySubscribers();
-      await window.auth.signOut();
+      await signOut(auth);
       return true;
     } catch (error) {
       console.error("Error signing out", error);
@@ -117,7 +88,10 @@ class AuthContext {
   }
 }
 
-// Create a singleton instance and expose it globally
-document.addEventListener('DOMContentLoaded', function() {
-  window.authContext = new AuthContext();
-}); 
+// Create a singleton instance
+const authContext = new AuthContext();
+
+// Make the context available globally for legacy integration
+window.authContext = authContext;
+
+export default authContext; 

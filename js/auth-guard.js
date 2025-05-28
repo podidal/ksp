@@ -1,4 +1,5 @@
 // Auth Guard - protects routes from unauthorized access
+import authContext from './auth-context.js';
 
 // List of public routes that don't require authentication
 const publicRoutes = [
