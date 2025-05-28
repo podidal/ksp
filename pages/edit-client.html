@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Комфорт Сервис Плюс - Редактирование клиента</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .form-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .status-select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    .loading-container {
+      text-align: center;
+      padding: 50px 0;
+    }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--accent-color);
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 15px;
+    }
+    
+    .status-scheduled {
+      background-color: #e8f5e9;
+      color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="client-details.html" class="back-button" id="backLink">
+        <span class="back-icon">←</span> Назад
+      </a>
+      <h2>Редактирование клиента</h2>
+      <button class="menu-button" onclick="toggleMenu()">☰</button>
+    </div>
+    
+    <!-- Loading indicator -->
+    <div id="loadingContainer" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Загрузка данных клиента...</p>
+    </div>
+    
+    <!-- Edit form container (hidden initially) -->
+    <div id="formContainer" class="form-container" style="display: none;">
+      <form id="editClientForm">
+        <div class="form-group">
+          <label for="clientName" class="form-label">ФИО клиента:</label>
+          <input type="text" id="clientName" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="clientPhone" class="form-label">Телефон:</label>
+          <input type="tel" id="clientPhone" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="clientEmail" class="form-label">Email (необязательно):</label>
+          <input type="email" id="clientEmail" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="clientAddress" class="form-label">Адрес:</label>
+          <input type="text" id="clientAddress" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="clientStatus" class="form-label">Статус:</label>
+          <select id="clientStatus" class="status-select">
+            <option value="Новый лид">Новый лид</option>
+            <option value="Замер назначен">Замер назначен</option>
+            <option value="Смета отправлена">Смета отправлена</option>
+            <option value="Заказ подтвержден">Заказ подтвержден</option>
+            <option value="Заказ завершен">Заказ завершен</option>
+            <option value="Отменен">Отменен</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="clientNotes" class="form-label">Примечания:</label>
+          <textarea id="clientNotes" class="form-control"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-block">
+          <i class="fas fa-save"></i> Сохранить изменения
+        </button>
+      </form>
+    </div>
+    
+    <div id="statusContainer" style="display: none; text-align: center;">
+      <div class="status-badge status-scheduled">
+        Данные клиента успешно обновлены
+      </div>
+    </div>
+  </div>
+  
+  <!-- Include side menu component -->
+  <div id="sideMenuContainer"></div>
+  
+  <!-- Firebase SDK v9 with CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="../js/main.js"></script>
+  
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
+      authDomain: "ksplus-60132.firebaseapp.com",
+      projectId: "ksplus-60132",
+      storageBucket: "ksplus-60132.firebasestorage.app",
+      messagingSenderId: "1037863910173",
+      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
+      measurementId: "G-17JRYGSH0S"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Get Firestore reference
+    const db = firebase.firestore();
+    
+    // Global client ID
+    let clientId = '';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load the side menu component
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sideMenuContainer').innerHTML = html;
+          
+          // Execute any scripts inside the loaded sidebar
+          const scripts = document.getElementById('sideMenuContainer').getElementsByTagName('script');
+          for (let i = 0; i < scripts.length; i++) {
+            eval(scripts[i].innerText);
+          }
+        });
+      
+      // Check authentication status
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // Get client ID from URL
+          const urlParams = new URLSearchParams(window.location.search);
+          clientId = urlParams.get('id');
+          
+          if (clientId) {
+            // Load client data
+            loadClientData(clientId);
+            
+            // Update back link
+            document.getElementById('backLink').href = `client-details.html?id=${clientId}`;
+          } else {
+            // No client ID, redirect to clients list
+            window.location.href = 'clients.html';
+          }
+        } else {
+          // User is signed out, redirect to login
+          window.location.href = 'login.html';
+        }
+      });
+      
+      // Set up form submission
+      document.getElementById('editClientForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        updateClient();
+      });
+    });
+    
+    // Load client data
+    async function loadClientData(clientId) {
+      try {
+        const docRef = db.collection('clients').doc(clientId);
+        const docSnap = await docRef.get();
+        
+        if (docSnap.exists) {
+          const client = {
+            id: docSnap.id,
+            ...docSnap.data()
+          };
+          
+          // Fill form with client data
+          document.getElementById('clientName').value = client.name || '';
+          document.getElementById('clientPhone').value = client.phone || '';
+          document.getElementById('clientEmail').value = client.email || '';
+          document.getElementById('clientAddress').value = client.address || '';
+          document.getElementById('clientStatus').value = client.status || 'Новый лид';
+          document.getElementById('clientNotes').value = client.notes || '';
+          
+          // Show form and hide loading
+          document.getElementById('loadingContainer').style.display = 'none';
+          document.getElementById('formContainer').style.display = 'block';
+        } else {
+          throw new Error("Client not found");
+        }
+      } catch (error) {
+        console.error("Error loading client data:", error);
+        alert("Не удалось загрузить данные клиента");
+        window.location.href = 'clients.html';
+      }
+    }
+    
+    // Update client data
+    async function updateClient() {
+      const name = document.getElementById('clientName').value;
+      const phone = document.getElementById('clientPhone').value;
+      const email = document.getElementById('clientEmail').value;
+      const address = document.getElementById('clientAddress').value;
+      const status = document.getElementById('clientStatus').value;
+      const notes = document.getElementById('clientNotes').value;
+      
+      try {
+        // Update client in database
+        await db.collection('clients').doc(clientId).update({
+          name: name,
+          phone: phone,
+          email: email,
+          address: address,
+          status: status,
+          notes: notes,
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Show success message
+        document.getElementById('formContainer').style.display = 'none';
+        document.getElementById('statusContainer').style.display = 'block';
+        
+        // Redirect back to client details after a delay
+        setTimeout(() => {
+          window.location.href = `client-details.html?id=${clientId}`;
+        }, 2000);
+      } catch (error) {
+        console.error("Error updating client:", error);
+        alert("Произошла ошибка при обновлении данных клиента. Пожалуйста, попробуйте снова.");
+      }
+    }
+  </script>
+</body>
+</html> 

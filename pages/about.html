@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Комфорт Сервис Плюс - О приложении</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .about-container {
+      background-color: white;
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .app-logo {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    
+    .app-version {
+      text-align: center;
+      font-size: 14px;
+      color: #6c757d;
+      margin-bottom: 25px;
+    }
+    
+    .app-description {
+      margin-bottom: 25px;
+    }
+    
+    .app-features {
+      margin-bottom: 25px;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    
+    .feature-icon {
+      color: var(--primary-color);
+      margin-right: 15px;
+      font-size: 18px;
+      min-width: 24px;
+      text-align: center;
+    }
+    
+    .feature-text {
+      flex: 1;
+    }
+    
+    .contact-info {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+    
+    .contact-title {
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .contact-icon {
+      color: var(--primary-color);
+      margin-right: 15px;
+      font-size: 18px;
+      min-width: 24px;
+      text-align: center;
+    }
+    
+    .app-credits {
+      text-align: center;
+      font-size: 12px;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="clients.html" class="back-button">
+        <span class="back-icon">←</span> Назад
+      </a>
+      <h2>О приложении</h2>
+      <button class="menu-button" onclick="toggleMenu()">☰</button>
+    </div>
+    
+    <div class="about-container">
+      <div class="app-logo">
+        <h1>Film Manager Pro</h1>
+      </div>
+      
+      <div class="app-version">
+        <p>Версия 1.0.0</p>
+      </div>
+      
+      <div class="app-description">
+        <p>Film Manager Pro - это комплексное решение для управления заказами по установке бронепленки. Приложение помогает оптимизировать рабочие процессы, начиная от привлечения клиентов и заканчивая выполнением заказов.</p>
+      </div>
+      
+      <div class="app-features">
+        <h3>Ключевые возможности:</h3>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="feature-text">
+            <strong>Управление клиентами</strong> - создание и ведение базы клиентов с полной историей взаимодействия
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-ruler"></i>
+          </div>
+          <div class="feature-text">
+            <strong>Модуль замера окон</strong> - удобный ввод размеров и расчет необходимого количества материала
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-cut"></i>
+          </div>
+          <div class="feature-text">
+            <strong>Оптимизация раскроя</strong> - алгоритмы для минимизации отходов пленки при раскрое
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <div class="feature-text">
+            <strong>Составление смет</strong> - автоматический расчет стоимости работ и материалов
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="feature-text">
+            <strong>Аналитика</strong> - статистика продаж, конверсии и использования материалов
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="feature-text">
+            <strong>Напоминания</strong> - система напоминаний о важных событиях и задачах
+          </div>
+        </div>
+      </div>
+      
+      <div class="contact-info">
+        <div class="contact-title">Поддержка и контакты:</div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div>support@film-manager.pro</div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div>+380 50 123 45 67</div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-globe"></i>
+          </div>
+          <div>www.film-manager.pro</div>
+        </div>
+      </div>
+      
+      <div class="app-credits">
+        <p>© 2024 Комфорт Сервис Плюс. Все права защищены.</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Include side menu component -->
+  <div id="sideMenuContainer"></div>
+  
+  <script src="../js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load the side menu component
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sideMenuContainer').innerHTML = html;
+          
+          // Execute any scripts inside the loaded sidebar
+          const scripts = document.getElementById('sideMenuContainer').getElementsByTagName('script');
+          for (let i = 0; i < scripts.length; i++) {
+            eval(scripts[i].innerText);
+          }
+        });
+    });
+  </script>
+</body>
+</html> 

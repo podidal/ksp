@@ -280,7 +280,7 @@
       </div>
       
       <div class="action-section">
-        <a href="measurements.html?clientId=" class="action-card" id="measurementsLink">
+        <a href="measurement.html?clientId=" class="action-card" id="measurementsLink">
           <i class="fas fa-ruler action-card-icon"></i>
           <div class="action-card-content">
             <div class="action-card-title">🏠 ЗАМЕР</div>
@@ -373,7 +373,7 @@
             loadClientData(clientId);
             
             // Update links with client ID
-            document.getElementById('measurementsLink').href = `measurements.html?clientId=${clientId}`;
+            document.getElementById('measurementsLink').href = `measurement.html?clientId=${clientId}`;
             document.getElementById('estimateLink').href = `estimate.html?clientId=${clientId}`;
             document.getElementById('sendEstimateLink').href = `send-estimate.html?clientId=${clientId}`;
           } else {
