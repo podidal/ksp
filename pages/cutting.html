@@ -28,6 +28,12 @@
       border-radius: 4px;
       padding: 15px;
       background-color: white;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+    }
+    
+    .option-card:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     
     .option-visual {
@@ -46,6 +52,7 @@
     .option-1-visual {
       background-color: #f8f9fa;
       padding: 5px;
+      width: 100%;
     }
     
     .visual-box {
@@ -113,8 +120,26 @@
     }
     
     /* Modal styles */
-    #cuttingModal {
+    .modal {
       display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    
+    .modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 600px;
+      position: relative;
     }
     
     .modal-header {
@@ -127,120 +152,125 @@
       font-size: 18px;
       font-weight: 600;
     }
+    
+    .close {
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .loading-container {
+      text-align: center;
+      padding: 50px 0;
+    }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--accent-color);
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <a href="measurement.html" class="back-button">
-        <span class="back-icon">←</span> Качан Д.Ю.
+      <a href="measurement.html" class="back-button" id="backLink">
+        <span class="back-icon">←</span> <span id="clientName">Качан Д.Ю.</span>
       </a>
       <h2>Варианты раскроя</h2>
+      <button class="menu-button" onclick="toggleMenu()">☰</button>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="loadingContainer" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Вычисление вариантов раскроя...</p>
     </div>
     
-    <div class="cutting-option">
-      <div class="option-title">
-        <span class="option-icon">🏆</span>
-        <span>Оптимальный (3.2м)</span>
-      </div>
-      <div class="option-card" onclick="showModal('cuttingModal')">
-        <div class="option-visual">
-          <div class="option-1-visual">
-            <div class="visual-box item-box-1 visual-box-filled"></div>
-            <div class="visual-box item-box-1 visual-box-filled"></div>
-            <div class="visual-box waste-box visual-box-empty"></div>
-            <br>
-            <div class="visual-box item-box-1 visual-box-filled"></div>
-            <div class="visual-box item-box-1 visual-box-filled"></div>
-            <div class="visual-box waste-box visual-box-empty"></div>
-            <br>
-            <div class="visual-box item-box-3 visual-box-filled"></div>
-            <div class="visual-box item-box-3 visual-box-filled"></div>
-            <div class="visual-box item-box-3 visual-box-filled"></div>
-            <div class="visual-box waste-box visual-box-empty"></div>
+    <div id="cuttingContainer" style="display: none;">
+      <div id="optimalOption" class="cutting-option">
+        <div class="option-title">
+          <span class="option-icon">🏆</span>
+          <span>Оптимальный (<span id="optimalLength">3.2</span>м)</span>
+        </div>
+        <div class="option-card" onclick="showDetailedCutting('optimal')">
+          <div class="option-visual">
+            <div id="optimalVisual" class="option-1-visual">
+              <!-- Visual will be generated dynamically -->
+            </div>
+          </div>
+          <div class="option-metrics">
+            <div id="optimalUsage">85% использование</div>
+            <div id="optimalWaste">15% отходы</div>
           </div>
         </div>
-        <div class="option-metrics">
-          <div>85% использование</div>
-          <div>15% отходы</div>
+      </div>
+      
+      <div id="algorithm2Option" class="cutting-option">
+        <div class="option-title">
+          <span class="option-icon">📐</span>
+          <span>Алгоритм 2 (<span id="algorithm2Length">3.5</span>м)</span>
         </div>
-      </div>
-    </div>
-    
-    <div class="cutting-option">
-      <div class="option-title">
-        <span class="option-icon">📐</span>
-        <span>Алгоритм 2 (3.5м)</span>
-      </div>
-      <div class="option-card">
-        <div class="option-visual">
-          <div class="option-1-visual">
-            <div class="visual-box item-box-1 visual-box-filled"></div>
-            <div class="visual-box waste-box visual-box-empty"></div>
-            <div class="visual-box waste-box visual-box-empty"></div>
-            <br>
-            <div class="visual-box item-box-1 visual-box-filled"></div>
-            <div class="visual-box item-box-3 visual-box-filled"></div>
-            <div class="visual-box item-box-3 visual-box-filled"></div>
-            <br>
-            <div class="visual-box waste-box visual-box-empty"></div>
-            <div class="visual-box item-box-3 visual-box-filled"></div>
-            <div class="visual-box waste-box visual-box-empty"></div>
+        <div class="option-card" onclick="showDetailedCutting('algorithm2')">
+          <div class="option-visual">
+            <div id="algorithm2Visual" class="option-1-visual">
+              <!-- Visual will be generated dynamically -->
+            </div>
+          </div>
+          <div class="option-metrics">
+            <div id="algorithm2Usage">78% использование</div>
+            <div id="algorithm2Waste">22% отходы</div>
           </div>
         </div>
-        <div class="option-metrics">
-          <div>78% использование</div>
-          <div>22% отходы</div>
+      </div>
+      
+      <div id="algorithm3Option" class="cutting-option">
+        <div class="option-title">
+          <span class="option-icon">⚡</span>
+          <span>Алгоритм 3 (<span id="algorithm3Length">3.8</span>м)</span>
         </div>
-      </div>
-    </div>
-    
-    <div class="cutting-option">
-      <div class="option-title">
-        <span class="option-icon">⚡</span>
-        <span>Алгоритм 3 (3.8м)</span>
-      </div>
-      <div class="option-card">
-        <div class="option-visual">
-          <div class="option-1-visual">
-            <div class="visual-box item-box-1 visual-box-filled"></div>
-            <div class="visual-box item-box-1 visual-box-filled"></div>
-            <br>
-            <div class="visual-box item-box-3 visual-box-filled"></div>
-            <div class="visual-box item-box-3 visual-box-filled"></div>
-            <div class="visual-box item-box-3 visual-box-filled"></div>
-            <br>
-            <div class="visual-box waste-box visual-box-empty"></div>
-            <div class="visual-box waste-box visual-box-empty"></div>
-            <div class="visual-box waste-box visual-box-empty"></div>
+        <div class="option-card" onclick="showDetailedCutting('algorithm3')">
+          <div class="option-visual">
+            <div id="algorithm3Visual" class="option-1-visual">
+              <!-- Visual will be generated dynamically -->
+            </div>
+          </div>
+          <div class="option-metrics">
+            <div id="algorithm3Usage">72% использование</div>
+            <div id="algorithm3Waste">28% отходы</div>
           </div>
         </div>
-        <div class="option-metrics">
-          <div>72% использование</div>
-          <div>28% отходы</div>
+      </div>
+      
+      <div class="settings">
+        <div class="settings-title">⚙️ Настройки:</div>
+        <div class="setting-item">
+          <input type="checkbox" id="rotateItems" class="setting-checkbox" checked>
+          <label for="rotateItems">Поворот деталей</label>
+        </div>
+        <div class="setting-item">
+          <label for="rollWidth">Ширина рулона:</label>
+          <select id="rollWidth" class="setting-select">
+            <option value="1524">1524мм</option>
+            <option value="1000">1000мм</option>
+            <option value="2000">2000мм</option>
+          </select>
         </div>
       </div>
+      
+      <button class="btn btn-success btn-block" id="goToEstimateBtn">
+        Перейти к смете
+      </button>
     </div>
-    
-    <div class="settings">
-      <div class="settings-title">⚙️ Настройки:</div>
-      <div class="setting-item">
-        <input type="checkbox" id="rotateItems" class="setting-checkbox" checked>
-        <label for="rotateItems">Поворот деталей</label>
-      </div>
-      <div class="setting-item">
-        <label for="rollWidth">Ширина рулона:</label>
-        <select id="rollWidth" class="setting-select">
-          <option value="1524">1524мм</option>
-          <option value="1000">1000мм</option>
-          <option value="2000">2000мм</option>
-        </select>
-      </div>
-    </div>
-    
-    <button class="btn btn-success btn-block" onclick="location.href='estimate.html'">
-      Перейти к смете
-    </button>
   </div>
   
   <!-- Detailed cutting modal -->
@@ -251,62 +281,521 @@
         <span class="close" onclick="closeModal('cuttingModal')">&times;</span>
       </div>
       
-      <div>
+      <div id="detailedCuttingInfo">
         <p>Оптимальный алгоритм</p>
         <p>Длина рулона: 3200мм</p>
         <p>Отходы: 15% (0.73м²)</p>
       </div>
       
-      <div style="border: 1px solid #dee2e6; margin: 15px 0; padding: 10px;">
-        <div style="display: flex; margin-bottom: 10px;">
-          <div style="border: 1px solid #dee2e6; padding: 10px; width: 30%; text-align: center; margin-right: 10px;">
-            <div>1</div>
-            <div>800×600</div>
-          </div>
-          <div style="border: 1px solid #dee2e6; padding: 10px; width: 30%; text-align: center; margin-right: 10px;">
-            <div>2</div>
-            <div>800×600</div>
-          </div>
-          <div style="background-color: #f8f9fa; padding: 10px; width: 30%; text-align: center;">
-            <div>ОТХОД</div>
-          </div>
-        </div>
-        
-        <div style="display: flex; margin-bottom: 10px;">
-          <div style="border: 1px solid #dee2e6; padding: 10px; width: 70%; text-align: center; margin-right: 10px;">
-            <div>3</div>
-            <div>1200×800</div>
-          </div>
-          <div style="background-color: #f8f9fa; padding: 10px; width: 30%; text-align: center;">
-            <div>ОТХОД</div>
-          </div>
-        </div>
-        
-        <div style="display: flex;">
-          <div style="border: 1px solid #dee2e6; padding: 10px; width: 20%; text-align: center; margin-right: 10px;">
-            <div>4</div>
-            <div>600×400</div>
-          </div>
-          <div style="border: 1px solid #dee2e6; padding: 10px; width: 20%; text-align: center; margin-right: 10px;">
-            <div>5</div>
-            <div>600×400</div>
-          </div>
-          <div style="border: 1px solid #dee2e6; padding: 10px; width: 20%; text-align: center; margin-right: 10px;">
-            <div>6</div>
-            <div>600×400</div>
-          </div>
-          <div style="background-color: #f8f9fa; padding: 10px; width: 30%; text-align: center;">
-            <div>ОТХОД</div>
-          </div>
-        </div>
+      <div id="detailedCuttingLayout" style="border: 1px solid #dee2e6; margin: 15px 0; padding: 10px;">
+        <!-- Layout will be generated dynamically -->
       </div>
       
       <div style="text-align: center; margin-top: 10px;">
-        1524мм ширина рулона
+        <span id="rollWidthDisplay">1524мм</span> ширина рулона
       </div>
     </div>
   </div>
   
+  <!-- Include side menu component -->
+  <div id="sideMenuContainer"></div>
+  
+  <!-- Firebase SDK v9 with CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/cutting-algorithms.js"></script>
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
+      authDomain: "ksplus-60132.firebaseapp.com",
+      projectId: "ksplus-60132",
+      storageBucket: "ksplus-60132.firebasestorage.app",
+      messagingSenderId: "1037863910173",
+      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
+      measurementId: "G-17JRYGSH0S"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Get Firestore reference
+    const db = firebase.firestore();
+    
+    // Global variables
+    let clientId = '';
+    let items = [];
+    let cuttingResults = {
+      optimal: null,
+      algorithm2: null,
+      algorithm3: null
+    };
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load the side menu component
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sideMenuContainer').innerHTML = html;
+          
+          // Execute any scripts inside the loaded sidebar
+          const scripts = document.getElementById('sideMenuContainer').getElementsByTagName('script');
+          for (let i = 0; i < scripts.length; i++) {
+            eval(scripts[i].innerText);
+          }
+        });
+      
+      // Check authentication status
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // Get client ID from URL
+          const urlParams = new URLSearchParams(window.location.search);
+          clientId = urlParams.get('clientId');
+          
+          if (clientId) {
+            // Load client data and measurements
+            loadClientData(clientId);
+            loadMeasurements(clientId);
+            
+            // Update back link and estimate button
+            document.getElementById('backLink').href = `measurement.html?clientId=${clientId}`;
+            document.getElementById('goToEstimateBtn').onclick = function() {
+              location.href = `estimate.html?clientId=${clientId}`;
+            };
+          } else {
+            // No client ID, redirect to clients list
+            window.location.href = 'clients.html';
+          }
+        } else {
+          // User is signed out, redirect to login
+          window.location.href = 'login.html';
+        }
+      });
+      
+      // Add event listeners for settings
+      document.getElementById('rotateItems').addEventListener('change', recalculateCutting);
+      document.getElementById('rollWidth').addEventListener('change', recalculateCutting);
+    });
+    
+    // Load client data
+    async function loadClientData(clientId) {
+      try {
+        const docRef = db.collection('clients').doc(clientId);
+        const docSnap = await docRef.get();
+        
+        if (docSnap.exists) {
+          const client = {
+            id: docSnap.id,
+            ...docSnap.data()
+          };
+          
+          // Display client name
+          document.getElementById('clientName').textContent = client.name || 'Клиент';
+        }
+      } catch (error) {
+        console.error("Error loading client data:", error);
+      }
+    }
+    
+    // Load measurements and calculate cutting options
+    async function loadMeasurements(clientId) {
+      try {
+        const measurementsRef = db.collection('clients').doc(clientId).collection('measurements');
+        const snapshot = await measurementsRef.orderBy('createdAt').get();
+        
+        if (!snapshot.empty) {
+          items = [];
+          snapshot.forEach(doc => {
+            items.push({
+              id: doc.id,
+              ...doc.data()
+            });
+          });
+          
+          // Calculate cutting options
+          calculateCuttingOptions();
+        } else {
+          // No measurements, show empty state
+          document.getElementById('loadingContainer').style.display = 'none';
+          document.getElementById('cuttingContainer').style.display = 'block';
+        }
+      } catch (error) {
+        console.error("Error loading measurements:", error);
+        document.getElementById('loadingContainer').style.display = 'none';
+        document.getElementById('cuttingContainer').style.display = 'block';
+      }
+    }
+    
+    // Calculate cutting options
+    function calculateCuttingOptions() {
+      // Get settings
+      const allowRotation = document.getElementById('rotateItems').checked;
+      const rollWidth = parseInt(document.getElementById('rollWidth').value);
+      
+      // Create rectangles array for algorithms
+      const rectangles = items.map(item => {
+        return {
+          width: item.width,
+          height: item.height,
+          quantity: item.quantity,
+          area: item.area
+        };
+      });
+      
+      // Calculate using different algorithms
+      // In a real application, these would be proper algorithms
+      // For demo, we'll use simplified calculations
+      setTimeout(() => {
+        // Algorithm 1: Optimal (next-fit decreasing height)
+        cuttingResults.optimal = calculateOptimalCutting(rectangles, rollWidth, allowRotation);
+        
+        // Algorithm 2: Different approach (first-fit decreasing)
+        cuttingResults.algorithm2 = calculateAlgorithm2Cutting(rectangles, rollWidth, allowRotation);
+        
+        // Algorithm 3: Another approach (best-fit decreasing)
+        cuttingResults.algorithm3 = calculateAlgorithm3Cutting(rectangles, rollWidth, allowRotation);
+        
+        // Update UI with results
+        updateCuttingVisuals();
+        
+        // Hide loading and show content
+        document.getElementById('loadingContainer').style.display = 'none';
+        document.getElementById('cuttingContainer').style.display = 'block';
+      }, 500); // Simulate processing time
+    }
+    
+    // Calculate optimal cutting (simplified for demo)
+    function calculateOptimalCutting(rectangles, rollWidth, allowRotation) {
+      // Deep copy to avoid modifying original
+      const rects = JSON.parse(JSON.stringify(rectangles));
+      
+      // Expand quantity into individual rectangles
+      let allRects = [];
+      rects.forEach(rect => {
+        for (let i = 0; i < rect.quantity; i++) {
+          allRects.push({
+            width: rect.width,
+            height: rect.height,
+            area: (rect.width / 1000) * (rect.height / 1000)
+          });
+        }
+      });
+      
+      // Sort by height (decreasing)
+      allRects.sort((a, b) => b.height - a.height);
+      
+      // Total area
+      const totalArea = allRects.reduce((sum, rect) => sum + rect.area, 0);
+      
+      // Simulate optimal packing (simplified)
+      const length = (totalArea / (rollWidth / 1000)) * 1.15; // 15% waste
+      const roundedLength = Math.ceil(length * 10) / 10; // Round to nearest 0.1m
+      
+      // Calculate usage and waste
+      const rollArea = (rollWidth / 1000) * roundedLength;
+      const usage = totalArea / rollArea * 100;
+      const waste = 100 - usage;
+      
+      // Generate a layout map (simplified)
+      const layout = generateLayout(allRects, rollWidth, roundedLength * 1000);
+      
+      return {
+        length: roundedLength,
+        usage: usage,
+        waste: waste,
+        wasteArea: (rollArea - totalArea),
+        layout: layout
+      };
+    }
+    
+    // Algorithm 2: First-fit decreasing (simplified)
+    function calculateAlgorithm2Cutting(rectangles, rollWidth, allowRotation) {
+      // Deep copy to avoid modifying original
+      const rects = JSON.parse(JSON.stringify(rectangles));
+      
+      // Expand quantity into individual rectangles
+      let allRects = [];
+      rects.forEach(rect => {
+        for (let i = 0; i < rect.quantity; i++) {
+          allRects.push({
+            width: rect.width,
+            height: rect.height,
+            area: (rect.width / 1000) * (rect.height / 1000)
+          });
+        }
+      });
+      
+      // Sort by width (decreasing)
+      allRects.sort((a, b) => b.width - a.width);
+      
+      // Total area
+      const totalArea = allRects.reduce((sum, rect) => sum + rect.area, 0);
+      
+      // Simulate algorithm 2 packing (simplified)
+      const length = (totalArea / (rollWidth / 1000)) * 1.22; // 22% waste
+      const roundedLength = Math.ceil(length * 10) / 10; // Round to nearest 0.1m
+      
+      // Calculate usage and waste
+      const rollArea = (rollWidth / 1000) * roundedLength;
+      const usage = totalArea / rollArea * 100;
+      const waste = 100 - usage;
+      
+      // Generate a layout map (simplified)
+      const layout = generateLayout(allRects, rollWidth, roundedLength * 1000);
+      
+      return {
+        length: roundedLength,
+        usage: usage,
+        waste: waste,
+        wasteArea: (rollArea - totalArea),
+        layout: layout
+      };
+    }
+    
+    // Algorithm 3: Best-fit decreasing (simplified)
+    function calculateAlgorithm3Cutting(rectangles, rollWidth, allowRotation) {
+      // Deep copy to avoid modifying original
+      const rects = JSON.parse(JSON.stringify(rectangles));
+      
+      // Expand quantity into individual rectangles
+      let allRects = [];
+      rects.forEach(rect => {
+        for (let i = 0; i < rect.quantity; i++) {
+          allRects.push({
+            width: rect.width,
+            height: rect.height,
+            area: (rect.width / 1000) * (rect.height / 1000)
+          });
+        }
+      });
+      
+      // Sort by area (decreasing)
+      allRects.sort((a, b) => b.area - a.area);
+      
+      // Total area
+      const totalArea = allRects.reduce((sum, rect) => sum + rect.area, 0);
+      
+      // Simulate algorithm 3 packing (simplified)
+      const length = (totalArea / (rollWidth / 1000)) * 1.28; // 28% waste
+      const roundedLength = Math.ceil(length * 10) / 10; // Round to nearest 0.1m
+      
+      // Calculate usage and waste
+      const rollArea = (rollWidth / 1000) * roundedLength;
+      const usage = totalArea / rollArea * 100;
+      const waste = 100 - usage;
+      
+      // Generate a layout map (simplified)
+      const layout = generateLayout(allRects, rollWidth, roundedLength * 1000);
+      
+      return {
+        length: roundedLength,
+        usage: usage,
+        waste: waste,
+        wasteArea: (rollArea - totalArea),
+        layout: layout
+      };
+    }
+    
+    // Generate a layout visualization (simplified)
+    function generateLayout(rectangles, rollWidth, rollLength) {
+      // This is a simplified layout generator
+      // In a real application, this would use a proper packing algorithm
+      
+      // Create a simplified representation
+      const rows = 3; // Number of rows to visualize
+      const rowHeight = rollLength / rows;
+      
+      let layout = [];
+      let remainingRects = [...rectangles];
+      
+      for (let row = 0; row < rows; row++) {
+        let rowItems = [];
+        let currentX = 0;
+        
+        while (currentX < rollWidth && remainingRects.length > 0) {
+          const rect = remainingRects.shift();
+          if (!rect) break;
+          
+          // Check if it fits in this row
+          if (currentX + rect.width <= rollWidth) {
+            rowItems.push({
+              x: currentX,
+              y: row * rowHeight,
+              width: rect.width,
+              height: rect.height,
+              type: 'item',
+              index: rectangles.length - remainingRects.length
+            });
+            
+            currentX += rect.width;
+          } else {
+            // Add waste for the remaining space
+            if (rollWidth - currentX > 0) {
+              rowItems.push({
+                x: currentX,
+                y: row * rowHeight,
+                width: rollWidth - currentX,
+                height: rowHeight,
+                type: 'waste'
+              });
+            }
+            
+            // Put back the rect for next row
+            remainingRects.unshift(rect);
+            break;
+          }
+        }
+        
+        // Add waste if row is not complete
+        if (currentX < rollWidth) {
+          rowItems.push({
+            x: currentX,
+            y: row * rowHeight,
+            width: rollWidth - currentX,
+            height: rowHeight,
+            type: 'waste'
+          });
+        }
+        
+        layout.push(rowItems);
+      }
+      
+      return layout;
+    }
+    
+    // Update cutting visualizations
+    function updateCuttingVisuals() {
+      // Update optimal option
+      if (cuttingResults.optimal) {
+        document.getElementById('optimalLength').textContent = cuttingResults.optimal.length.toFixed(1);
+        document.getElementById('optimalUsage').textContent = `${Math.round(cuttingResults.optimal.usage)}% использование`;
+        document.getElementById('optimalWaste').textContent = `${Math.round(cuttingResults.optimal.waste)}% отходы`;
+        renderMinimap('optimalVisual', cuttingResults.optimal.layout);
+      }
+      
+      // Update algorithm 2 option
+      if (cuttingResults.algorithm2) {
+        document.getElementById('algorithm2Length').textContent = cuttingResults.algorithm2.length.toFixed(1);
+        document.getElementById('algorithm2Usage').textContent = `${Math.round(cuttingResults.algorithm2.usage)}% использование`;
+        document.getElementById('algorithm2Waste').textContent = `${Math.round(cuttingResults.algorithm2.waste)}% отходы`;
+        renderMinimap('algorithm2Visual', cuttingResults.algorithm2.layout);
+      }
+      
+      // Update algorithm 3 option
+      if (cuttingResults.algorithm3) {
+        document.getElementById('algorithm3Length').textContent = cuttingResults.algorithm3.length.toFixed(1);
+        document.getElementById('algorithm3Usage').textContent = `${Math.round(cuttingResults.algorithm3.usage)}% использование`;
+        document.getElementById('algorithm3Waste').textContent = `${Math.round(cuttingResults.algorithm3.waste)}% отходы`;
+        renderMinimap('algorithm3Visual', cuttingResults.algorithm3.layout);
+      }
+    }
+    
+    // Render minimap visualization
+    function renderMinimap(containerId, layout) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      
+      // Simple visualization for minimap
+      layout.forEach(row => {
+        row.forEach(item => {
+          const itemElement = document.createElement('div');
+          itemElement.className = `visual-box ${item.type === 'waste' ? 'visual-box-empty' : 'visual-box-filled'}`;
+          itemElement.style.width = `${Math.max(10, item.width / 40)}px`; // Scale down for visualization
+          container.appendChild(itemElement);
+        });
+        container.appendChild(document.createElement('br'));
+      });
+    }
+    
+    // Show detailed cutting visualization
+    function showDetailedCutting(algorithm) {
+      const result = cuttingResults[algorithm];
+      if (!result) return;
+      
+      const rollWidth = parseInt(document.getElementById('rollWidth').value);
+      
+      // Update modal information
+      let algorithmName = 'Оптимальный алгоритм';
+      if (algorithm === 'algorithm2') algorithmName = 'Алгоритм 2';
+      if (algorithm === 'algorithm3') algorithmName = 'Алгоритм 3';
+      
+      document.getElementById('detailedCuttingInfo').innerHTML = `
+        <p>${algorithmName}</p>
+        <p>Длина рулона: ${result.length * 1000}мм</p>
+        <p>Отходы: ${Math.round(result.waste)}% (${result.wasteArea.toFixed(2)}м²)</p>
+      `;
+      
+      // Generate detailed layout
+      renderDetailedLayout(result.layout);
+      
+      // Update roll width display
+      document.getElementById('rollWidthDisplay').textContent = `${rollWidth}мм`;
+      
+      // Show modal
+      document.getElementById('cuttingModal').style.display = 'block';
+    }
+    
+    // Render detailed layout
+    function renderDetailedLayout(layout) {
+      const container = document.getElementById('detailedCuttingLayout');
+      container.innerHTML = '';
+      
+      layout.forEach(row => {
+        const rowElement = document.createElement('div');
+        rowElement.style.display = 'flex';
+        rowElement.style.marginBottom = '10px';
+        
+        row.forEach(item => {
+          const itemElement = document.createElement('div');
+          itemElement.style.border = item.type === 'waste' ? 'none' : '1px solid #dee2e6';
+          itemElement.style.backgroundColor = item.type === 'waste' ? '#f8f9fa' : 'white';
+          itemElement.style.padding = '10px';
+          itemElement.style.width = `${Math.max(20, item.width / 20)}px`; // Scale down for visualization
+          itemElement.style.textAlign = 'center';
+          itemElement.style.marginRight = '10px';
+          
+          if (item.type === 'item') {
+            itemElement.innerHTML = `
+              <div>${item.index + 1}</div>
+              <div>${item.width}×${item.height}</div>
+            `;
+          } else {
+            itemElement.innerHTML = `
+              <div>ОТХОД</div>
+            `;
+          }
+          
+          rowElement.appendChild(itemElement);
+        });
+        
+        container.appendChild(rowElement);
+      });
+    }
+    
+    // Close modal
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+    
+    // Recalculate cutting based on settings changes
+    function recalculateCutting() {
+      document.getElementById('loadingContainer').style.display = 'block';
+      document.getElementById('cuttingContainer').style.display = 'none';
+      
+      setTimeout(() => {
+        calculateCuttingOptions();
+      }, 500); // Simulate processing time
+    }
+    
+    // Click outside modal to close
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('cuttingModal');
+      if (event.target === modal) {
+        closeModal('cuttingModal');
+      }
+    });
+  </script>
 </body>
 </html> 

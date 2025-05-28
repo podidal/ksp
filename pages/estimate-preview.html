@@ -85,66 +85,317 @@
     .action-btn {
       width: 48%;
     }
+    
+    .loading-container {
+      text-align: center;
+      padding: 50px 0;
+    }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--accent-color);
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @media print {
+      .action-buttons, .header {
+        display: none !important;
+      }
+      
+      body {
+        background-color: white !important;
+      }
+      
+      .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      
+      .estimate-container {
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="estimate-container">
-      <div class="estimate-title">СМЕТА</div>
-      
-      <div class="client-info">
-        <div class="client-info-item">Клиент: Качан Д.Юван</div>
-        <div class="client-info-item">Телефон: +380501234567</div>
-        <div class="client-info-item">Адрес: г. Киев, ул. Крещатик, 15</div>
-        <div class="client-info-item">Дата: 16.03.2024</div>
-      </div>
-      
-      <div class="details-card">
-        <div class="details-title">ДЕТАЛИ ЗАКАЗА:</div>
-        <div class="details-item">• Окно 800×600мм - 2 шт</div>
-        <div class="details-item">• Окно 1200×800мм - 1 шт</div>
-        <div class="details-item">• Окно 600×400мм - 3 шт</div>
-        <div class="details-item"></div>
-        <div class="details-item">Общая площадь: 2.64 м²</div>
-        <div class="details-item">Материал: Silver 15</div>
-      </div>
-      
-      <div class="cost-section">
-        <div class="cost-title">СТОИМОСТЬ:</div>
-        <div class="cost-item">Материал (2.64м²×380₴): 1,003₴</div>
-        <div class="cost-item">Работа (2.64м²×250₴): 660₴</div>
-        <div class="cost-item">Дополнительно: 500₴</div>
-        <div class="cost-divider"></div>
-        <div class="total-cost">ИТОГО: 2,163₴</div>
-      </div>
-      
-      <div class="additional-info">
-        <div class="additional-info-item">Срок выполнения: 1-2 дня</div>
-        <div class="additional-info-item">Гарантия: 2 года</div>
-      </div>
-      
-      <div class="company-info">
-        <div>Film Manager Pro</div>
-        <div>+380501112233</div>
-      </div>
+    <div class="header">
+      <a href="estimate.html" class="back-button" id="backLink">
+        <span class="back-icon">←</span> Назад к смете
+      </a>
+      <h2>Предпросмотр сметы</h2>
     </div>
     
-    <div class="action-buttons">
-      <button class="btn btn-primary action-btn">
-        🖨️ Печать
-      </button>
-      <button class="btn btn-success action-btn" onclick="location.href='estimate.html'">
-        📤 Отправить
-      </button>
+    <!-- Loading indicator -->
+    <div id="loadingContainer" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Загрузка данных сметы...</p>
+    </div>
+    
+    <!-- Estimate preview (hidden initially) -->
+    <div id="estimateContainer" style="display: none;">
+      <div class="estimate-container">
+        <div class="estimate-title">СМЕТА</div>
+        
+        <div class="client-info">
+          <div class="client-info-item">Клиент: <span id="clientName">Загрузка...</span></div>
+          <div class="client-info-item">Телефон: <span id="clientPhone">Загрузка...</span></div>
+          <div class="client-info-item">Адрес: <span id="clientAddress">Загрузка...</span></div>
+          <div class="client-info-item">Дата: <span id="currentDate">Загрузка...</span></div>
+        </div>
+        
+        <div class="details-card">
+          <div class="details-title">ДЕТАЛИ ЗАКАЗА:</div>
+          <div id="measurementsList">
+            <!-- Measurements will be added here -->
+          </div>
+          <div class="details-item"></div>
+          <div class="details-item">Общая площадь: <span id="totalArea">0</span> м²</div>
+          <div class="details-item">Материал: <span id="materialType">Загрузка...</span></div>
+        </div>
+        
+        <div class="cost-section">
+          <div class="cost-title">СТОИМОСТЬ:</div>
+          <div class="cost-item">Материал (<span id="areaCost">0</span>м²×<span id="materialPrice">0</span>₴): <span id="materialCost">0</span>₴</div>
+          <div class="cost-item">Работа (<span id="areaWork">0</span>м²×<span id="workPrice">0</span>₴): <span id="workCost">0</span>₴</div>
+          <div id="extrasList">
+            <!-- Extras will be added here -->
+          </div>
+          <div class="cost-divider"></div>
+          <div class="total-cost">ИТОГО: <span id="totalCost">0</span>₴</div>
+        </div>
+        
+        <div class="additional-info">
+          <div class="additional-info-item">Срок выполнения: 1-2 дня</div>
+          <div class="additional-info-item">Гарантия: 2 года</div>
+        </div>
+        
+        <div class="company-info">
+          <div>Комфорт Сервис Плюс</div>
+          <div>+380501112233</div>
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="btn btn-primary action-btn" id="printBtn">
+          🖨️ Печать
+        </button>
+        <button class="btn btn-success action-btn" id="sendBtn">
+          📤 Отправить
+        </button>
+      </div>
     </div>
   </div>
   
+  <!-- Include side menu component -->
+  <div id="sideMenuContainer"></div>
+  
+  <!-- Firebase SDK v9 with CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="../js/main.js"></script>
   <script>
-    // Print functionality
-    document.querySelector('.action-buttons .btn-primary').addEventListener('click', function() {
-      window.print();
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
+      authDomain: "ksplus-60132.firebaseapp.com",
+      projectId: "ksplus-60132",
+      storageBucket: "ksplus-60132.firebasestorage.app",
+      messagingSenderId: "1037863910173",
+      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
+      measurementId: "G-17JRYGSH0S"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Get Firestore reference
+    const db = firebase.firestore();
+    
+    // Global variables
+    let clientId = '';
+    let shouldPrint = false;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load the side menu component
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sideMenuContainer').innerHTML = html;
+          
+          // Execute any scripts inside the loaded sidebar
+          const scripts = document.getElementById('sideMenuContainer').getElementsByTagName('script');
+          for (let i = 0; i < scripts.length; i++) {
+            eval(scripts[i].innerText);
+          }
+        });
+      
+      // Check if we should auto-print
+      const urlParams = new URLSearchParams(window.location.search);
+      shouldPrint = urlParams.get('print') === 'true';
+      
+      // Check authentication status
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // Get client ID from URL
+          clientId = urlParams.get('clientId');
+          
+          if (clientId) {
+            // Load client data and estimate
+            loadClientData(clientId);
+            loadEstimateData(clientId);
+            loadMeasurements(clientId);
+            
+            // Update back link
+            document.getElementById('backLink').href = `estimate.html?clientId=${clientId}`;
+            
+            // Set up send button
+            document.getElementById('sendBtn').onclick = function() {
+              location.href = `send-estimate.html?clientId=${clientId}`;
+            };
+          } else {
+            // No client ID, redirect to clients list
+            window.location.href = 'clients.html';
+          }
+        } else {
+          // User is signed out, redirect to login
+          window.location.href = 'login.html';
+        }
+      });
+      
+      // Print functionality
+      document.getElementById('printBtn').addEventListener('click', function() {
+        window.print();
+      });
+      
+      // Set current date
+      const today = new Date();
+      document.getElementById('currentDate').textContent = today.toLocaleDateString('ru-RU');
     });
+    
+    // Load client data
+    async function loadClientData(clientId) {
+      try {
+        const docRef = db.collection('clients').doc(clientId);
+        const docSnap = await docRef.get();
+        
+        if (docSnap.exists) {
+          const client = {
+            id: docSnap.id,
+            ...docSnap.data()
+          };
+          
+          // Display client information
+          document.getElementById('clientName').textContent = client.name || 'Не указано';
+          document.getElementById('clientPhone').textContent = client.phone || 'Не указано';
+          document.getElementById('clientAddress').textContent = client.address || 'Не указано';
+        }
+      } catch (error) {
+        console.error("Error loading client data:", error);
+      }
+    }
+    
+    // Load estimate data
+    async function loadEstimateData(clientId) {
+      try {
+        const estimateRef = db.collection('clients').doc(clientId).collection('estimate').doc('current');
+        const docSnap = await estimateRef.get();
+        
+        if (docSnap.exists) {
+          const estimate = docSnap.data();
+          
+          // Update material info
+          document.getElementById('materialType').textContent = estimate.materialType || 'Не указано';
+          document.getElementById('materialPrice').textContent = estimate.materialPrice || 0;
+          
+          // Update work price
+          document.getElementById('workPrice').textContent = estimate.workPrice || 0;
+          
+          // Update area info
+          const area = estimate.totalArea || 0;
+          document.getElementById('totalArea').textContent = area.toFixed(2);
+          document.getElementById('areaCost').textContent = area.toFixed(2);
+          document.getElementById('areaWork').textContent = area.toFixed(2);
+          
+          // Update costs
+          document.getElementById('materialCost').textContent = formatNumber(estimate.materialCost || 0);
+          document.getElementById('workCost').textContent = formatNumber(estimate.workCost || 0);
+          
+          // Display extras
+          if (estimate.extras && estimate.extras.length > 0) {
+            const extrasList = document.getElementById('extrasList');
+            extrasList.innerHTML = '';
+            
+            estimate.extras.forEach(extra => {
+              const extraItem = document.createElement('div');
+              extraItem.className = 'cost-item';
+              extraItem.textContent = `${extra.name}: ${formatNumber(extra.price || 0)}₴`;
+              extrasList.appendChild(extraItem);
+            });
+          }
+          
+          // Update total cost
+          document.getElementById('totalCost').textContent = formatNumber(estimate.totalCost || 0);
+          
+          // Show estimate and hide loading
+          document.getElementById('loadingContainer').style.display = 'none';
+          document.getElementById('estimateContainer').style.display = 'block';
+          
+          // If print parameter is set, trigger print
+          if (shouldPrint) {
+            setTimeout(() => {
+              window.print();
+            }, 500);
+          }
+        }
+      } catch (error) {
+        console.error("Error loading estimate data:", error);
+        document.getElementById('loadingContainer').style.display = 'none';
+        document.getElementById('estimateContainer').style.display = 'block';
+      }
+    }
+    
+    // Load measurements
+    async function loadMeasurements(clientId) {
+      try {
+        const measurementsRef = db.collection('clients').doc(clientId).collection('measurements');
+        const snapshot = await measurementsRef.orderBy('createdAt').get();
+        
+        if (!snapshot.empty) {
+          const measurementsList = document.getElementById('measurementsList');
+          measurementsList.innerHTML = '';
+          
+          snapshot.forEach(doc => {
+            const measurement = doc.data();
+            const item = document.createElement('div');
+            item.className = 'details-item';
+            item.textContent = `• Окно ${measurement.width}×${measurement.height}мм - ${measurement.quantity} шт`;
+            measurementsList.appendChild(item);
+          });
+        }
+      } catch (error) {
+        console.error("Error loading measurements:", error);
+      }
+    }
+    
+    // Format number with thousand separators
+    function formatNumber(number) {
+      return new Intl.NumberFormat('ru-RU').format(Math.round(number));
+    }
   </script>
 </body>
 </html> 
