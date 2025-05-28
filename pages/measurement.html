@@ -76,21 +76,24 @@
     
     .item-shape {
       margin-right: 10px;
-      font-weight: bold;
       min-width: 40px;
-      text-align: center;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
     }
 
     .shape-horizontal {
-      color: #4a6da7;
+      background-color: #4a6da7;
     }
 
     .shape-vertical {
-      color: #28a745;
+      background-color: #28a745;
     }
 
     .shape-square {
-      color: #fd7e14;
+      background-color: #fd7e14;
     }
     
     .item-info {
@@ -258,7 +261,7 @@
       Перейти к раскрою
     </button>
   </div>
-
+  
   <!-- Edit item modal -->
   <div id="editModal" class="edit-modal">
     <div class="edit-modal-content">
@@ -532,11 +535,11 @@
       const ratio = width / height;
       
       if (ratio >= 1.5) {
-        return '<span class="shape-horizontal">[▬▬]</span>';
+        return '<div class="shape-horizontal"></div>';
       } else if (ratio <= 0.67) {
-        return '<span class="shape-vertical">[|]</span>';
+        return '<div class="shape-vertical"></div>';
       } else {
-        return '<span class="shape-square">[▬]</span>';
+        return '<div class="shape-square"></div>';
       }
     }
 
@@ -551,8 +554,8 @@
         itemCard.innerHTML = `
           <div class="item-shape">${getShapeIcon(item.width, item.height)}</div>
           <div class="item-info">
-            <div class="item-dimensions">${item.width}×${item.height}×${item.quantity}</div>
-            <div class="item-area">= ${item.area.toFixed(2)}м²</div>
+            <div class="item-dimensions">${item.width}×${item.height}</div>
+            <div class="item-area">${item.quantity} шт. = ${item.area.toFixed(2)}м²</div>
           </div>
           <div class="item-actions">
             <button class="item-action-btn edit-btn" data-index="${index}">✏</button>
@@ -561,20 +564,20 @@
         `;
         
         itemsList.appendChild(itemCard);
-      });
-      
-      // Add event listeners for edit and delete buttons
-      document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
+    });
+    
+    // Add event listeners for edit and delete buttons
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
           const index = parseInt(this.getAttribute('data-index'));
           openEditModal(index);
         });
-      });
-      
-      document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
+    });
+    
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
           const index = parseInt(this.getAttribute('data-index'));
           deleteItem(index);
         });

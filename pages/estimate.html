@@ -165,69 +165,69 @@
     
     <!-- Main content (hidden initially) -->
     <div id="estimateContainer" style="display: none;">
-      <div class="section">
-        <div class="section-title">🎬 Материал:</div>
-        <select id="materialType" class="form-select">
+    <div class="section">
+      <div class="section-title">🎬 Материал:</div>
+      <select id="materialType" class="form-select">
           <option value="380">Silver 15 (380₴/м²)</option>
           <option value="420">Carbon Black (420₴/м²)</option>
           <option value="350">Crystal Clear (350₴/м²)</option>
           <option value="450">Solar Protect (450₴/м²)</option>
           <option value="520">Premium Series (520₴/м²)</option>
-        </select>
+      </select>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">💰 Стоимость работы (за м²):</div>
+      <div class="form-input-group">
+        <input type="number" id="workPrice" class="form-control-left" value="250">
+        <div class="form-control-right">₴</div>
       </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">➕ Дополнительно:</div>
       
-      <div class="section">
-        <div class="section-title">💰 Стоимость работы (за м²):</div>
-        <div class="form-input-group">
-          <input type="number" id="workPrice" class="form-control-left" value="250">
-          <div class="form-control-right">₴</div>
-        </div>
-      </div>
-      
-      <div class="section">
-        <div class="section-title">➕ Дополнительно:</div>
-        
-        <div class="extra-items" id="extraItems">
+      <div class="extra-items" id="extraItems">
           <!-- Extra items will be added here -->
-        </div>
-        
-        <div class="add-extra-btn" id="addExtraBtn">➕</div>
       </div>
       
-      <div class="divider"></div>
-      
-      <div class="summary">
-        <div class="summary-title">📊 Сводка:</div>
-        <div class="summary-item">
-          <div>• Площадь:</div>
+      <div class="add-extra-btn" id="addExtraBtn">➕</div>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <div class="summary">
+      <div class="summary-title">📊 Сводка:</div>
+      <div class="summary-item">
+        <div>• Площадь:</div>
           <div id="totalArea">0 м²</div>
-        </div>
-        <div class="summary-item">
-          <div>• Материал:</div>
+      </div>
+      <div class="summary-item">
+        <div>• Материал:</div>
           <div id="materialCost">0 ₴</div>
-        </div>
-        <div class="summary-item">
-          <div>• Работа:</div>
+      </div>
+      <div class="summary-item">
+        <div>• Работа:</div>
           <div id="workCost">0 ₴</div>
-        </div>
-        <div class="summary-item">
-          <div>• Доп. расходы:</div>
+      </div>
+      <div class="summary-item">
+        <div>• Доп. расходы:</div>
           <div id="extrasCost">0 ₴</div>
-        </div>
-        <div class="total-divider"></div>
-        <div class="total-amount">
-          <div>💎 ИТОГО:</div>
+      </div>
+      <div class="total-divider"></div>
+      <div class="total-amount">
+        <div>💎 ИТОГО:</div>
           <div id="totalCost">0 ₴</div>
         </div>
-      </div>
-      
+    </div>
+    
       <button class="btn btn-primary btn-block" id="previewBtn">
-        📋 Предпросмотр сметы
-      </button>
-      
+      📋 Предпросмотр сметы
+    </button>
+    
       <button class="btn btn-success btn-block" id="sendBtn">
-        📤 Отправить клиенту
-      </button>
+      📤 Отправить клиенту
+    </button>
     </div>
   </div>
   
@@ -531,24 +531,24 @@
       
       if (name) {
         // For pre-defined items
-        newItem.innerHTML = `
+      newItem.innerHTML = `
           <div class="extra-item-label">${name}</div>
           <div class="form-input-group">
             <input type="number" class="form-control-left extra-price" value="${price}">
             <div class="form-control-right">₴</div>
-          </div>
+        </div>
           <div class="remove-extra-btn">✕</div>
         `;
       } else {
         // For user-defined items
         newItem.innerHTML = `
           <input type="text" class="form-control extra-name" placeholder="Название услуги" style="margin-bottom: 5px;">
-          <div class="form-input-group">
-            <input type="number" class="form-control-left extra-price" value="0">
-            <div class="form-control-right">₴</div>
-          </div>
+        <div class="form-input-group">
+          <input type="number" class="form-control-left extra-price" value="0">
+          <div class="form-control-right">₴</div>
+        </div>
           <div class="remove-extra-btn">✕</div>
-        `;
+      `;
       }
       
       extraItems.appendChild(newItem);
@@ -566,7 +566,7 @@
       });
       
       // Update totals
-      calculateTotal();
+    calculateTotal();
     }
     
     // Format currency
