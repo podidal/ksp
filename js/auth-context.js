@@ -94,4 +94,6 @@ const authContext = new AuthContext();
 // Make the context available globally for legacy integration
 window.authContext = authContext;
 
+// Export both as named export and default export
+export { authContext };
 export default authContext; 
