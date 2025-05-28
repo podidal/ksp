@@ -7,29 +7,56 @@ class AuthContext {
     this.isLoading = true;
     this.error = null;
     this.subscribers = [];
-    this._initialize();
+    
+    // Wait for DOM content to be loaded before initializing
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this._initialize());
+    } else {
+      // DOM already loaded, initialize directly
+      setTimeout(() => this._initialize(), 100);
+    }
   }
 
   // Initialize auth state listener
   _initialize() {
-    // Listen for auth state changes
-    auth.onAuthStateChanged((user) => {
-      this.isLoading = false;
-      this.user = user;
-      this._notifySubscribers();
-    }, (error) => {
-      this.error = error;
+    // Check if Firebase auth is available
+    if (typeof window.auth === 'undefined') {
+      console.error('Firebase auth not initialized yet');
+      this.error = 'Firebase auth not initialized';
       this.isLoading = false;
       this._notifySubscribers();
-    });
+      return;
+    }
+    
+    try {
+      // Listen for auth state changes
+      window.auth.onAuthStateChanged((user) => {
+        this.isLoading = false;
+        this.user = user;
+        this._notifySubscribers();
+      }, (error) => {
+        this.error = error;
+        this.isLoading = false;
+        this._notifySubscribers();
+      });
+    } catch (error) {
+      console.error('Error initializing auth listener:', error);
+      this.error = error.message;
+      this.isLoading = false;
+      this._notifySubscribers();
+    }
   }
 
   // Sign in with Google
   async signInWithGoogle() {
     try {
+      if (!window.auth || !window.googleProvider) {
+        throw new Error('Firebase auth not initialized');
+      }
+      
       this.isLoading = true;
       this._notifySubscribers();
-      await auth.signInWithPopup(googleProvider);
+      await window.auth.signInWithPopup(window.googleProvider);
       return true;
     } catch (error) {
       console.error("Error signing in with Google", error);
@@ -45,9 +72,13 @@ class AuthContext {
   // Sign out
   async signOut() {
     try {
+      if (!window.auth) {
+        throw new Error('Firebase auth not initialized');
+      }
+      
       this.isLoading = true;
       this._notifySubscribers();
-      await auth.signOut();
+      await window.auth.signOut();
       return true;
     } catch (error) {
       console.error("Error signing out", error);
@@ -86,8 +117,7 @@ class AuthContext {
   }
 }
 
-// Create a singleton instance
-const authContext = new AuthContext();
-
-// Export the auth context
-window.authContext = authContext; 
+// Create a singleton instance and expose it globally
+document.addEventListener('DOMContentLoaded', function() {
+  window.authContext = new AuthContext();
+}); 
