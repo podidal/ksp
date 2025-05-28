@@ -3,68 +3,567 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Комфорт Сервис Плюс</title>
-  <meta http-equiv="refresh" content="0;url=pages/login.html">
+  <title>Комфорт Сервис Плюс - Установка бронепленки на окна</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
   <style>
+    :root {
+      --primary-color: #2c3e50;
+      --accent-color: #3498db;
+      --light-bg: #f8f9fa;
+      --dark-text: #333;
+      --light-text: #f8f9fa;
+      --section-padding: 80px 0;
+    }
+    
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      background-color: #f8f9fa;
-      color: #333;
+      padding: 0;
+      line-height: 1.6;
+      color: var(--dark-text);
     }
     
-    .loading {
-      text-align: center;
+    /* Header Styles */
+    .landing-header {
+      background-color: var(--primary-color);
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     
-    .loading h2 {
-      margin-bottom: 20px;
-    }
-    
-    .loading p {
-      margin-bottom: 20px;
-    }
-    
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      border-radius: 50%;
-      border-top: 4px solid #4a6da7;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
+    .landing-container {
+      width: 90%;
+      max-width: 1200px;
       margin: 0 auto;
     }
     
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .landing-navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     
-    a {
-      color: #4a6da7;
+    .landing-logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
       text-decoration: none;
     }
     
-    a:hover {
-      text-decoration: underline;
+    .landing-logo span {
+      color: var(--accent-color);
+    }
+    
+    .landing-nav-right {
+      display: flex;
+      align-items: center;
+    }
+    
+    .landing-nav-links {
+      margin-right: 20px;
+    }
+    
+    .landing-nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .landing-nav-links a:hover {
+      color: var(--accent-color);
+    }
+    
+    .landing-login-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .landing-login-btn:hover {
+      background-color: #2980b9;
+    }
+    
+    /* Hero Section */
+    .landing-hero {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1560448204-603b3fc33ddc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      color: white;
+      text-align: center;
+    }
+    
+    .landing-hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .landing-hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .landing-hero p {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .landing-hero-btn {
+      display: inline-block;
+      background-color: var(--accent-color);
+      color: white;
+      text-decoration: none;
+      padding: 15px 30px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 18px;
+      transition: background-color 0.3s;
+    }
+    
+    .landing-hero-btn:hover {
+      background-color: #2980b9;
+    }
+    
+    /* Services Section */
+    .landing-services {
+      padding: var(--section-padding);
+      background-color: var(--light-bg);
+    }
+    
+    .landing-section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .landing-section-title h2 {
+      font-size: 36px;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+    
+    .landing-section-title p {
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .landing-services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .landing-service-card {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    
+    .landing-service-card:hover {
+      transform: translateY(-10px);
+    }
+    
+    .landing-service-icon {
+      background-color: var(--accent-color);
+      color: white;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+    
+    .landing-service-content {
+      padding: 20px;
+    }
+    
+    .landing-service-content h3 {
+      margin-top: 0;
+      color: var(--primary-color);
+    }
+    
+    /* Contact Form Section */
+    .landing-contact {
+      padding: var(--section-padding);
+    }
+    
+    .landing-contact-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .landing-contact-info h3 {
+      color: var(--primary-color);
+      font-size: 28px;
+      margin-top: 0;
+    }
+    
+    .landing-contact-method {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .landing-contact-icon {
+      background-color: var(--accent-color);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+    }
+    
+    .landing-contact-form {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .landing-form-group {
+      margin-bottom: 20px;
+    }
+    
+    .landing-form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+    
+    .landing-form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    textarea.landing-form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    .landing-submit-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+    
+    .landing-submit-btn:hover {
+      background-color: #2980b9;
+    }
+    
+    /* Footer */
+    .landing-footer {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+    }
+    
+    .landing-footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .landing-social-links {
+      margin: 20px 0;
+    }
+    
+    .landing-social-links a {
+      display: inline-block;
+      color: white;
+      margin: 0 10px;
+      font-size: 24px;
+      transition: color 0.3s;
+    }
+    
+    .landing-social-links a:hover {
+      color: var(--accent-color);
+    }
+    
+    .landing-copyright {
+      margin-top: 20px;
+      color: #ccc;
+      font-size: 14px;
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .landing-nav-links {
+        display: none;
+      }
+      
+      .landing-hero h1 {
+        font-size: 36px;
+      }
+      
+      .landing-hero p {
+        font-size: 18px;
+      }
+      
+      .landing-section-title h2 {
+        font-size: 30px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="loading">
-    <h2>Комфорт Сервис Плюс</h2>
-    <p>Перенаправление на страницу входа...</p>
-    <div class="spinner"></div>
-    <p>Если перенаправление не произошло, <a href="pages/login.html">нажмите здесь</a></p>
-  </div>
-
+  <!-- Header -->
+  <header class="landing-header">
+    <div class="landing-container">
+      <nav class="landing-navbar">
+        <a href="#" class="landing-logo">
+          <i class="fas fa-shield-alt"></i> Комфорт <span>Сервис Плюс</span>
+        </a>
+        <div class="landing-nav-right">
+          <div class="landing-nav-links">
+            <a href="#services">Услуги</a>
+            <a href="#about">О нас</a>
+            <a href="#contact">Контакты</a>
+          </div>
+          <button class="landing-login-btn" onclick="location.href='pages/login.html'">
+            <i class="fas fa-sign-in-alt"></i> Войти
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Hero Section -->
+  <section class="landing-hero">
+    <div class="landing-hero-content">
+      <h1>Надежная защита ваших окон</h1>
+      <p>Мы предоставляем профессиональные услуги по установке бронирующей пленки на окна любой сложности. Защита от солнца, ударов и взлома с гарантией качества.</p>
+      <a href="#contact" class="landing-hero-btn">Получить консультацию</a>
+    </div>
+  </section>
+  
+  <!-- Services Section -->
+  <section class="landing-services" id="services">
+    <div class="landing-container">
+      <div class="landing-section-title">
+        <h2>Наши услуги</h2>
+        <p>Мы предлагаем полный спектр услуг по защите оконных поверхностей с использованием современных материалов и технологий</p>
+      </div>
+      
+      <div class="landing-services-grid">
+        <div class="landing-service-card">
+          <div class="landing-service-icon">
+            <i class="fas fa-sun"></i>
+          </div>
+          <div class="landing-service-content">
+            <h3>Солнцезащитная пленка</h3>
+            <p>Защита от ультрафиолета, снижение нагрева помещения и экономия на кондиционировании.</p>
+          </div>
+        </div>
+        
+        <div class="landing-service-card">
+          <div class="landing-service-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div class="landing-service-content">
+            <h3>Ударопрочная пленка</h3>
+            <p>Усиление окон против механических воздействий, защита от осколков в случае разбития.</p>
+          </div>
+        </div>
+        
+        <div class="landing-service-card">
+          <div class="landing-service-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <div class="landing-service-content">
+            <h3>Антивандальная защита</h3>
+            <p>Защита окон от взлома и проникновения, повышение безопасности вашего дома или офиса.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- About Section -->
+  <section class="landing-services" id="about" style="background-color: white;">
+    <div class="landing-container">
+      <div class="landing-section-title">
+        <h2>О нашей компании</h2>
+        <p>Компания "Комфорт Сервис Плюс" – эксперт в области защиты оконных поверхностей с многолетним опытом работы</p>
+      </div>
+      
+      <div class="landing-services-grid">
+        <div class="landing-service-card">
+          <div class="landing-service-icon">
+            <i class="fas fa-history"></i>
+          </div>
+          <div class="landing-service-content">
+            <h3>5+ лет опыта</h3>
+            <p>Более 5 лет мы успешно устанавливаем бронирующие пленки высочайшего качества.</p>
+          </div>
+        </div>
+        
+        <div class="landing-service-card">
+          <div class="landing-service-icon">
+            <i class="fas fa-certificate"></i>
+          </div>
+          <div class="landing-service-content">
+            <h3>Гарантия качества</h3>
+            <p>Все установленные нами пленки имеют сертификаты качества и длительную гарантию.</p>
+          </div>
+        </div>
+        
+        <div class="landing-service-card">
+          <div class="landing-service-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="landing-service-content">
+            <h3>1000+ клиентов</h3>
+            <p>Более тысячи довольных клиентов выбрали нас для защиты своих окон.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Contact Section -->
+  <section class="landing-contact" id="contact">
+    <div class="landing-container">
+      <div class="landing-section-title">
+        <h2>Связаться с нами</h2>
+        <p>Оставьте свои контактные данные, и наш менеджер свяжется с вами для консультации</p>
+      </div>
+      
+      <div class="landing-contact-container">
+        <div class="landing-contact-info">
+          <h3>Наши контакты</h3>
+          
+          <div class="landing-contact-method">
+            <div class="landing-contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div>
+              <h4>Телефон</h4>
+              <p>+380 50 123 45 67</p>
+            </div>
+          </div>
+          
+          <div class="landing-contact-method">
+            <div class="landing-contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div>
+              <h4>Email</h4>
+              <p>info@comfort-service.plus</p>
+            </div>
+          </div>
+          
+          <div class="landing-contact-method">
+            <div class="landing-contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div>
+              <h4>Адрес</h4>
+              <p>г. Киев, ул. Примерная, 123</p>
+            </div>
+          </div>
+          
+          <div class="landing-contact-method">
+            <div class="landing-contact-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <h4>Время работы</h4>
+              <p>Пн-Пт: 9:00 - 18:00<br>Сб: 10:00 - 15:00</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="landing-contact-form">
+          <form id="contactForm">
+            <div class="landing-form-group">
+              <label for="name">Ваше имя</label>
+              <input type="text" id="name" class="landing-form-control" required>
+            </div>
+            
+            <div class="landing-form-group">
+              <label for="phone">Телефон</label>
+              <input type="tel" id="phone" class="landing-form-control" required>
+            </div>
+            
+            <div class="landing-form-group">
+              <label for="email">Email (необязательно)</label>
+              <input type="email" id="email" class="landing-form-control">
+            </div>
+            
+            <div class="landing-form-group">
+              <label for="message">Сообщение</label>
+              <textarea id="message" class="landing-form-control"></textarea>
+            </div>
+            
+            <button type="submit" class="landing-submit-btn">
+              <i class="fas fa-paper-plane"></i> Отправить заявку
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="landing-footer">
+    <div class="landing-container">
+      <div class="landing-footer-content">
+        <div class="landing-logo" style="margin-bottom: 20px;">
+          <i class="fas fa-shield-alt"></i> Комфорт <span>Сервис Плюс</span>
+        </div>
+        
+        <p>Профессиональная установка бронирующей пленки на окна с гарантией качества.</p>
+        
+        <div class="landing-social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-viber"></i></a>
+        </div>
+        
+        <div class="landing-copyright">
+          &copy; 2024 Комфорт Сервис Плюс. Все права защищены.
+        </div>
+      </div>
+    </div>
+  </footer>
+  
   <!-- Firebase SDK v9 with CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   
   <script>
     // Firebase configuration
@@ -80,20 +579,51 @@
     
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-
-    // Check if user is already logged in
-    document.addEventListener('DOMContentLoaded', function() {
-      // Disable auto-redirect to check authentication first
-      history.pushState(null, document.title, location.href);
+    
+    // Get Firestore reference
+    const db = firebase.firestore();
+    
+    // Handle contact form submission
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
       
-      // Subscribe to auth state
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // If already authenticated, redirect to clients page
-          window.location.href = 'pages/clients.html';
-        } else {
-          // Otherwise, redirect to login page
-          window.location.href = 'pages/login.html';
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      
+      try {
+        // Save contact request to Firestore
+        await db.collection('contactRequests').add({
+          name: name,
+          phone: phone,
+          email: email,
+          message: message,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        // Show success message
+        alert('Спасибо! Ваша заявка отправлена. Мы свяжемся с вами в ближайшее время.');
+        
+        // Reset form
+        document.getElementById('contactForm').reset();
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        alert('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте позже.');
+      }
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
         }
       });
     });

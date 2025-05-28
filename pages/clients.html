@@ -211,10 +211,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="../js/main.js"></script>
   
-  <script type="module">
-    // Import the client service
-    import { clientService } from '../js/firestore-service.js';
-    
+  <script>
     // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
@@ -228,6 +225,9 @@
     
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+    
+    // Get Firestore reference
+    const db = firebase.firestore();
     
     document.addEventListener('DOMContentLoaded', function() {
       // Load the side menu component
@@ -301,7 +301,14 @@
       showLoading(true);
       
       try {
-        const clients = await clientService.getAllClients();
+        const clientsRef = db.collection('clients');
+        const snapshot = await clientsRef.orderBy('createdAt', 'desc').get();
+        
+        const clients = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        
         renderClients(clients);
       } catch (error) {
         console.error("Error loading clients:", error);
@@ -316,7 +323,17 @@
       showLoading(true);
       
       try {
-        const clients = await clientService.getClientsByStatus(status);
+        const clientsRef = db.collection('clients');
+        const snapshot = await clientsRef
+          .where("status", "==", status)
+          .orderBy('createdAt', 'desc')
+          .get();
+        
+        const clients = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        
         renderClients(clients);
       } catch (error) {
         console.error("Error filtering clients:", error);

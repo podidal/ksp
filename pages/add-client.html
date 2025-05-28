@@ -7,65 +7,307 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="../css/styles.css">
   <style>
-    .back-icon {
-      margin-right: 10px;
+    .form-container {
+      padding: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 16px;
     }
     
     textarea.form-control {
+      min-height: 100px;
       resize: vertical;
-      min-height: 80px;
     }
     
     .save-btn {
-      margin-top: 20px;
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 30px;
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 20px;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    
+    .back-link i {
+      margin-right: 5px;
+    }
+    
+    .form-title {
+      margin-bottom: 20px;
+    }
+    
+    .error-message {
+      color: #d32f2f;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+    
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1000;
+      display: none;
+    }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--accent-color);
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <a href="clients.html" class="back-button">
-        <span class="back-icon">←</span> Назад
-      </a>
-      <h2>Новый клиент</h2>
+      <h1>Film Manager</h1>
+      <div id="userHeader">
+        <span id="userDisplay">👤 Загрузка...</span>
+        <button class="menu-button" onclick="toggleMenu()">☰</button>
+      </div>
     </div>
     
-    <form id="addClientForm">
-      <div class="form-group">
-        <label for="clientName">Имя клиента:</label>
-        <input type="text" id="clientName" class="form-control" placeholder="Введите ФИО клиента" required>
-      </div>
+    <div class="form-container">
+      <a href="clients.html" class="back-link">
+        <i class="fas fa-arrow-left"></i> Назад
+      </a>
       
-      <div class="form-group">
-        <label for="clientPhone">Телефон:</label>
-        <input type="tel" id="clientPhone" class="form-control" placeholder="+380" required>
-      </div>
+      <h2 class="form-title">Новый клиент</h2>
       
-      <div class="form-group">
-        <label for="clientAddress">Адрес:</label>
-        <textarea id="clientAddress" class="form-control" placeholder="Введите адрес клиента"></textarea>
-      </div>
-      
-      <div class="form-group">
-        <label for="clientNotes">Примечания:</label>
-        <textarea id="clientNotes" class="form-control" placeholder="Дополнительная информация"></textarea>
-      </div>
-      
-      <button type="submit" class="btn btn-success btn-block save-btn">
-        💾 Сохранить
-      </button>
-    </form>
+      <form id="addClientForm">
+        <div class="form-group">
+          <label for="clientName">Имя клиента:</label>
+          <input type="text" id="clientName" name="name" class="form-control" placeholder="Введите ФИО клиента" required>
+          <div class="error-message" id="nameError"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="clientPhone">Телефон:</label>
+          <input type="tel" id="clientPhone" name="phone" class="form-control" placeholder="+380" required>
+          <div class="error-message" id="phoneError"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="clientAddress">Адрес:</label>
+          <textarea id="clientAddress" name="address" class="form-control" placeholder="Введите адрес клиента"></textarea>
+          <div class="error-message" id="addressError"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="clientStatus">Статус:</label>
+          <select id="clientStatus" name="status" class="form-control">
+            <option value="Новый лид">Новый лид</option>
+            <option value="Замер назначен">Замер назначен</option>
+            <option value="Смета отправлена">Смета отправлена</option>
+            <option value="Заказ подтвержден">Заказ подтвержден</option>
+            <option value="Заказ завершен">Заказ завершен</option>
+            <option value="Отменен">Отменен</option>
+          </select>
+          <div class="error-message" id="statusError"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="clientNotes">Примечания:</label>
+          <textarea id="clientNotes" name="notes" class="form-control" placeholder="Дополнительная информация"></textarea>
+          <div class="error-message" id="notesError"></div>
+        </div>
+        
+        <button type="submit" class="save-btn">
+          💾 Сохранить
+        </button>
+      </form>
+    </div>
   </div>
   
+  <!-- Loading overlay -->
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p>Сохранение...</p>
+  </div>
+  
+  <!-- Include side menu component -->
+  <div id="sideMenuContainer"></div>
+  
+  <!-- Firebase SDK v9 with CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="../js/main.js"></script>
+  
   <script>
-    document.getElementById('addClientForm').addEventListener('submit', function(event) {
-      event.preventDefault();
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
+      authDomain: "ksplus-60132.firebaseapp.com",
+      projectId: "ksplus-60132",
+      storageBucket: "ksplus-60132.firebasestorage.app",
+      messagingSenderId: "1037863910173",
+      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
+      measurementId: "G-17JRYGSH0S"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Get Firestore reference
+    const db = firebase.firestore();
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load the side menu component
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sideMenuContainer').innerHTML = html;
+          
+          // Execute any scripts inside the loaded sidebar
+          const scripts = document.getElementById('sideMenuContainer').getElementsByTagName('script');
+          for (let i = 0; i < scripts.length; i++) {
+            eval(scripts[i].innerText);
+          }
+        });
       
-      // In a real app, this would save to a database
-      // For demo purposes, just redirect back to clients page
-      window.location.href = 'clients.html';
+      // Check authentication status
+      firebase.auth().onAuthStateChanged(function(user) {
+        const userDisplay = document.getElementById('userDisplay');
+        
+        if (user) {
+          // User is signed in
+          const displayName = user.displayName || 'Пользователь';
+          const firstName = displayName.split(' ')[0];
+          userDisplay.textContent = `👤 ${firstName}`;
+          
+          // Setup form submission
+          setupForm();
+        } else {
+          // User is signed out, redirect to login
+          window.location.href = 'login.html';
+        }
+      });
     });
+    
+    // Setup form submission
+    function setupForm() {
+      const form = document.getElementById('addClientForm');
+      
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Validate form
+        if (!validateForm()) {
+          return;
+        }
+        
+        // Show loading overlay
+        showLoading(true);
+        
+        // Get form data
+        const formData = {
+          name: document.getElementById('clientName').value,
+          phone: document.getElementById('clientPhone').value,
+          address: document.getElementById('clientAddress').value,
+          status: document.getElementById('clientStatus').value,
+          notes: document.getElementById('clientNotes').value,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        try {
+          // Add client to Firestore
+          await db.collection('clients').add(formData);
+          
+          // Redirect to clients list
+          window.location.href = 'clients.html';
+        } catch (error) {
+          console.error("Error adding client:", error);
+          alert("Произошла ошибка при сохранении клиента");
+          showLoading(false);
+        }
+      });
+    }
+    
+    // Validate form
+    function validateForm() {
+      let isValid = true;
+      
+      // Validate name
+      const nameInput = document.getElementById('clientName');
+      const nameError = document.getElementById('nameError');
+      
+      if (!nameInput.value.trim()) {
+        nameError.textContent = "Имя клиента обязательно";
+        nameError.style.display = "block";
+        isValid = false;
+      } else {
+        nameError.style.display = "none";
+      }
+      
+      // Validate phone
+      const phoneInput = document.getElementById('clientPhone');
+      const phoneError = document.getElementById('phoneError');
+      const phoneRegex = /^\+?[0-9]{10,15}$/;
+      
+      if (!phoneInput.value.trim()) {
+        phoneError.textContent = "Телефон обязателен";
+        phoneError.style.display = "block";
+        isValid = false;
+      } else if (!phoneRegex.test(phoneInput.value.replace(/[\s()-]/g, ''))) {
+        phoneError.textContent = "Введите корректный номер телефона";
+        phoneError.style.display = "block";
+        isValid = false;
+      } else {
+        phoneError.style.display = "none";
+      }
+      
+      return isValid;
+    }
+    
+    // Show/hide loading overlay
+    function showLoading(show) {
+      document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+    }
   </script>
 </body>
 </html> 
