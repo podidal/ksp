@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Film Manager Pro - Детали клиента</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+    
+    .back-button {
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    
+    .client-name {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .settings-button {
+      cursor: pointer;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    
+    .client-phone {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    
+    .contact-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .contact-button {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .contact-button:hover {
+      background-color: #f0f0f0;
+    }
+    
+    .client-address, .client-status, .client-date {
+      margin-bottom: 15px;
+    }
+    
+    .action-button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    .action-button:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-left">
+      <div class="back-button">←</div>
+      <div class="client-name">Качан Д.Юван</div>
+    </div>
+    <div class="settings-button">⚙</div>
+  </div>
+  
+  <div class="container">
+    <div class="client-phone">📱 +380501234567</div>
+    
+    <div class="contact-buttons">
+      <div class="contact-button">
+        <div>📞</div>
+        <div>Call</div>
+      </div>
+      <div class="contact-button">
+        <div>📱</div>
+        <div>Viber</div>
+      </div>
+      <div class="contact-button">
+        <div>💬</div>
+        <div>Tele</div>
+      </div>
+      <div class="contact-button">
+        <div>🗺️</div>
+        <div>Maps</div>
+      </div>
+    </div>
+    
+    <div class="client-address">
+      <div>📍 Адрес:</div>
+      <div>г. Киев, ул. Крещатик, 15</div>
+      <div>кв. 47</div>
+    </div>
+    
+    <div class="client-status">📝 Статус: Замер назначен</div>
+    <div class="client-date">📅 Дата создания: 15.03.2024</div>
+    
+    <div class="action-button measurement-button">
+      <div>🏠 ЗАМЕР</div>
+      <div>(Ввод размеров окон)</div>
+    </div>
+    
+    <div class="action-button estimate-button">
+      <div>📋 СМЕТА</div>
+      <div>(Расчет стоимости)</div>
+    </div>
+    
+    <div class="action-button send-button">
+      <div>📤 ОТПРАВИТЬ</div>
+      <div>(Клиенту на ...)</div>
+    </div>
+  </div>
+  
+  <script>
+    // Back button functionality
+    document.querySelector('.back-button').addEventListener('click', function() {
+      window.location.href = 'clients.html';
+    });
+    
+    // Contact button functionality
+    document.querySelectorAll('.contact-button').forEach((button, index) => {
+      button.addEventListener('click', function() {
+        const phone = '+380501234567';
+        
+        switch(index) {
+          case 0: // Call
+            window.location.href = 'tel:' + phone;
+            break;
+          case 1: // Viber
+            window.location.href = 'viber://chat?number=' + phone;
+            break;
+          case 2: // Telegram
+            window.location.href = 'https://t.me/' + phone;
+            break;
+          case 3: // Maps
+            // This would normally open the address in maps
+            alert('Открытие карты с адресом клиента');
+            break;
+        }
+      });
+    });
+    
+    // Action button functionality
+    document.querySelector('.measurement-button').addEventListener('click', function() {
+      window.location.href = 'measurement.html?client=Качан Д.Юван';
+    });
+    
+    document.querySelector('.estimate-button').addEventListener('click', function() {
+      window.location.href = 'estimate.html?client=Качан Д.Юван';
+    });
+    
+    document.querySelector('.send-button').addEventListener('click', function() {
+      // This would normally show a menu of ways to send the estimate
+      alert('Выбор способа отправки сметы клиенту');
+    });
+    
+    // Settings button functionality
+    document.querySelector('.settings-button').addEventListener('click', function() {
+      // This would normally open settings for this client
+      alert('Настройки клиента');
+    });
+  </script>
+</body>
+</html> 

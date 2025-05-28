@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Film Manager Pro - Замер</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .back-button {
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    
+    .page-title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .manual-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .input-field {
+      flex: 1;
+    }
+    
+    .input-field input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    
+    .ok-button {
+      padding: 10px 20px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .quick-input {
+      margin-bottom: 20px;
+    }
+    
+    .quick-input textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+    
+    .details-list {
+      margin-bottom: 20px;
+    }
+    
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    
+    .detail-icon {
+      margin-right: 10px;
+    }
+    
+    .detail-size {
+      flex-grow: 1;
+    }
+    
+    .detail-actions {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .edit-icon, .delete-icon {
+      cursor: pointer;
+      color: #666;
+    }
+    
+    .summary {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .summary-item {
+      margin-bottom: 5px;
+    }
+    
+    .cutting-map {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .progress-bar {
+      height: 20px;
+      background-color: #e9ecef;
+      border-radius: 10px;
+      margin-bottom: 5px;
+      overflow: hidden;
+    }
+    
+    .progress {
+      height: 100%;
+      background-color: #4285F4;
+      width: 85%;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="back-button">←</div>
+    <div class="page-title">Качан Д.Ю. Замер окон</div>
+  </div>
+  
+  <div class="container">
+    <div class="section-title">🏠 Ручной ввод:</div>
+    <div class="manual-input">
+      <div class="input-field">
+        <input type="number" id="width" placeholder="Ширина" min="1">
+      </div>
+      <div class="input-field">
+        <input type="number" id="height" placeholder="Высота" min="1">
+      </div>
+      <div class="input-field">
+        <input type="number" id="quantity" placeholder="Количество" min="1" value="1">
+      </div>
+      <button class="ok-button">OK</button>
+    </div>
+    
+    <div class="section-title">📝 Быстрый ввод (через запятую):</div>
+    <div class="quick-input">
+      <textarea id="quick-input" placeholder="ширина,высота,количество (например: 800,600,2)"></textarea>
+    </div>
+    
+    <div class="section-title">📊 Список деталей:</div>
+    <div class="details-list" id="details-list">
+      <div class="detail-item">
+        <div class="detail-icon">[▬▬]</div>
+        <div class="detail-size">800×600×2 = 0.96м²</div>
+        <div class="detail-actions">
+          <div class="edit-icon">✏️</div>
+          <div class="delete-icon">❌</div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">[|]</div>
+        <div class="detail-size">1200×800×1 = 0.96м²</div>
+        <div class="detail-actions">
+          <div class="edit-icon">✏️</div>
+          <div class="delete-icon">❌</div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">[▬]</div>
+        <div class="detail-size">600×400×3 = 0.72м²</div>
+        <div class="detail-actions">
+          <div class="edit-icon">✏️</div>
+          <div class="delete-icon">❌</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section-title">📈 Сводка:</div>
+    <div class="summary">
+      <div class="summary-item">• Деталей: 6</div>
+      <div class="summary-item">• Общая площадь: 2.64 м²</div>
+      <div class="summary-item">• Рулон: 3.2 мп (4.9 м²)</div>
+    </div>
+    
+    <div class="cutting-map">
+      <div class="progress-bar">
+        <div class="progress"></div>
+      </div>
+      Мини-карта раскроя<br>
+      85% использование
+    </div>
+  </div>
+  
+  <script>
+    // Back button functionality
+    document.querySelector('.back-button').addEventListener('click', function() {
+      window.location.href = 'client-details.html';
+    });
+    
+    // Manual input functionality
+    document.querySelector('.ok-button').addEventListener('click', function() {
+      const width = document.getElementById('width').value;
+      const height = document.getElementById('height').value;
+      const quantity = document.getElementById('quantity').value;
+      
+      if (width && height && quantity) {
+        addDetail(width, height, quantity);
+        
+        // Clear inputs
+        document.getElementById('width').value = '';
+        document.getElementById('height').value = '';
+        document.getElementById('quantity').value = '1';
+      } else {
+        alert('Пожалуйста, заполните все поля');
+      }
+    });
+    
+    // Quick input functionality
+    document.getElementById('quick-input').addEventListener('blur', function() {
+      const lines = this.value.split('\n');
+      
+      lines.forEach(line => {
+        const parts = line.split(',');
+        if (parts.length === 3) {
+          const width = parts[0].trim();
+          const height = parts[1].trim();
+          const quantity = parts[2].trim();
+          
+          if (width && height && quantity) {
+            addDetail(width, height, quantity);
+          }
+        }
+      });
+      
+      // Clear the textarea
+      this.value = '';
+    });
+    
+    // Edit and delete functionality
+    document.querySelectorAll('.edit-icon').forEach(icon => {
+      icon.addEventListener('click', function() {
+        const detailItem = this.closest('.detail-item');
+        const sizeText = detailItem.querySelector('.detail-size').textContent;
+        
+        // Parse the size text to get width, height, and quantity
+        const matches = sizeText.match(/(\d+)×(\d+)×(\d+)/);
+        if (matches) {
+          const width = matches[1];
+          const height = matches[2];
+          const quantity = matches[3];
+          
+          // Fill in the manual input fields
+          document.getElementById('width').value = width;
+          document.getElementById('height').value = height;
+          document.getElementById('quantity').value = quantity;
+          
+          // Remove the detail item
+          detailItem.remove();
+          
+          // Update summary
+          updateSummary();
+        }
+      });
+    });
+    
+    document.querySelectorAll('.delete-icon').forEach(icon => {
+      icon.addEventListener('click', function() {
+        const detailItem = this.closest('.detail-item');
+        detailItem.remove();
+        
+        // Update summary
+        updateSummary();
+      });
+    });
+    
+    // Helper function to add a detail
+    function addDetail(width, height, quantity) {
+      const area = (width * height * quantity) / 1000000; // Convert to m²
+      
+      const detailItem = document.createElement('div');
+      detailItem.className = 'detail-item';
+      
+      const icon = width > height ? '[▬▬]' : '[|]';
+      
+      detailItem.innerHTML = `
+        <div class="detail-icon">${icon}</div>
+        <div class="detail-size">${width}×${height}×${quantity} = ${area.toFixed(2)}м²</div>
+        <div class="detail-actions">
+          <div class="edit-icon">✏️</div>
+          <div class="delete-icon">❌</div>
+        </div>
+      `;
+      
+      // Add event listeners to the new edit and delete icons
+      detailItem.querySelector('.edit-icon').addEventListener('click', function() {
+        const sizeText = this.closest('.detail-item').querySelector('.detail-size').textContent;
+        
+        const matches = sizeText.match(/(\d+)×(\d+)×(\d+)/);
+        if (matches) {
+          document.getElementById('width').value = matches[1];
+          document.getElementById('height').value = matches[2];
+          document.getElementById('quantity').value = matches[3];
+          
+          this.closest('.detail-item').remove();
+          updateSummary();
+        }
+      });
+      
+      detailItem.querySelector('.delete-icon').addEventListener('click', function() {
+        this.closest('.detail-item').remove();
+        updateSummary();
+      });
+      
+      document.getElementById('details-list').appendChild(detailItem);
+      
+      // Update summary
+      updateSummary();
+    }
+    
+    // Helper function to update the summary
+    function updateSummary() {
+      const detailItems = document.querySelectorAll('.detail-item');
+      
+      let totalPieces = 0;
+      let totalArea = 0;
+      
+      detailItems.forEach(item => {
+        const sizeText = item.querySelector('.detail-size').textContent;
+        
+        const matches = sizeText.match(/(\d+)×(\d+)×(\d+) = ([\d.]+)м²/);
+        if (matches) {
+          const quantity = parseInt(matches[3]);
+          const area = parseFloat(matches[4]);
+          
+          totalPieces += quantity;
+          totalArea += area;
+        }
+      });
+      
+      // Calculate roll length (simplified)
+      const rollLength = Math.ceil(totalArea / 1.524 * 1000) / 1000; // Assuming 1524mm roll width
+      const rollArea = rollLength * 1.524;
+      
+      const summary = document.querySelector('.summary');
+      summary.innerHTML = `
+        <div class="summary-item">• Деталей: ${totalPieces}</div>
+        <div class="summary-item">• Общая площадь: ${totalArea.toFixed(2)} м²</div>
+        <div class="summary-item">• Рулон: ${rollLength.toFixed(1)} мп (${rollArea.toFixed(1)} м²)</div>
+      `;
+      
+      // Update usage percentage
+      const usagePercentage = totalArea / rollArea * 100;
+      document.querySelector('.progress').style.width = `${usagePercentage}%`;
+      document.querySelector('.cutting-map').innerHTML = `
+        <div class="progress-bar">
+          <div class="progress" style="width: ${usagePercentage}%"></div>
+        </div>
+        Мини-карта раскроя<br>
+        ${Math.round(usagePercentage)}% использование
+      `;
+    }
+  </script>
+</body>
+</html> 

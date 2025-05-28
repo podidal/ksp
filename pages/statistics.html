@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Film Manager Pro - Статистика</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .back-button {
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    
+    .page-title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .period-selector {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    
+    .period-button {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: white;
+      cursor: pointer;
+    }
+    
+    .period-button.active {
+      background-color: #4285F4;
+      color: white;
+      border-color: #4285F4;
+    }
+    
+    .period-button:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+    
+    .period-button:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .stats-box {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .stats-item {
+      margin-bottom: 10px;
+    }
+    
+    .chart {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+      height: 200px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+    }
+    
+    .chart-column {
+      background-color: #4285F4;
+      width: 30px;
+      border-radius: 3px 3px 0 0;
+      position: relative;
+    }
+    
+    .chart-day {
+      position: absolute;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+    }
+    
+    .materials-box {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .material-item {
+      margin-bottom: 10px;
+    }
+    
+    .detailed-report {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    .detailed-report:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="back-button">←</div>
+    <div class="page-title">Статистика</div>
+  </div>
+  
+  <div class="container">
+    <div class="section-title">📅 Период: Март 2024</div>
+    <div class="period-selector">
+      <div class="period-button active">За неделю ▼</div>
+      <div class="period-button">За месяц ▼</div>
+    </div>
+    
+    <div class="section-title">📊 Основные показатели:</div>
+    <div class="stats-box">
+      <div class="stats-item">👥 Клиентов обслужено: 15</div>
+      <div class="stats-item">✅ Заказов закрыто: 12</div>
+      <div class="stats-item">💰 Выручка: 24,750₴</div>
+      <div class="stats-item">📏 Пленки использовано: 32.4м²</div>
+    </div>
+    
+    <div class="section-title">📈 График по дням:</div>
+    <div class="chart">
+      <div class="chart-column" style="height: 20%">
+        <div class="chart-day">ПН</div>
+      </div>
+      <div class="chart-column" style="height: 60%">
+        <div class="chart-day">ВТ</div>
+      </div>
+      <div class="chart-column" style="height: 40%">
+        <div class="chart-day">СР</div>
+      </div>
+      <div class="chart-column" style="height: 80%">
+        <div class="chart-day">ЧТ</div>
+      </div>
+      <div class="chart-column" style="height: 50%">
+        <div class="chart-day">ПТ</div>
+      </div>
+      <div class="chart-column" style="height: 30%">
+        <div class="chart-day">СБ</div>
+      </div>
+      <div class="chart-column" style="height: 10%">
+        <div class="chart-day">ВС</div>
+      </div>
+    </div>
+    
+    <div class="section-title">🗃️ Остатки материалов:</div>
+    <div class="materials-box">
+      <div class="material-item">Silver 15: 12.3м² (Иванов М.)</div>
+      <div class="material-item">Carbon Black: 8.7м² (Качан Д.Ю.)</div>
+      <div class="material-item">Crystal Clear: 15.2м² (Сидоров)</div>
+    </div>
+    
+    <div class="detailed-report">
+      <div>📊 Подробный отчет</div>
+    </div>
+  </div>
+  
+  <script>
+    // Back button functionality
+    document.querySelector('.back-button').addEventListener('click', function() {
+      window.location.href = 'clients.html';
+    });
+    
+    // Period selector functionality
+    document.querySelectorAll('.period-button').forEach(button => {
+      button.addEventListener('click', function() {
+        // Remove active class from all buttons
+        document.querySelectorAll('.period-button').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        
+        // Add active class to the clicked button
+        this.classList.add('active');
+        
+        // In a real app, this would update the statistics data
+        alert('Период изменен на: ' + this.textContent);
+      });
+    });
+    
+    // Detailed report functionality
+    document.querySelector('.detailed-report').addEventListener('click', function() {
+      // This would normally generate a detailed report
+      alert('Генерация подробного отчета');
+    });
+  </script>
+</body>
+</html> 

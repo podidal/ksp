@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Film Manager Pro - Предпросмотр сметы</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .estimate-title {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    
+    .client-info {
+      margin-bottom: 20px;
+    }
+    
+    .client-info-item {
+      margin-bottom: 5px;
+    }
+    
+    .details-box {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .details-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .details-item {
+      margin-bottom: 5px;
+    }
+    
+    .cost-section {
+      margin-bottom: 20px;
+    }
+    
+    .cost-item {
+      margin-bottom: 5px;
+    }
+    
+    .cost-divider {
+      height: 1px;
+      background-color: #ddd;
+      margin: 10px 0;
+    }
+    
+    .total-cost {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    .additional-info {
+      margin-bottom: 20px;
+    }
+    
+    .company-info {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    
+    .action-button {
+      padding: 10px 20px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="estimate-title">СМЕТА</div>
+    
+    <div class="client-info">
+      <div class="client-info-item">Клиент: Качан Д.Юван</div>
+      <div class="client-info-item">Телефон: +380501234567</div>
+      <div class="client-info-item">Адрес: г. Киев, ул. Крещатик, 15</div>
+      <div class="client-info-item">Дата: <span id="current-date"></span></div>
+    </div>
+    
+    <div class="details-box">
+      <div class="details-title">ДЕТАЛИ ЗАКАЗА:</div>
+      <div class="details-item">• Окно 800×600мм - 2 шт</div>
+      <div class="details-item">• Окно 1200×800мм - 1 шт</div>
+      <div class="details-item">• Окно 600×400мм - 3 шт</div>
+      <div class="details-item">&nbsp;</div>
+      <div class="details-item">Общая площадь: <span id="total-area">2.64</span> м²</div>
+      <div class="details-item">Материал: <span id="material-type">Silver 15</span></div>
+    </div>
+    
+    <div class="cost-section">
+      <div class="cost-title">СТОИМОСТЬ:</div>
+      <div class="cost-item">Материал (<span id="area-calc">2.64м²×380₴</span>): <span id="material-cost">1,003₴</span></div>
+      <div class="cost-item">Работа (<span id="work-calc">2.64м²×250₴</span>): <span id="work-cost">660₴</span></div>
+      <div class="cost-item">Дополнительно: <span id="additional-cost">500₴</span></div>
+      <div class="cost-divider"></div>
+      <div class="total-cost">ИТОГО: <span id="total-cost">2,163₴</span></div>
+    </div>
+    
+    <div class="additional-info">
+      <div>Срок выполнения: 1-2 дня</div>
+      <div>Гарантия: 2 года</div>
+    </div>
+    
+    <div class="company-info">
+      <div>Film Manager Pro</div>
+      <div>+380501112233</div>
+    </div>
+    
+    <div class="actions">
+      <button class="action-button print-button">🖨️ Печать</button>
+      <button class="action-button send-button">📤 Отправить</button>
+    </div>
+  </div>
+  
+  <script>
+    // Set current date
+    const now = new Date();
+    const formattedDate = now.getDate().toString().padStart(2, '0') + '.' + 
+                          (now.getMonth() + 1).toString().padStart(2, '0') + '.' + 
+                          now.getFullYear();
+    document.getElementById('current-date').textContent = formattedDate;
+    
+    // Get estimate data from localStorage
+    const area = parseFloat(localStorage.getItem('estimateArea')) || 2.64;
+    const materialName = localStorage.getItem('estimateMaterial') || 'Silver 15 (380₴/м²)';
+    const total = parseFloat(localStorage.getItem('estimateTotal')) || 2163;
+    
+    // Update the DOM with the data
+    document.getElementById('total-area').textContent = area.toFixed(2);
+    document.getElementById('material-type').textContent = materialName.split(' (')[0];
+    
+    // Extract material price from the material name
+    const materialPriceMatch = materialName.match(/\((\d+)₴\/м²\)/);
+    const materialPrice = materialPriceMatch ? parseInt(materialPriceMatch[1]) : 380;
+    
+    const materialCost = area * materialPrice;
+    const workPrice = 250; // Default work price
+    const workCost = area * workPrice;
+    const additionalCost = total - materialCost - workCost;
+    
+    document.getElementById('area-calc').textContent = `${area.toFixed(2)}м²×${materialPrice}₴`;
+    document.getElementById('material-cost').textContent = `${materialCost.toLocaleString()}₴`;
+    document.getElementById('work-calc').textContent = `${area.toFixed(2)}м²×${workPrice}₴`;
+    document.getElementById('work-cost').textContent = `${workCost.toLocaleString()}₴`;
+    document.getElementById('additional-cost').textContent = `${additionalCost.toLocaleString()}₴`;
+    document.getElementById('total-cost').textContent = `${total.toLocaleString()}₴`;
+    
+    // Print functionality
+    document.querySelector('.print-button').addEventListener('click', function() {
+      window.print();
+    });
+    
+    // Send functionality
+    document.querySelector('.send-button').addEventListener('click', function() {
+      // This would normally show a menu of ways to send the estimate
+      alert('Выбор способа отправки сметы клиенту');
+    });
+  </script>
+</body>
+</html> 

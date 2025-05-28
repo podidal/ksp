@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Film Manager Pro - Смета</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .back-button {
+      margin-right: 15px;
+      cursor: pointer;
+    }
+    
+    .page-title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .select-container {
+      margin-bottom: 20px;
+    }
+    
+    select, input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    
+    .price-input {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .price-input input {
+      flex-grow: 1;
+    }
+    
+    .currency {
+      margin-left: 10px;
+      font-weight: bold;
+    }
+    
+    .additional-section {
+      margin-bottom: 20px;
+    }
+    
+    .additional-container {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+    
+    .add-button {
+      text-align: center;
+      cursor: pointer;
+      color: #4285F4;
+      margin-top: 5px;
+    }
+    
+    .divider {
+      height: 1px;
+      background-color: #ddd;
+      margin: 20px 0;
+    }
+    
+    .summary {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .summary-item {
+      margin-bottom: 10px;
+    }
+    
+    .total {
+      font-weight: bold;
+      font-size: 18px;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+    
+    .action-button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    .action-button:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="back-button">←</div>
+    <div class="page-title">Качан Д.Ю. Смета</div>
+  </div>
+  
+  <div class="container">
+    <div class="section-title">🎬 Материал:</div>
+    <div class="select-container">
+      <select id="material-select">
+        <option value="silver15" selected>Silver 15 (380₴/м²)</option>
+        <option value="silver35">Silver 35 (410₴/м²)</option>
+        <option value="carbon">Carbon Black (450₴/м²)</option>
+        <option value="crystal">Crystal Clear (350₴/м²)</option>
+      </select>
+    </div>
+    
+    <div class="section-title">💰 Стоимость работы (за м²):</div>
+    <div class="price-input">
+      <input type="number" id="work-price" value="250" min="1">
+      <div class="currency">₴</div>
+    </div>
+    
+    <div class="section-title">➕ Дополнительно:</div>
+    <div class="additional-section" id="additional-items">
+      <div class="additional-container">
+        <select class="additional-select">
+          <option value="delivery">Доставка</option>
+          <option value="installation">Монтаж сложный</option>
+          <option value="cleaning">Очистка поверхности</option>
+          <option value="other">Другое</option>
+        </select>
+        <div class="price-input" style="margin-top: 10px;">
+          <input type="number" class="additional-price" value="500" min="0">
+          <div class="currency">₴</div>
+        </div>
+      </div>
+    </div>
+    <div class="add-button" id="add-additional">➕</div>
+    
+    <div class="divider"></div>
+    
+    <div class="section-title">📊 Сводка:</div>
+    <div class="summary" id="summary">
+      <div class="summary-item">• Площадь: 2.64 м²</div>
+      <div class="summary-item">• Материал: 1,003 ₴</div>
+      <div class="summary-item">• Работа: 660 ₴</div>
+      <div class="summary-item">• Доп. расходы: 500 ₴</div>
+      <div class="total">💎 ИТОГО: 2,163 ₴</div>
+    </div>
+    
+    <div class="action-button preview-button">
+      <div>📋 Предпросмотр сметы</div>
+    </div>
+    
+    <div class="action-button send-button">
+      <div>📤 Отправить клиенту</div>
+    </div>
+  </div>
+  
+  <script>
+    // Back button functionality
+    document.querySelector('.back-button').addEventListener('click', function() {
+      window.location.href = 'client-details.html';
+    });
+    
+    // Add additional item
+    document.getElementById('add-additional').addEventListener('click', function() {
+      const additionalItem = document.createElement('div');
+      additionalItem.className = 'additional-container';
+      
+      additionalItem.innerHTML = `
+        <select class="additional-select">
+          <option value="delivery">Доставка</option>
+          <option value="installation">Монтаж сложный</option>
+          <option value="cleaning">Очистка поверхности</option>
+          <option value="other">Другое</option>
+        </select>
+        <div class="price-input" style="margin-top: 10px;">
+          <input type="number" class="additional-price" value="0" min="0">
+          <div class="currency">₴</div>
+        </div>
+      `;
+      
+      document.getElementById('additional-items').appendChild(additionalItem);
+      
+      // Add event listener to update summary when price changes
+      additionalItem.querySelector('.additional-price').addEventListener('input', updateSummary);
+    });
+    
+    // Update summary when inputs change
+    document.getElementById('material-select').addEventListener('change', updateSummary);
+    document.getElementById('work-price').addEventListener('input', updateSummary);
+    document.querySelector('.additional-price').addEventListener('input', updateSummary);
+    
+    // Preview button functionality
+    document.querySelector('.preview-button').addEventListener('click', function() {
+      window.location.href = 'estimate-preview.html?client=Качан Д.Юван';
+    });
+    
+    // Send button functionality
+    document.querySelector('.send-button').addEventListener('click', function() {
+      // This would normally show a menu of ways to send the estimate
+      alert('Выбор способа отправки сметы клиенту');
+    });
+    
+    // Helper function to update the summary
+    function updateSummary() {
+      const area = 2.64; // m² (would normally be fetched from previous page)
+      
+      // Get material price
+      const materialSelect = document.getElementById('material-select');
+      let materialPrice = 380; // Default
+      
+      switch(materialSelect.value) {
+        case 'silver15':
+          materialPrice = 380;
+          break;
+        case 'silver35':
+          materialPrice = 410;
+          break;
+        case 'carbon':
+          materialPrice = 450;
+          break;
+        case 'crystal':
+          materialPrice = 350;
+          break;
+      }
+      
+      // Calculate material cost
+      const materialCost = area * materialPrice;
+      
+      // Calculate work cost
+      const workPrice = parseFloat(document.getElementById('work-price').value) || 0;
+      const workCost = area * workPrice;
+      
+      // Calculate additional costs
+      let additionalCost = 0;
+      document.querySelectorAll('.additional-price').forEach(input => {
+        additionalCost += parseFloat(input.value) || 0;
+      });
+      
+      // Calculate total
+      const total = materialCost + workCost + additionalCost;
+      
+      // Update summary
+      const summary = document.getElementById('summary');
+      summary.innerHTML = `
+        <div class="summary-item">• Площадь: ${area.toFixed(2)} м²</div>
+        <div class="summary-item">• Материал: ${materialCost.toLocaleString()} ₴</div>
+        <div class="summary-item">• Работа: ${workCost.toLocaleString()} ₴</div>
+        <div class="summary-item">• Доп. расходы: ${additionalCost.toLocaleString()} ₴</div>
+        <div class="total">💎 ИТОГО: ${total.toLocaleString()} ₴</div>
+      `;
+      
+      // Store the total in local storage for use in the preview page
+      localStorage.setItem('estimateTotal', total);
+      localStorage.setItem('estimateMaterial', materialSelect.options[materialSelect.selectedIndex].text);
+      localStorage.setItem('estimateArea', area);
+    }
+    
+    // Initialize summary
+    updateSummary();
+  </script>
+</body>
+</html> 
