@@ -35,35 +35,45 @@
 <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
 <script>
-  // Update user info in sidebar
-  if (window.authContext) {
-    authContext.subscribe(({ user }) => {
-      const userName = document.getElementById('userName');
-      const userEmail = document.getElementById('userEmail');
-      
-      if (user) {
-        // Display user info
-        userName.textContent = `👤 ${user.displayName || 'Пользователь'}`;
-        userEmail.textContent = user.email || '';
-      } else {
-        // Reset to default
-        userName.textContent = '👤 Не авторизован';
-        userEmail.textContent = '';
+  // This script will be evaluated by the parent page
+  (function() {
+    // Import the authContext - this is already available in the parent page
+    const updateSidebar = () => {
+      if (window.authContext) {
+        const authContext = window.authContext;
+        
+        authContext.subscribe(({ user }) => {
+          const userName = document.getElementById('userName');
+          const userEmail = document.getElementById('userEmail');
+          
+          if (user) {
+            // Display user info
+            userName.textContent = `👤 ${user.displayName || 'Пользователь'}`;
+            userEmail.textContent = user.email || '';
+          } else {
+            // Reset to default
+            userName.textContent = '👤 Не авторизован';
+            userEmail.textContent = '';
+          }
+        });
+        
+        // Set up logout button
+        document.getElementById('logoutBtn').addEventListener('click', async function(e) {
+          e.preventDefault();
+          
+          try {
+            // Sign out
+            await authContext.signOut();
+            // Redirect to login page
+            window.location.href = 'login.html';
+          } catch (error) {
+            console.error('Error signing out:', error);
+          }
+        });
       }
-    });
+    };
     
-    // Set up logout button
-    document.getElementById('logoutBtn').addEventListener('click', async function(e) {
-      e.preventDefault();
-      
-      try {
-        // Sign out
-        await authContext.signOut();
-        // Redirect to login page
-        window.location.href = 'login.html';
-      } catch (error) {
-        console.error('Error signing out:', error);
-      }
-    });
-  }
+    // Run the update function
+    updateSidebar();
+  })();
 </script> 

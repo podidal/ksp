@@ -163,29 +163,35 @@
   <div id="sideMenuContainer"></div>
   
   <script src="../js/main.js"></script>
-  <script>
+  <script type="module">
+    import authContext from '../js/auth-context.js';
+    
     document.addEventListener('DOMContentLoaded', function() {
       // Load the side menu component
       fetch('../components/sidebar.html')
         .then(response => response.text())
         .then(html => {
           document.getElementById('sideMenuContainer').innerHTML = html;
+          
+          // Execute any scripts inside the loaded sidebar
+          const scripts = document.getElementById('sideMenuContainer').getElementsByTagName('script');
+          for (let i = 0; i < scripts.length; i++) {
+            eval(scripts[i].innerText);
+          }
         });
       
       // Display current user in header
-      if (window.authContext) {
-        authContext.subscribe(({ user }) => {
-          const userDisplay = document.getElementById('userDisplay');
-          if (user) {
-            // Show first name or display name
-            const displayName = user.displayName || 'Пользователь';
-            const firstName = displayName.split(' ')[0];
-            userDisplay.textContent = `👤 ${firstName}`;
-          } else {
-            userDisplay.textContent = '👤 Гость';
-          }
-        });
-      }
+      authContext.subscribe(({ user }) => {
+        const userDisplay = document.getElementById('userDisplay');
+        if (user) {
+          // Show first name or display name
+          const displayName = user.displayName || 'Пользователь';
+          const firstName = displayName.split(' ')[0];
+          userDisplay.textContent = `👤 ${firstName}`;
+        } else {
+          userDisplay.textContent = '👤 Гость';
+        }
+      });
     });
   </script>
 </body>
