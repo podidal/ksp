@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Комфорт Сервис Плюс - Детали клиента</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .client-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .client-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .settings-icon {
+      font-size: 20px;
+      color: var(--text-color);
+    }
+    
+    .client-phone {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    
+    .contact-buttons {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    
+    .contact-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      margin-right: 10px;
+      text-decoration: none;
+      color: var(--text-color);
+    }
+    
+    .contact-btn span:first-child {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+    
+    .contact-btn span:last-child {
+      font-size: 12px;
+    }
+    
+    .address-section, .status-section {
+      margin-bottom: 20px;
+    }
+    
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .address-text, .date-text {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    
+    .action-card {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 15px;
+      text-align: center;
+      background-color: white;
+    }
+    
+    .action-card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .action-card-subtitle {
+      font-size: 14px;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="clients.html" class="back-button">
+        <span class="back-icon">←</span> Назад
+      </a>
+      <div class="client-header">
+        <h2>Качан Д.Юван</h2>
+        <span class="settings-icon">⚙</span>
+      </div>
+    </div>
+    
+    <div class="client-phone">
+      📱 +380501234567
+    </div>
+    
+    <div class="contact-buttons">
+      <a href="tel:+380501234567" class="contact-btn">
+        <span>📞</span>
+        <span>Call</span>
+      </a>
+      <a href="viber://chat?number=%2B380501234567" class="contact-btn">
+        <span>📱</span>
+        <span>Viber</span>
+      </a>
+      <a href="https://t.me/+380501234567" class="contact-btn">
+        <span>💬</span>
+        <span>Tele</span>
+      </a>
+      <a href="https://maps.google.com/?q=г. Киев, ул. Крещатик, 15" class="contact-btn">
+        <span>🗺️</span>
+        <span>Maps</span>
+      </a>
+    </div>
+    
+    <div class="address-section">
+      <div class="section-title">📍 Адрес:</div>
+      <div class="address-text">г. Киев, ул. Крещатик, 15</div>
+      <div class="address-text">кв. 47</div>
+    </div>
+    
+    <div class="status-section">
+      <div class="status-text">📝 Статус: <span class="status-badge status-scheduled">Замер назначен</span></div>
+      <div class="date-text">📅 Дата создания: 15.03.2024</div>
+    </div>
+    
+    <div class="action-cards">
+      <div class="action-card" onclick="location.href='measurement.html'">
+        <div class="action-card-title">🏠 ЗАМЕР</div>
+        <div class="action-card-subtitle">(Ввод размеров окон)</div>
+      </div>
+      
+      <div class="action-card" onclick="location.href='estimate.html'">
+        <div class="action-card-title">📋 СМЕТА</div>
+        <div class="action-card-subtitle">(Расчет стоимости)</div>
+      </div>
+      
+      <div class="action-card">
+        <div class="action-card-title">📤 ОТПРАВИТЬ</div>
+        <div class="action-card-subtitle">(Клиенту на...)</div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="../js/main.js"></script>
+</body>
+</html> 

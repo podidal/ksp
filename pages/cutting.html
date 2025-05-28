@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Комфорт Сервис Плюс - Варианты раскроя</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .cutting-option {
+      margin-bottom: 25px;
+    }
+    
+    .option-title {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .option-icon {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+    
+    .option-card {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 15px;
+      background-color: white;
+    }
+    
+    .option-visual {
+      height: 60px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .option-metrics {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+    
+    .option-1-visual {
+      background-color: #f8f9fa;
+      padding: 5px;
+    }
+    
+    .visual-box {
+      display: inline-block;
+      height: 20px;
+      margin-right: 5px;
+    }
+    
+    .visual-box-filled {
+      background-color: var(--primary-color);
+    }
+    
+    .visual-box-empty {
+      background-color: #e9ecef;
+      border: 1px dashed #ced4da;
+    }
+    
+    .settings {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background-color: #f8f9fa;
+    }
+    
+    .settings-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .setting-item {
+      margin-bottom: 10px;
+    }
+    
+    .setting-checkbox {
+      margin-right: 10px;
+    }
+    
+    .setting-select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      margin-top: 5px;
+    }
+    
+    .item-box-1 {
+      width: 80px;
+      height: 20px;
+    }
+    
+    .item-box-2 {
+      width: 60px;
+      height: 20px;
+    }
+    
+    .item-box-3 {
+      width: 40px;
+      height: 20px;
+    }
+    
+    .waste-box {
+      width: 40px;
+      height: 20px;
+    }
+    
+    /* Modal styles */
+    #cuttingModal {
+      display: none;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="measurement.html" class="back-button">
+        <span class="back-icon">←</span> Качан Д.Ю.
+      </a>
+      <h2>Варианты раскроя</h2>
+    </div>
+    
+    <div class="cutting-option">
+      <div class="option-title">
+        <span class="option-icon">🏆</span>
+        <span>Оптимальный (3.2м)</span>
+      </div>
+      <div class="option-card" onclick="showModal('cuttingModal')">
+        <div class="option-visual">
+          <div class="option-1-visual">
+            <div class="visual-box item-box-1 visual-box-filled"></div>
+            <div class="visual-box item-box-1 visual-box-filled"></div>
+            <div class="visual-box waste-box visual-box-empty"></div>
+            <br>
+            <div class="visual-box item-box-1 visual-box-filled"></div>
+            <div class="visual-box item-box-1 visual-box-filled"></div>
+            <div class="visual-box waste-box visual-box-empty"></div>
+            <br>
+            <div class="visual-box item-box-3 visual-box-filled"></div>
+            <div class="visual-box item-box-3 visual-box-filled"></div>
+            <div class="visual-box item-box-3 visual-box-filled"></div>
+            <div class="visual-box waste-box visual-box-empty"></div>
+          </div>
+        </div>
+        <div class="option-metrics">
+          <div>85% использование</div>
+          <div>15% отходы</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cutting-option">
+      <div class="option-title">
+        <span class="option-icon">📐</span>
+        <span>Алгоритм 2 (3.5м)</span>
+      </div>
+      <div class="option-card">
+        <div class="option-visual">
+          <div class="option-1-visual">
+            <div class="visual-box item-box-1 visual-box-filled"></div>
+            <div class="visual-box waste-box visual-box-empty"></div>
+            <div class="visual-box waste-box visual-box-empty"></div>
+            <br>
+            <div class="visual-box item-box-1 visual-box-filled"></div>
+            <div class="visual-box item-box-3 visual-box-filled"></div>
+            <div class="visual-box item-box-3 visual-box-filled"></div>
+            <br>
+            <div class="visual-box waste-box visual-box-empty"></div>
+            <div class="visual-box item-box-3 visual-box-filled"></div>
+            <div class="visual-box waste-box visual-box-empty"></div>
+          </div>
+        </div>
+        <div class="option-metrics">
+          <div>78% использование</div>
+          <div>22% отходы</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cutting-option">
+      <div class="option-title">
+        <span class="option-icon">⚡</span>
+        <span>Алгоритм 3 (3.8м)</span>
+      </div>
+      <div class="option-card">
+        <div class="option-visual">
+          <div class="option-1-visual">
+            <div class="visual-box item-box-1 visual-box-filled"></div>
+            <div class="visual-box item-box-1 visual-box-filled"></div>
+            <br>
+            <div class="visual-box item-box-3 visual-box-filled"></div>
+            <div class="visual-box item-box-3 visual-box-filled"></div>
+            <div class="visual-box item-box-3 visual-box-filled"></div>
+            <br>
+            <div class="visual-box waste-box visual-box-empty"></div>
+            <div class="visual-box waste-box visual-box-empty"></div>
+            <div class="visual-box waste-box visual-box-empty"></div>
+          </div>
+        </div>
+        <div class="option-metrics">
+          <div>72% использование</div>
+          <div>28% отходы</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="settings">
+      <div class="settings-title">⚙️ Настройки:</div>
+      <div class="setting-item">
+        <input type="checkbox" id="rotateItems" class="setting-checkbox" checked>
+        <label for="rotateItems">Поворот деталей</label>
+      </div>
+      <div class="setting-item">
+        <label for="rollWidth">Ширина рулона:</label>
+        <select id="rollWidth" class="setting-select">
+          <option value="1524">1524мм</option>
+          <option value="1000">1000мм</option>
+          <option value="2000">2000мм</option>
+        </select>
+      </div>
+    </div>
+    
+    <button class="btn btn-success btn-block" onclick="location.href='estimate.html'">
+      Перейти к смете
+    </button>
+  </div>
+  
+  <!-- Detailed cutting modal -->
+  <div class="modal" id="cuttingModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Детальный раскрой</div>
+        <span class="close" onclick="closeModal('cuttingModal')">&times;</span>
+      </div>
+      
+      <div>
+        <p>Оптимальный алгоритм</p>
+        <p>Длина рулона: 3200мм</p>
+        <p>Отходы: 15% (0.73м²)</p>
+      </div>
+      
+      <div style="border: 1px solid #dee2e6; margin: 15px 0; padding: 10px;">
+        <div style="display: flex; margin-bottom: 10px;">
+          <div style="border: 1px solid #dee2e6; padding: 10px; width: 30%; text-align: center; margin-right: 10px;">
+            <div>1</div>
+            <div>800×600</div>
+          </div>
+          <div style="border: 1px solid #dee2e6; padding: 10px; width: 30%; text-align: center; margin-right: 10px;">
+            <div>2</div>
+            <div>800×600</div>
+          </div>
+          <div style="background-color: #f8f9fa; padding: 10px; width: 30%; text-align: center;">
+            <div>ОТХОД</div>
+          </div>
+        </div>
+        
+        <div style="display: flex; margin-bottom: 10px;">
+          <div style="border: 1px solid #dee2e6; padding: 10px; width: 70%; text-align: center; margin-right: 10px;">
+            <div>3</div>
+            <div>1200×800</div>
+          </div>
+          <div style="background-color: #f8f9fa; padding: 10px; width: 30%; text-align: center;">
+            <div>ОТХОД</div>
+          </div>
+        </div>
+        
+        <div style="display: flex;">
+          <div style="border: 1px solid #dee2e6; padding: 10px; width: 20%; text-align: center; margin-right: 10px;">
+            <div>4</div>
+            <div>600×400</div>
+          </div>
+          <div style="border: 1px solid #dee2e6; padding: 10px; width: 20%; text-align: center; margin-right: 10px;">
+            <div>5</div>
+            <div>600×400</div>
+          </div>
+          <div style="border: 1px solid #dee2e6; padding: 10px; width: 20%; text-align: center; margin-right: 10px;">
+            <div>6</div>
+            <div>600×400</div>
+          </div>
+          <div style="background-color: #f8f9fa; padding: 10px; width: 30%; text-align: center;">
+            <div>ОТХОД</div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 10px;">
+        1524мм ширина рулона
+      </div>
+    </div>
+  </div>
+  
+  <script src="../js/main.js"></script>
+</body>
+</html> 

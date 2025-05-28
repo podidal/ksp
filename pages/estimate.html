@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Комфорт Сервис Плюс - Смета</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .section {
+      margin-bottom: 20px;
+    }
+    
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .form-select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    
+    .form-input-group {
+      display: flex;
+      align-items: center;
+    }
+    
+    .form-control-left {
+      flex-grow: 1;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px 0 0 4px;
+      font-size: 16px;
+    }
+    
+    .form-control-right {
+      width: 50px;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-left: none;
+      border-radius: 0 4px 4px 0;
+      background-color: #f8f9fa;
+      font-size: 16px;
+      text-align: center;
+    }
+    
+    .add-extra-btn {
+      display: block;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      line-height: 40px;
+      margin-left: auto;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    
+    .divider {
+      height: 1px;
+      background-color: var(--border-color);
+      margin: 20px 0;
+    }
+    
+    .summary {
+      background-color: #f8f9fa;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .summary-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    
+    .total-divider {
+      height: 1px;
+      background-color: var(--border-color);
+      margin: 10px 0;
+    }
+    
+    .total-amount {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    
+    .extra-item {
+      margin-bottom: 15px;
+    }
+    
+    .extra-item-label {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="client-details.html" class="back-button">
+        <span class="back-icon">←</span> Качан Д.Ю.
+      </a>
+      <h2>Смета</h2>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">🎬 Материал:</div>
+      <select id="materialType" class="form-select">
+        <option value="silver15">Silver 15 (380₴/м²)</option>
+        <option value="carbon">Carbon Black (420₴/м²)</option>
+        <option value="crystal">Crystal Clear (350₴/м²)</option>
+      </select>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">💰 Стоимость работы (за м²):</div>
+      <div class="form-input-group">
+        <input type="number" id="workPrice" class="form-control-left" value="250">
+        <div class="form-control-right">₴</div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">➕ Дополнительно:</div>
+      
+      <div class="extra-items" id="extraItems">
+        <div class="extra-item">
+          <div class="extra-item-label">ДЕТАЛЬНО</div>
+          <div class="form-input-group">
+            <input type="number" class="form-control-left extra-price" value="500">
+            <div class="form-control-right">₴</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="add-extra-btn" id="addExtraBtn">➕</div>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <div class="summary">
+      <div class="summary-title">📊 Сводка:</div>
+      <div class="summary-item">
+        <div>• Площадь:</div>
+        <div>2.64 м²</div>
+      </div>
+      <div class="summary-item">
+        <div>• Материал:</div>
+        <div>1,003 ₴</div>
+      </div>
+      <div class="summary-item">
+        <div>• Работа:</div>
+        <div>660 ₴</div>
+      </div>
+      <div class="summary-item">
+        <div>• Доп. расходы:</div>
+        <div>500 ₴</div>
+      </div>
+      <div class="total-divider"></div>
+      <div class="total-amount">
+        <div>💎 ИТОГО:</div>
+        <div>2,163 ₴</div>
+      </div>
+    </div>
+    
+    <button class="btn btn-primary btn-block" onclick="location.href='estimate-preview.html'">
+      📋 Предпросмотр сметы
+    </button>
+    
+    <button class="btn btn-success btn-block">
+      📤 Отправить клиенту
+    </button>
+  </div>
+  
+  <script src="../js/main.js"></script>
+  <script>
+    // Calculate total amount based on inputs
+    function calculateTotal() {
+      const area = 2.64; // Fixed area for demo
+      const materialPrice = 380; // Price per m² for Silver 15
+      const workPrice = parseFloat(document.getElementById('workPrice').value) || 0;
+      
+      // Calculate material cost
+      const materialCost = area * materialPrice;
+      
+      // Calculate work cost
+      const workCost = area * workPrice;
+      
+      // Calculate extras
+      let extrasCost = 0;
+      document.querySelectorAll('.extra-price').forEach(function(input) {
+        extrasCost += parseFloat(input.value) || 0;
+      });
+      
+      // Update summary
+      document.querySelector('.summary-item:nth-child(2) div:last-child').textContent = formatCurrency(materialCost);
+      document.querySelector('.summary-item:nth-child(3) div:last-child').textContent = formatCurrency(workCost);
+      document.querySelector('.summary-item:nth-child(4) div:last-child').textContent = formatCurrency(extrasCost);
+      
+      // Update total
+      const total = materialCost + workCost + extrasCost;
+      document.querySelector('.total-amount div:last-child').textContent = formatCurrency(total);
+    }
+    
+    // Add event listeners
+    document.getElementById('materialType').addEventListener('change', calculateTotal);
+    document.getElementById('workPrice').addEventListener('input', calculateTotal);
+    
+    // Add extra item button
+    document.getElementById('addExtraBtn').addEventListener('click', function() {
+      const extraItems = document.getElementById('extraItems');
+      const newItem = document.createElement('div');
+      newItem.className = 'extra-item';
+      newItem.innerHTML = `
+        <div class="extra-item-label">
+          <input type="text" class="form-control" placeholder="Название" style="margin-bottom: 5px;">
+        </div>
+        <div class="form-input-group">
+          <input type="number" class="form-control-left extra-price" value="0">
+          <div class="form-control-right">₴</div>
+        </div>
+      `;
+      
+      extraItems.appendChild(newItem);
+      
+      // Add event listener to new input
+      newItem.querySelector('.extra-price').addEventListener('input', calculateTotal);
+    });
+    
+    // Initial calculation
+    calculateTotal();
+  </script>
+</body>
+</html> 

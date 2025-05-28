@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Комфорт Сервис Плюс - Замер окон</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .manual-input {
+      margin-bottom: 20px;
+    }
+    
+    .manual-input-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .manual-input-form {
+      display: flex;
+      align-items: center;
+    }
+    
+    .manual-input-field {
+      width: 80px;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      margin-right: 10px;
+      text-align: center;
+    }
+    
+    .manual-input-label {
+      font-size: 12px;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    
+    .quick-input {
+      margin-bottom: 20px;
+    }
+    
+    .quick-input-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .quick-input-area {
+      width: 100%;
+      height: 80px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 14px;
+    }
+    
+    .items-list {
+      margin-bottom: 20px;
+    }
+    
+    .items-list-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .item-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      margin-bottom: 10px;
+      background-color: white;
+    }
+    
+    .item-info {
+      flex-grow: 1;
+    }
+    
+    .item-dimensions {
+      font-weight: 600;
+    }
+    
+    .item-area {
+      font-size: 12px;
+      color: #6c757d;
+    }
+    
+    .item-actions {
+      display: flex;
+    }
+    
+    .item-action-btn {
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    
+    .summary {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background-color: #f8f9fa;
+    }
+    
+    .summary-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .summary-item {
+      margin-bottom: 5px;
+    }
+    
+    .cutting-map {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 20px;
+      background-color: #f8f9fa;
+    }
+    
+    .cutting-map-visual {
+      height: 20px;
+      background: linear-gradient(to right, #4a6da7 85%, #f8f9fa 15%);
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    
+    .cutting-map-info {
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="client-details.html" class="back-button">
+        <span class="back-icon">←</span> Качан Д.Ю.
+      </a>
+      <h2>Замер окон</h2>
+    </div>
+    
+    <div class="manual-input">
+      <div class="manual-input-title">🏠 Ручной ввод:</div>
+      <div class="manual-input-form">
+        <div>
+          <div class="manual-input-label">Шир.</div>
+          <input type="number" id="width" class="manual-input-field" value="800">
+        </div>
+        <div>
+          <div class="manual-input-label">Выс.</div>
+          <input type="number" id="height" class="manual-input-field" value="600">
+        </div>
+        <div>
+          <div class="manual-input-label">Кол</div>
+          <input type="number" id="quantity" class="manual-input-field" value="2">
+        </div>
+        <button id="addItemBtn" class="btn btn-primary">OK</button>
+      </div>
+    </div>
+    
+    <div class="quick-input">
+      <div class="quick-input-title">📝 Быстрый ввод (через запятую):</div>
+      <textarea id="quickInput" class="quick-input-area" placeholder="Пример: 800,600,2">800,600,2
+1200,800,1
+600,400,3</textarea>
+      <button id="processQuickInputBtn" class="btn btn-primary mt-3">Добавить все</button>
+    </div>
+    
+    <div class="items-list">
+      <div class="items-list-title">📊 Список деталей:</div>
+      <div id="itemsList">
+        <div class="item-card">
+          <div class="item-shape">[▬▬]</div>
+          <div class="item-info">
+            <div class="item-dimensions">800×600×2</div>
+            <div class="item-area">= 0.96м²</div>
+          </div>
+          <div class="item-actions">
+            <button class="item-action-btn edit-btn">✏</button>
+            <button class="item-action-btn delete-btn">❌</button>
+          </div>
+        </div>
+        
+        <div class="item-card">
+          <div class="item-shape">[|]</div>
+          <div class="item-info">
+            <div class="item-dimensions">1200×800×1</div>
+            <div class="item-area">= 0.96м²</div>
+          </div>
+          <div class="item-actions">
+            <button class="item-action-btn edit-btn">✏</button>
+            <button class="item-action-btn delete-btn">❌</button>
+          </div>
+        </div>
+        
+        <div class="item-card">
+          <div class="item-shape">[▬]</div>
+          <div class="item-info">
+            <div class="item-dimensions">600×400×3</div>
+            <div class="item-area">= 0.72м²</div>
+          </div>
+          <div class="item-actions">
+            <button class="item-action-btn edit-btn">✏</button>
+            <button class="item-action-btn delete-btn">❌</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="summary">
+      <div class="summary-title">📈 Сводка:</div>
+      <div class="summary-item">• Деталей: 6</div>
+      <div class="summary-item">• Общая площадь: 2.64 м²</div>
+      <div class="summary-item">• Рулон: 3.2 мп (4.9 м²)</div>
+    </div>
+    
+    <div class="cutting-map">
+      <div class="cutting-map-visual"></div>
+      <div class="cutting-map-info">85% использование</div>
+    </div>
+    
+    <button class="btn btn-success btn-block" onclick="location.href='cutting.html'">
+      Перейти к раскрою
+    </button>
+  </div>
+  
+  <script src="../js/main.js"></script>
+  <script>
+    document.getElementById('addItemBtn').addEventListener('click', function() {
+      const width = document.getElementById('width').value;
+      const height = document.getElementById('height').value;
+      const quantity = document.getElementById('quantity').value;
+      
+      // In a real app, this would add the item to the list
+      alert(`Добавлено: ${width}×${height}×${quantity}`);
+    });
+    
+    document.getElementById('processQuickInputBtn').addEventListener('click', function() {
+      const quickInput = document.getElementById('quickInput').value;
+      
+      // In a real app, this would process and add all items
+      alert('Все размеры добавлены');
+    });
+    
+    // Add event listeners for edit and delete buttons
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const itemCard = this.closest('.item-card');
+        const dimensions = itemCard.querySelector('.item-dimensions').textContent;
+        alert(`Редактирование: ${dimensions}`);
+      });
+    });
+    
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const itemCard = this.closest('.item-card');
+        const dimensions = itemCard.querySelector('.item-dimensions').textContent;
+        alert(`Удаление: ${dimensions}`);
+      });
+    });
+  </script>
+</body>
+</html> 
