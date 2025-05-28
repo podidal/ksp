@@ -3,199 +3,479 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Film Manager Pro - Детали клиента</title>
+  <title>Комфорт Сервис Плюс - Детали клиента</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f9fa;
+    .client-container {
+      padding: 20px;
     }
     
-    .header {
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 20px;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    
+    .back-link i {
+      margin-right: 5px;
+    }
+    
+    .client-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px;
-      background-color: #fff;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    
-    .header-left {
-      display: flex;
-      align-items: center;
-    }
-    
-    .back-button {
-      margin-right: 15px;
-      cursor: pointer;
-    }
-    
-    .client-name {
-      font-weight: bold;
-      font-size: 18px;
-    }
-    
-    .settings-button {
-      cursor: pointer;
-    }
-    
-    .container {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 0 15px;
-    }
-    
-    .client-phone {
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
-    
-    .contact-buttons {
-      display: flex;
-      gap: 10px;
       margin-bottom: 20px;
     }
     
-    .contact-button {
-      flex: 1;
-      text-align: center;
-      padding: 10px;
-      border: 1px solid #ddd;
+    .client-name {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .edit-button {
+      padding: 8px 12px;
+      background: none;
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       cursor: pointer;
     }
     
-    .contact-button:hover {
-      background-color: #f0f0f0;
+    .client-contact {
+      margin-bottom: 25px;
     }
     
-    .client-address, .client-status, .client-date {
-      margin-bottom: 15px;
+    .contact-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    
+    .contact-info i {
+      width: 24px;
+      margin-right: 10px;
+      text-align: center;
+    }
+    
+    .contact-actions {
+      display: flex;
+      margin-bottom: 20px;
     }
     
     .action-button {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-bottom: 15px;
+      flex: 1;
+      padding: 8px;
+      margin: 0 5px;
       text-align: center;
-      cursor: pointer;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: white;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     
-    .action-button:hover {
-      background-color: #f0f0f0;
+    .action-button i {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+    
+    .action-button:first-child {
+      margin-left: 0;
+    }
+    
+    .action-button:last-child {
+      margin-right: 0;
+    }
+    
+    .client-info {
+      margin-bottom: 25px;
+    }
+    
+    .info-item {
+      margin-bottom: 15px;
+    }
+    
+    .info-label {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .action-section {
+      margin-top: 30px;
+    }
+    
+    .action-card {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: white;
+      text-decoration: none;
+      color: var(--text-color);
+    }
+    
+    .action-card-icon {
+      font-size: 24px;
+      margin-right: 15px;
+    }
+    
+    .action-card-content {
+      flex: 1;
+    }
+    
+    .action-card-title {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .action-card-subtitle {
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .loading-container {
+      text-align: center;
+      padding: 50px 0;
+    }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--accent-color);
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .status-new {
+      background-color: #e0f7fa;
+      color: #0288d1;
+    }
+    
+    .status-scheduled {
+      background-color: #e8f5e9;
+      color: #388e3c;
+    }
+    
+    .status-sent {
+      background-color: #fff3e0;
+      color: #f57c00;
+    }
+    
+    .status-confirmed {
+      background-color: #e8eaf6;
+      color: #3f51b5;
+    }
+    
+    .status-completed {
+      background-color: #e0f2f1;
+      color: #00796b;
+    }
+    
+    .status-cancelled {
+      background-color: #ffebee;
+      color: #d32f2f;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="header-left">
-      <div class="back-button">←</div>
-      <div class="client-name">Качан Д.Юван</div>
+  <div class="container">
+    <div class="header">
+      <h1>Film Manager</h1>
+      <div id="userHeader">
+        <span id="userDisplay">👤 Загрузка...</span>
+        <button class="menu-button" onclick="toggleMenu()">☰</button>
+      </div>
     </div>
-    <div class="settings-button">⚙</div>
+    
+    <!-- Loading indicator -->
+    <div id="loadingContainer" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Загрузка данных клиента...</p>
+    </div>
+    
+    <!-- Client details container (hidden initially) -->
+    <div id="clientContainer" class="client-container" style="display: none;">
+      <a href="clients.html" class="back-link">
+        <i class="fas fa-arrow-left"></i> Назад
+      </a>
+      
+      <div class="client-header">
+        <h2 class="client-name" id="clientName">Имя клиента</h2>
+        <button class="edit-button" onclick="location.href='edit-client.html?id=' + clientId">
+          <i class="fas fa-edit"></i>
+        </button>
+      </div>
+      
+      <div class="client-contact">
+        <div class="contact-info">
+          <i class="fas fa-phone"></i>
+          <span id="clientPhone">+380501234567</span>
+        </div>
+        
+        <div class="contact-actions">
+          <a href="#" class="action-button" id="callButton">
+            <i class="fas fa-phone"></i>
+            <span>Позвонить</span>
+          </a>
+          <a href="#" class="action-button" id="viberButton">
+            <i class="fab fa-viber"></i>
+            <span>Viber</span>
+          </a>
+          <a href="#" class="action-button" id="telegramButton">
+            <i class="fab fa-telegram"></i>
+            <span>Telegram</span>
+          </a>
+          <a href="#" class="action-button" id="mapsButton">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Карта</span>
+          </a>
+        </div>
+      </div>
+      
+      <div class="client-info">
+        <div class="info-item">
+          <div class="info-label">📍 Адрес:</div>
+          <div id="clientAddress">г. Киев, ул. Крещатик, 15, кв. 47</div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-label">📝 Статус:</div>
+          <div><span class="status-badge status-scheduled" id="clientStatus">Замер назначен</span></div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-label">📅 Дата создания:</div>
+          <div id="clientDate">15.03.2024</div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-label">📋 Примечания:</div>
+          <div id="clientNotes">Нет примечаний</div>
+        </div>
+      </div>
+      
+      <div class="action-section">
+        <a href="measurement.html?clientId=" class="action-card" id="measurementsLink">
+          <i class="fas fa-ruler action-card-icon"></i>
+          <div class="action-card-content">
+            <div class="action-card-title">🏠 ЗАМЕР</div>
+            <div class="action-card-subtitle">Ввод размеров окон</div>
+          </div>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+        
+        <a href="estimate.html?clientId=" class="action-card" id="estimateLink">
+          <i class="fas fa-calculator action-card-icon"></i>
+          <div class="action-card-content">
+            <div class="action-card-title">📋 СМЕТА</div>
+            <div class="action-card-subtitle">Расчет стоимости</div>
+          </div>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+        
+        <a href="#" class="action-card" id="sendEstimateLink">
+          <i class="fas fa-paper-plane action-card-icon"></i>
+          <div class="action-card-content">
+            <div class="action-card-title">📤 ОТПРАВИТЬ</div>
+            <div class="action-card-subtitle">Отправить клиенту</div>
+          </div>
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </div>
+    </div>
   </div>
   
-  <div class="container">
-    <div class="client-phone">📱 +380501234567</div>
-    
-    <div class="contact-buttons">
-      <div class="contact-button">
-        <div>📞</div>
-        <div>Call</div>
-      </div>
-      <div class="contact-button">
-        <div>📱</div>
-        <div>Viber</div>
-      </div>
-      <div class="contact-button">
-        <div>💬</div>
-        <div>Tele</div>
-      </div>
-      <div class="contact-button">
-        <div>🗺️</div>
-        <div>Maps</div>
-      </div>
-    </div>
-    
-    <div class="client-address">
-      <div>📍 Адрес:</div>
-      <div>г. Киев, ул. Крещатик, 15</div>
-      <div>кв. 47</div>
-    </div>
-    
-    <div class="client-status">📝 Статус: Замер назначен</div>
-    <div class="client-date">📅 Дата создания: 15.03.2024</div>
-    
-    <div class="action-button measurement-button">
-      <div>🏠 ЗАМЕР</div>
-      <div>(Ввод размеров окон)</div>
-    </div>
-    
-    <div class="action-button estimate-button">
-      <div>📋 СМЕТА</div>
-      <div>(Расчет стоимости)</div>
-    </div>
-    
-    <div class="action-button send-button">
-      <div>📤 ОТПРАВИТЬ</div>
-      <div>(Клиенту на ...)</div>
-    </div>
-  </div>
+  <!-- Include side menu component -->
+  <div id="sideMenuContainer"></div>
+  
+  <!-- Firebase SDK v9 with CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="../js/main.js"></script>
   
   <script>
-    // Back button functionality
-    document.querySelector('.back-button').addEventListener('click', function() {
-      window.location.href = 'clients.html';
-    });
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
+      authDomain: "ksplus-60132.firebaseapp.com",
+      projectId: "ksplus-60132",
+      storageBucket: "ksplus-60132.firebasestorage.app",
+      messagingSenderId: "1037863910173",
+      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
+      measurementId: "G-17JRYGSH0S"
+    };
     
-    // Contact button functionality
-    document.querySelectorAll('.contact-button').forEach((button, index) => {
-      button.addEventListener('click', function() {
-        const phone = '+380501234567';
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Get Firestore reference
+    const db = firebase.firestore();
+    
+    // Global client ID
+    let clientId = '';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load the side menu component
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sideMenuContainer').innerHTML = html;
+          
+          // Execute any scripts inside the loaded sidebar
+          const scripts = document.getElementById('sideMenuContainer').getElementsByTagName('script');
+          for (let i = 0; i < scripts.length; i++) {
+            eval(scripts[i].innerText);
+          }
+        });
+      
+      // Check authentication status
+      firebase.auth().onAuthStateChanged(function(user) {
+        const userDisplay = document.getElementById('userDisplay');
         
-        switch(index) {
-          case 0: // Call
-            window.location.href = 'tel:' + phone;
-            break;
-          case 1: // Viber
-            window.location.href = 'viber://chat?number=' + phone;
-            break;
-          case 2: // Telegram
-            window.location.href = 'https://t.me/' + phone;
-            break;
-          case 3: // Maps
-            // This would normally open the address in maps
-            alert('Открытие карты с адресом клиента');
-            break;
+        if (user) {
+          // User is signed in
+          const displayName = user.displayName || 'Пользователь';
+          const firstName = displayName.split(' ')[0];
+          userDisplay.textContent = `👤 ${firstName}`;
+          
+          // Get client ID from URL
+          const urlParams = new URLSearchParams(window.location.search);
+          clientId = urlParams.get('id');
+          
+          if (clientId) {
+            // Load client data
+            loadClientData(clientId);
+            
+            // Update links with client ID
+            document.getElementById('measurementsLink').href = `measurement.html?clientId=${clientId}`;
+            document.getElementById('estimateLink').href = `estimate.html?clientId=${clientId}`;
+            document.getElementById('sendEstimateLink').href = `send-estimate.html?clientId=${clientId}`;
+          } else {
+            // No client ID, redirect to clients list
+            window.location.href = 'clients.html';
+          }
+        } else {
+          // User is signed out, redirect to login
+          window.location.href = 'login.html';
         }
       });
     });
     
-    // Action button functionality
-    document.querySelector('.measurement-button').addEventListener('click', function() {
-      window.location.href = 'measurement.html?client=Качан Д.Юван';
-    });
+    // Load client data
+    async function loadClientData(clientId) {
+      try {
+        const docRef = db.collection('clients').doc(clientId);
+        const docSnap = await docRef.get();
+        
+        if (docSnap.exists) {
+          const client = {
+            id: docSnap.id,
+            ...docSnap.data()
+          };
+          displayClientData(client);
+        } else {
+          throw new Error("Client not found");
+        }
+      } catch (error) {
+        console.error("Error loading client data:", error);
+        alert("Не удалось загрузить данные клиента");
+        window.location.href = 'clients.html';
+      }
+    }
     
-    document.querySelector('.estimate-button').addEventListener('click', function() {
-      window.location.href = 'estimate.html?client=Качан Д.Юван';
-    });
+    // Display client data on the page
+    function displayClientData(client) {
+      // Update client name
+      document.getElementById('clientName').textContent = client.name || 'Без имени';
+      
+      // Update phone and contact buttons
+      const phoneEl = document.getElementById('clientPhone');
+      phoneEl.textContent = client.phone || 'Нет телефона';
+      
+      const callButton = document.getElementById('callButton');
+      callButton.href = `tel:${client.phone}`;
+      
+      const viberButton = document.getElementById('viberButton');
+      viberButton.href = `viber://chat?number=${client.phone?.replace(/[^0-9+]/g, '')}`;
+      
+      const telegramButton = document.getElementById('telegramButton');
+      telegramButton.href = `https://t.me/${client.phone?.replace(/[^0-9+]/g, '')}`;
+      
+      // Update address and maps button
+      const addressEl = document.getElementById('clientAddress');
+      addressEl.textContent = client.address || 'Адрес не указан';
+      
+      const mapsButton = document.getElementById('mapsButton');
+      mapsButton.href = `https://maps.google.com/maps?q=${encodeURIComponent(client.address || '')}`;
+      
+      // Update status with appropriate class
+      const statusEl = document.getElementById('clientStatus');
+      statusEl.textContent = client.status || 'Новый лид';
+      statusEl.className = `status-badge ${getStatusClass(client.status)}`;
+      
+      // Update creation date
+      const dateEl = document.getElementById('clientDate');
+      if (client.createdAt) {
+        const date = new Date(client.createdAt.seconds * 1000);
+        dateEl.textContent = date.toLocaleDateString('ru-RU');
+      } else {
+        dateEl.textContent = 'Дата не указана';
+      }
+      
+      // Update notes
+      const notesEl = document.getElementById('clientNotes');
+      notesEl.textContent = client.notes || 'Нет примечаний';
+      
+      // Show client container and hide loading
+      document.getElementById('loadingContainer').style.display = 'none';
+      document.getElementById('clientContainer').style.display = 'block';
+    }
     
-    document.querySelector('.send-button').addEventListener('click', function() {
-      // This would normally show a menu of ways to send the estimate
-      alert('Выбор способа отправки сметы клиенту');
-    });
-    
-    // Settings button functionality
-    document.querySelector('.settings-button').addEventListener('click', function() {
-      // This would normally open settings for this client
-      alert('Настройки клиента');
-    });
+    // Get CSS class for status
+    function getStatusClass(status) {
+      switch (status) {
+        case 'Новый лид':
+          return 'status-new';
+        case 'Замер назначен':
+          return 'status-scheduled';
+        case 'Смета отправлена':
+          return 'status-sent';
+        case 'Заказ подтвержден':
+          return 'status-confirmed';
+        case 'Заказ завершен':
+          return 'status-completed';
+        case 'Отменен':
+          return 'status-cancelled';
+        default:
+          return 'status-new';
+      }
+    }
   </script>
 </body>
 </html> 

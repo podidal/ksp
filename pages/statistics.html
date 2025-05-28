@@ -3,225 +3,371 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Film Manager Pro - Статистика</title>
+  <title>Комфорт Сервис Плюс - Статистика</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f8f9fa;
+    .period-selector {
+      margin-bottom: 20px;
     }
     
-    .header {
-      display: flex;
-      align-items: center;
-      padding: 15px;
-      background-color: #fff;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    
-    .back-button {
-      margin-right: 15px;
-      cursor: pointer;
-    }
-    
-    .page-title {
-      font-weight: bold;
-      font-size: 18px;
-    }
-    
-    .container {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 0 15px;
-    }
-    
-    .section-title {
-      font-weight: bold;
+    .period-title {
+      font-weight: 600;
       margin-bottom: 10px;
     }
     
-    .period-selector {
+    .period-tabs {
       display: flex;
-      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      overflow: hidden;
     }
     
-    .period-button {
+    .period-tab {
       flex: 1;
-      text-align: center;
       padding: 10px;
-      border: 1px solid #ddd;
-      background-color: white;
+      text-align: center;
+      background-color: var(--secondary-color);
       cursor: pointer;
     }
     
-    .period-button.active {
-      background-color: #4285F4;
+    .period-tab.active {
+      background-color: var(--primary-color);
       color: white;
-      border-color: #4285F4;
     }
     
-    .period-button:first-child {
-      border-radius: 4px 0 0 4px;
-    }
-    
-    .period-button:last-child {
-      border-radius: 0 4px 4px 0;
-    }
-    
-    .stats-box {
-      background-color: white;
-      border: 1px solid #ddd;
+    .stats-summary {
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       padding: 15px;
       margin-bottom: 20px;
+      background-color: white;
+    }
+    
+    .stats-title {
+      font-weight: 600;
+      margin-bottom: 10px;
     }
     
     .stats-item {
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
     
-    .chart {
-      background-color: white;
-      border: 1px solid #ddd;
+    .chart-container {
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       padding: 15px;
       margin-bottom: 20px;
-      height: 200px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-around;
+      background-color: white;
     }
     
-    .chart-column {
-      background-color: #4285F4;
-      width: 30px;
-      border-radius: 3px 3px 0 0;
+    .chart-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .chart-canvas-container {
+      height: 200px;
       position: relative;
     }
     
-    .chart-day {
-      position: absolute;
-      bottom: -25px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 12px;
+    .chart-tabs {
+      display: flex;
+      margin-bottom: 15px;
     }
     
-    .materials-box {
-      background-color: white;
-      border: 1px solid #ddd;
+    .chart-tab {
+      padding: 5px 10px;
+      margin-right: 10px;
+      background-color: #f8f9fa;
       border-radius: 4px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-    
-    .material-item {
-      margin-bottom: 10px;
-    }
-    
-    .detailed-report {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-      text-align: center;
+      font-size: 12px;
       cursor: pointer;
     }
     
-    .detailed-report:hover {
-      background-color: #f0f0f0;
+    .chart-tab.active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .materials-inventory {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background-color: white;
+    }
+    
+    .inventory-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .inventory-item {
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .inventory-bar {
+      height: 6px;
+      background-color: #e9ecef;
+      border-radius: 3px;
+      margin-top: 5px;
+      width: 100%;
+    }
+    
+    .inventory-progress {
+      height: 100%;
+      background-color: var(--primary-color);
+      border-radius: 3px;
+    }
+    
+    .inventory-name {
+      flex: 1;
+    }
+    
+    .inventory-amount {
+      margin-left: 10px;
+      font-weight: 600;
+    }
+    
+    .conversion-stats {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background-color: white;
+    }
+    
+    .conversion-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .conversion-rate {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="back-button">←</div>
-    <div class="page-title">Статистика</div>
-  </div>
-  
   <div class="container">
-    <div class="section-title">📅 Период: Март 2024</div>
+    <div class="header">
+      <a href="clients.html" class="back-button">
+        <span class="back-icon">←</span> Назад
+      </a>
+      <h2>Статистика</h2>
+      <button class="menu-button" onclick="toggleMenu()">☰</button>
+    </div>
+    
     <div class="period-selector">
-      <div class="period-button active">За неделю ▼</div>
-      <div class="period-button">За месяц ▼</div>
-    </div>
-    
-    <div class="section-title">📊 Основные показатели:</div>
-    <div class="stats-box">
-      <div class="stats-item">👥 Клиентов обслужено: 15</div>
-      <div class="stats-item">✅ Заказов закрыто: 12</div>
-      <div class="stats-item">💰 Выручка: 24,750₴</div>
-      <div class="stats-item">📏 Пленки использовано: 32.4м²</div>
-    </div>
-    
-    <div class="section-title">📈 График по дням:</div>
-    <div class="chart">
-      <div class="chart-column" style="height: 20%">
-        <div class="chart-day">ПН</div>
-      </div>
-      <div class="chart-column" style="height: 60%">
-        <div class="chart-day">ВТ</div>
-      </div>
-      <div class="chart-column" style="height: 40%">
-        <div class="chart-day">СР</div>
-      </div>
-      <div class="chart-column" style="height: 80%">
-        <div class="chart-day">ЧТ</div>
-      </div>
-      <div class="chart-column" style="height: 50%">
-        <div class="chart-day">ПТ</div>
-      </div>
-      <div class="chart-column" style="height: 30%">
-        <div class="chart-day">СБ</div>
-      </div>
-      <div class="chart-column" style="height: 10%">
-        <div class="chart-day">ВС</div>
+      <div class="period-title">📅 Период: Март 2024</div>
+      <div class="period-tabs">
+        <div class="period-tab active" data-period="week">За неделю</div>
+        <div class="period-tab" data-period="month">За месяц</div>
       </div>
     </div>
     
-    <div class="section-title">🗃️ Остатки материалов:</div>
-    <div class="materials-box">
-      <div class="material-item">Silver 15: 12.3м² (Иванов М.)</div>
-      <div class="material-item">Carbon Black: 8.7м² (Качан Д.Ю.)</div>
-      <div class="material-item">Crystal Clear: 15.2м² (Сидоров)</div>
+    <div class="stats-summary">
+      <div class="stats-title">📊 Основные показатели:</div>
+      <div class="stats-item">👥 Клиентов обслужено: <strong>15</strong></div>
+      <div class="stats-item">✅ Заказов закрыто: <strong>12</strong></div>
+      <div class="stats-item">💰 Выручка: <strong>24,750₴</strong></div>
+      <div class="stats-item">📏 Пленки использовано: <strong>32.4м²</strong></div>
     </div>
     
-    <div class="detailed-report">
-      <div>📊 Подробный отчет</div>
+    <div class="conversion-stats">
+      <div class="conversion-title">🎯 Конверсия в продажу</div>
+      <div class="conversion-rate">37.5%</div>
+      <div class="chart-canvas-container">
+        <canvas id="conversionChart"></canvas>
+      </div>
     </div>
+    
+    <div class="chart-container">
+      <div class="chart-title">📈 Аналитика по дням:</div>
+      <div class="chart-tabs">
+        <div class="chart-tab active" data-chart="revenue">Выручка</div>
+        <div class="chart-tab" data-chart="clients">Клиенты</div>
+        <div class="chart-tab" data-chart="material">Материалы</div>
+      </div>
+      <div class="chart-canvas-container">
+        <canvas id="dailyChart"></canvas>
+      </div>
+    </div>
+    
+    <div class="materials-inventory">
+      <div class="inventory-title">🗃️ Остатки материалов:</div>
+      <div class="inventory-item">
+        <div class="inventory-name">Silver 15</div>
+        <div class="inventory-amount">12.3м²</div>
+      </div>
+      <div class="inventory-bar">
+        <div class="inventory-progress" style="width: 45%;"></div>
+      </div>
+      
+      <div class="inventory-item">
+        <div class="inventory-name">Carbon Black</div>
+        <div class="inventory-amount">8.7м²</div>
+      </div>
+      <div class="inventory-bar">
+        <div class="inventory-progress" style="width: 25%;"></div>
+      </div>
+      
+      <div class="inventory-item">
+        <div class="inventory-name">Crystal Clear</div>
+        <div class="inventory-amount">15.2м²</div>
+      </div>
+      <div class="inventory-bar">
+        <div class="inventory-progress" style="width: 68%;"></div>
+      </div>
+    </div>
+    
+    <button class="btn btn-primary btn-block" onclick="exportReport()">
+      📊 Экспорт подробного отчета
+    </button>
   </div>
   
+  <!-- Include side menu component -->
+  <div id="sideMenuContainer"></div>
+  
+  <script src="../js/main.js"></script>
   <script>
-    // Back button functionality
-    document.querySelector('.back-button').addEventListener('click', function() {
-      window.location.href = 'clients.html';
-    });
-    
-    // Period selector functionality
-    document.querySelectorAll('.period-button').forEach(button => {
-      button.addEventListener('click', function() {
-        // Remove active class from all buttons
-        document.querySelectorAll('.period-button').forEach(btn => {
-          btn.classList.remove('active');
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load the side menu component
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sideMenuContainer').innerHTML = html;
+          
+          // Execute any scripts inside the loaded sidebar
+          const scripts = document.getElementById('sideMenuContainer').getElementsByTagName('script');
+          for (let i = 0; i < scripts.length; i++) {
+            eval(scripts[i].innerText);
+          }
         });
-        
-        // Add active class to the clicked button
-        this.classList.add('active');
-        
-        // In a real app, this would update the statistics data
-        alert('Период изменен на: ' + this.textContent);
+      
+      // Period tab switching
+      const periodTabs = document.querySelectorAll('.period-tab');
+      periodTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          periodTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          const period = this.getAttribute('data-period');
+          updateCharts(period);
+        });
       });
+      
+      // Chart type switching
+      const chartTabs = document.querySelectorAll('.chart-tab');
+      chartTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          chartTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          const chartType = this.getAttribute('data-chart');
+          updateDailyChart(chartType);
+        });
+      });
+      
+      // Initialize charts
+      initializeCharts();
     });
     
-    // Detailed report functionality
-    document.querySelector('.detailed-report').addEventListener('click', function() {
-      // This would normally generate a detailed report
-      alert('Генерация подробного отчета');
-    });
+    // Chart data
+    const chartData = {
+      week: {
+        labels: ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'],
+        revenue: [3500, 4200, 2800, 4500, 3800, 1200, 2000],
+        clients: [3, 4, 2, 5, 3, 1, 2],
+        material: [5.2, 6.8, 3.5, 7.2, 5.3, 1.8, 2.6]
+      },
+      month: {
+        labels: ['Нед 1', 'Нед 2', 'Нед 3', 'Нед 4'],
+        revenue: [15000, 22000, 18000, 24000],
+        clients: [12, 18, 15, 20],
+        material: [18.5, 25.3, 22.6, 30.2]
+      }
+    };
+    
+    // Charts instances
+    let dailyChart, conversionChart;
+    
+    function initializeCharts() {
+      // Daily chart
+      const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+      dailyChart = new Chart(dailyCtx, {
+        type: 'bar',
+        data: {
+          labels: chartData.week.labels,
+          datasets: [{
+            label: 'Выручка (₴)',
+            data: chartData.week.revenue,
+            backgroundColor: '#4e73df',
+            borderColor: '#4e73df',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      
+      // Conversion chart
+      const conversionCtx = document.getElementById('conversionChart').getContext('2d');
+      conversionChart = new Chart(conversionCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Продажи', 'Отказы'],
+          datasets: [{
+            data: [37.5, 62.5],
+            backgroundColor: ['#4e73df', '#e9ecef'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          cutout: '70%',
+          plugins: {
+            legend: {
+              position: 'right'
+            }
+          }
+        }
+      });
+    }
+    
+    function updateCharts(period) {
+      // Update daily chart based on period
+      const chartType = document.querySelector('.chart-tab.active').getAttribute('data-chart');
+      dailyChart.data.labels = chartData[period].labels;
+      dailyChart.data.datasets[0].data = chartData[period][chartType];
+      dailyChart.update();
+    }
+    
+    function updateDailyChart(chartType) {
+      const period = document.querySelector('.period-tab.active').getAttribute('data-period');
+      dailyChart.data.datasets[0].label = 
+        chartType === 'revenue' ? 'Выручка (₴)' : 
+        chartType === 'clients' ? 'Количество клиентов' : 'Использовано материала (м²)';
+      dailyChart.data.datasets[0].data = chartData[period][chartType];
+      dailyChart.update();
+    }
+    
+    function exportReport() {
+      alert('Отчет будет сформирован и отправлен на вашу почту');
+    }
   </script>
 </body>
 </html> 
