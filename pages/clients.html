@@ -64,6 +64,99 @@
     .location-icon {
       color: #fd7e14;
     }
+    
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      display: inline-block;
+    }
+    
+    .status-new {
+      background-color: #e0f7fa;
+      color: #0288d1;
+    }
+    
+    .status-scheduled {
+      background-color: #e8f5e9;
+      color: #388e3c;
+    }
+    
+    .status-sent {
+      background-color: #fff3e0;
+      color: #f57c00;
+    }
+    
+    .status-confirmed {
+      background-color: #e8eaf6;
+      color: #3f51b5;
+    }
+    
+    .status-completed {
+      background-color: #e0f2f1;
+      color: #00796b;
+    }
+    
+    .status-cancelled {
+      background-color: #ffebee;
+      color: #d32f2f;
+    }
+    
+    .loading-container {
+      text-align: center;
+      padding: 30px;
+    }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--accent-color);
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 30px;
+      color: #666;
+    }
+    
+    .empty-state p {
+      margin-bottom: 15px;
+    }
+    
+    .filter-container {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 20px;
+      overflow-x: auto;
+      padding: 5px 0;
+    }
+    
+    .filter-button {
+      background: none;
+      border: 1px solid var(--border-color);
+      padding: 5px 10px;
+      margin: 0 5px;
+      border-radius: 15px;
+      font-size: 12px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    
+    .filter-button.active {
+      background-color: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
   </style>
 </head>
 <body>
@@ -80,75 +173,32 @@
       ➕ Добавить нового клиента
     </button>
     
-    <div class="clients-list">
-      <div class="client-card" onclick="location.href='client-details.html'">
-        <div class="client-name">👤 Качан Д.Юван</div>
-        <div class="client-info">
-          <div class="client-phone">
-            <span>📱 +380501234567</span>
-          </div>
-          <div class="client-phone-actions">
-            <span class="call-icon">📞</span>
-          </div>
-        </div>
-        <div class="client-info">
-          <div class="client-date">
-            <span>📅 15.03.2024</span>
-          </div>
-          <div class="client-location">
-            <span class="location-icon">📍</span>
-          </div>
-        </div>
-        <div class="client-status">
-          <span class="status-badge status-scheduled">Статус: Замер назначен</span>
-        </div>
-      </div>
-      
-      <div class="client-card">
-        <div class="client-name">👤 Сидоров Петр</div>
-        <div class="client-info">
-          <div class="client-phone">
-            <span>📱 +380679876543</span>
-          </div>
-          <div class="client-phone-actions">
-            <span class="call-icon">📞</span>
-          </div>
-        </div>
-        <div class="client-info">
-          <div class="client-date">
-            <span>📅 12.03.2024</span>
-          </div>
-          <div class="client-location">
-            <span class="location-icon">📍</span>
-          </div>
-        </div>
-        <div class="client-status">
-          <span class="status-badge status-sent">Статус: Смета отправлена</span>
-        </div>
-      </div>
-      
-      <div class="client-card">
-        <div class="client-name">👤 Иванова Мария</div>
-        <div class="client-info">
-          <div class="client-phone">
-            <span>📱 +380504445566</span>
-          </div>
-          <div class="client-phone-actions">
-            <span class="call-icon">📞</span>
-          </div>
-        </div>
-        <div class="client-info">
-          <div class="client-date">
-            <span>📅 10.03.2024</span>
-          </div>
-          <div class="client-location">
-            <span class="location-icon">📍</span>
-          </div>
-        </div>
-        <div class="client-status">
-          <span class="status-badge status-completed">Статус: Заказ завершен</span>
-        </div>
-      </div>
+    <!-- Filter buttons -->
+    <div class="filter-container">
+      <button class="filter-button active" data-status="all">Все</button>
+      <button class="filter-button" data-status="Новый лид">Новые</button>
+      <button class="filter-button" data-status="Замер назначен">Замер назначен</button>
+      <button class="filter-button" data-status="Смета отправлена">Смета отправлена</button>
+      <button class="filter-button" data-status="Заказ подтвержден">Подтверждены</button>
+      <button class="filter-button" data-status="Заказ завершен">Завершены</button>
+      <button class="filter-button" data-status="Отменен">Отменены</button>
+    </div>
+    
+    <!-- Loading indicator -->
+    <div id="loadingClients" class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Загрузка клиентов...</p>
+    </div>
+    
+    <!-- Empty state message -->
+    <div id="emptyState" class="empty-state" style="display:none;">
+      <p>Нет клиентов для отображения</p>
+      <p>Добавьте нового клиента, чтобы начать работу</p>
+    </div>
+    
+    <!-- Client list container -->
+    <div id="clientsList" class="clients-list" style="display:none;">
+      <!-- Client cards will be dynamically added here -->
     </div>
   </div>
   
@@ -158,9 +208,13 @@
   <!-- Firebase SDK v9 with CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="../js/main.js"></script>
   
-  <script>
+  <script type="module">
+    // Import the client service
+    import { clientService } from '../js/firestore-service.js';
+    
     // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
@@ -210,12 +264,166 @@
           if (sidebarUserEmail) {
             sidebarUserEmail.textContent = user.email || '';
           }
+          
+          // Load client data
+          loadClients();
         } else {
           // User is signed out, redirect to login
           window.location.href = 'login.html';
         }
       });
+      
+      // Set up filter buttons
+      const filterButtons = document.querySelectorAll('.filter-button');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all buttons
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Add active class to clicked button
+          this.classList.add('active');
+          
+          // Get status to filter by
+          const status = this.getAttribute('data-status');
+          
+          // Filter clients
+          if (status === 'all') {
+            loadClients();
+          } else {
+            filterClientsByStatus(status);
+          }
+        });
+      });
     });
+    
+    // Load all clients
+    async function loadClients() {
+      showLoading(true);
+      
+      try {
+        const clients = await clientService.getAllClients();
+        renderClients(clients);
+      } catch (error) {
+        console.error("Error loading clients:", error);
+        showError("Не удалось загрузить список клиентов");
+      }
+      
+      showLoading(false);
+    }
+    
+    // Filter clients by status
+    async function filterClientsByStatus(status) {
+      showLoading(true);
+      
+      try {
+        const clients = await clientService.getClientsByStatus(status);
+        renderClients(clients);
+      } catch (error) {
+        console.error("Error filtering clients:", error);
+        showError("Не удалось отфильтровать клиентов");
+      }
+      
+      showLoading(false);
+    }
+    
+    // Render clients to the DOM
+    function renderClients(clients) {
+      const clientsList = document.getElementById('clientsList');
+      const emptyState = document.getElementById('emptyState');
+      
+      // Clear current list
+      clientsList.innerHTML = '';
+      
+      // Show empty state if no clients
+      if (clients.length === 0) {
+        clientsList.style.display = 'none';
+        emptyState.style.display = 'block';
+        return;
+      }
+      
+      // Hide empty state and show client list
+      emptyState.style.display = 'none';
+      clientsList.style.display = 'block';
+      
+      // Render each client
+      clients.forEach(client => {
+        const clientCard = createClientCard(client);
+        clientsList.appendChild(clientCard);
+      });
+    }
+    
+    // Create a client card element
+    function createClientCard(client) {
+      const card = document.createElement('div');
+      card.className = 'client-card';
+      card.onclick = function() {
+        location.href = `client-details.html?id=${client.id}`;
+      };
+      
+      // Format date
+      const createdAt = client.createdAt ? new Date(client.createdAt.seconds * 1000) : new Date();
+      const formattedDate = createdAt.toLocaleDateString('ru-RU');
+      
+      // Get status class
+      const statusClass = getStatusClass(client.status);
+      
+      card.innerHTML = `
+        <div class="client-name">👤 ${client.name || 'Без имени'}</div>
+        <div class="client-info">
+          <div class="client-phone">
+            <span>📱 ${client.phone || 'Нет телефона'}</span>
+          </div>
+          <div class="client-phone-actions">
+            <span class="call-icon">📞</span>
+          </div>
+        </div>
+        <div class="client-info">
+          <div class="client-date">
+            <span>📅 ${formattedDate}</span>
+          </div>
+          <div class="client-location">
+            <span class="location-icon">📍</span>
+          </div>
+        </div>
+        <div class="client-status">
+          <span class="status-badge ${statusClass}">Статус: ${client.status || 'Новый лид'}</span>
+        </div>
+      `;
+      
+      return card;
+    }
+    
+    // Get CSS class for status
+    function getStatusClass(status) {
+      switch (status) {
+        case 'Новый лид':
+          return 'status-new';
+        case 'Замер назначен':
+          return 'status-scheduled';
+        case 'Смета отправлена':
+          return 'status-sent';
+        case 'Заказ подтвержден':
+          return 'status-confirmed';
+        case 'Заказ завершен':
+          return 'status-completed';
+        case 'Отменен':
+          return 'status-cancelled';
+        default:
+          return 'status-new';
+      }
+    }
+    
+    // Show/hide loading indicator
+    function showLoading(show) {
+      document.getElementById('loadingClients').style.display = show ? 'block' : 'none';
+      document.getElementById('clientsList').style.display = show ? 'none' : 'block';
+    }
+    
+    // Show error message
+    function showError(message) {
+      // You can implement a more sophisticated error UI here
+      alert(message);
+    }
   </script>
 </body>
 </html> 
