@@ -1,1 +1,150 @@
- 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Комфорт Сервис Плюс - Предпросмотр сметы</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .estimate-container {
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      background-color: white;
+      margin-bottom: 20px;
+    }
+    
+    .estimate-title {
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .client-info {
+      margin-bottom: 20px;
+    }
+    
+    .client-info-item {
+      margin-bottom: 5px;
+    }
+    
+    .details-card {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .details-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .details-item {
+      margin-bottom: 5px;
+    }
+    
+    .cost-section {
+      margin-bottom: 20px;
+    }
+    
+    .cost-item {
+      margin-bottom: 5px;
+    }
+    
+    .cost-divider {
+      height: 1px;
+      background-color: var(--border-color);
+      margin: 10px 0;
+    }
+    
+    .total-cost {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .additional-info {
+      margin-bottom: 20px;
+    }
+    
+    .additional-info-item {
+      margin-bottom: 5px;
+    }
+    
+    .company-info {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .action-btn {
+      width: 48%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="estimate-container">
+      <div class="estimate-title">СМЕТА</div>
+      
+      <div class="client-info">
+        <div class="client-info-item">Клиент: Качан Д.Юван</div>
+        <div class="client-info-item">Телефон: +380501234567</div>
+        <div class="client-info-item">Адрес: г. Киев, ул. Крещатик, 15</div>
+        <div class="client-info-item">Дата: 16.03.2024</div>
+      </div>
+      
+      <div class="details-card">
+        <div class="details-title">ДЕТАЛИ ЗАКАЗА:</div>
+        <div class="details-item">• Окно 800×600мм - 2 шт</div>
+        <div class="details-item">• Окно 1200×800мм - 1 шт</div>
+        <div class="details-item">• Окно 600×400мм - 3 шт</div>
+        <div class="details-item"></div>
+        <div class="details-item">Общая площадь: 2.64 м²</div>
+        <div class="details-item">Материал: Silver 15</div>
+      </div>
+      
+      <div class="cost-section">
+        <div class="cost-title">СТОИМОСТЬ:</div>
+        <div class="cost-item">Материал (2.64м²×380₴): 1,003₴</div>
+        <div class="cost-item">Работа (2.64м²×250₴): 660₴</div>
+        <div class="cost-item">Дополнительно: 500₴</div>
+        <div class="cost-divider"></div>
+        <div class="total-cost">ИТОГО: 2,163₴</div>
+      </div>
+      
+      <div class="additional-info">
+        <div class="additional-info-item">Срок выполнения: 1-2 дня</div>
+        <div class="additional-info-item">Гарантия: 2 года</div>
+      </div>
+      
+      <div class="company-info">
+        <div>Film Manager Pro</div>
+        <div>+380501112233</div>
+      </div>
+    </div>
+    
+    <div class="action-buttons">
+      <button class="btn btn-primary action-btn">
+        🖨️ Печать
+      </button>
+      <button class="btn btn-success action-btn" onclick="location.href='estimate.html'">
+        📤 Отправить
+      </button>
+    </div>
+  </div>
+  
+  <script src="../js/main.js"></script>
+  <script>
+    // Print functionality
+    document.querySelector('.action-buttons .btn-primary').addEventListener('click', function() {
+      window.print();
+    });
+  </script>
+</body>
+</html> 

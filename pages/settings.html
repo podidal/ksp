@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Комфорт Сервис Плюс - Настройки</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .settings-section {
+      margin-bottom: 20px;
+    }
+    
+    .settings-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .settings-card {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background-color: white;
+    }
+    
+    .radio-option {
+      margin-bottom: 10px;
+    }
+    
+    .radio-label {
+      display: flex;
+      align-items: center;
+    }
+    
+    .radio-input {
+      margin-right: 10px;
+    }
+    
+    .input-group {
+      margin-bottom: 10px;
+    }
+    
+    .input-label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .form-input-group {
+      display: flex;
+      align-items: center;
+    }
+    
+    .form-control-left {
+      flex-grow: 1;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px 0 0 4px;
+      font-size: 16px;
+    }
+    
+    .form-control-right {
+      width: 50px;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-left: none;
+      border-radius: 0 4px 4px 0;
+      background-color: #f8f9fa;
+      font-size: 16px;
+      text-align: center;
+    }
+    
+    .checkbox-option {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .checkbox-input {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="clients.html" class="back-button">
+        <span class="back-icon">←</span> Назад
+      </a>
+      <h2>Настройки</h2>
+    </div>
+    
+    <div class="settings-section">
+      <div class="settings-title">🎨 Внешний вид:</div>
+      <div class="settings-card">
+        <div class="radio-option">
+          <label class="radio-label">
+            <input type="radio" name="theme" class="radio-input" value="light">
+            Светлая тема
+          </label>
+        </div>
+        <div class="radio-option">
+          <label class="radio-label">
+            <input type="radio" name="theme" class="radio-input" value="dark" checked>
+            Темная тема
+          </label>
+        </div>
+        <div class="radio-option">
+          <label class="radio-label">
+            <input type="radio" name="theme" class="radio-input" value="auto">
+            Автоматически
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="settings-section">
+      <div class="settings-title">📏 Единицы измерения:</div>
+      <div class="settings-card">
+        <div class="radio-option">
+          <label class="radio-label">
+            <input type="radio" name="units" class="radio-input" value="mm" checked>
+            Миллиметры (мм)
+          </label>
+        </div>
+        <div class="radio-option">
+          <label class="radio-label">
+            <input type="radio" name="units" class="radio-input" value="cm">
+            Сантиметры (см)
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="settings-section">
+      <div class="settings-title">🎬 Параметры пленки:</div>
+      <div class="settings-card">
+        <div class="input-group">
+          <label class="input-label">Ширина рулона по умолчанию:</label>
+          <div class="form-input-group">
+            <input type="number" id="defaultRollWidth" class="form-control-left" value="1524">
+            <div class="form-control-right">мм</div>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">Стоимость работы по умолчанию:</label>
+          <div class="form-input-group">
+            <input type="number" id="defaultWorkPrice" class="form-control-left" value="250">
+            <div class="form-control-right">₴</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="settings-section">
+      <div class="settings-title">🔧 Алгоритмы раскроя:</div>
+      <div class="settings-card">
+        <div class="checkbox-option">
+          <input type="checkbox" id="rotateItems" class="checkbox-input" checked>
+          <label for="rotateItems">Поворот деталей включен</label>
+        </div>
+        <div class="checkbox-option">
+          <input type="checkbox" id="showAllOptions" class="checkbox-input" checked>
+          <label for="showAllOptions">Показывать все варианты</label>
+        </div>
+      </div>
+    </div>
+    
+    <button class="btn btn-success btn-block" id="saveSettingsBtn">
+      💾 Сохранить настройки
+    </button>
+  </div>
+  
+  <!-- Include side menu component -->
+  <div id="sideMenuContainer"></div>
+  
+  <script src="../js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load the side menu component
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sideMenuContainer').innerHTML = html;
+        });
+      
+      // Save settings button
+      document.getElementById('saveSettingsBtn').addEventListener('click', function() {
+        // In a real app, this would save settings to local storage or a database
+        alert('Настройки сохранены');
+      });
+    });
+  </script>
+</body>
+</html> 
