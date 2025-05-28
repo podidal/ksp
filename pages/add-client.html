@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Комфорт Сервис Плюс - Добавить клиента</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .back-icon {
+      margin-right: 10px;
+    }
+    
+    textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+    
+    .save-btn {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="clients.html" class="back-button">
+        <span class="back-icon">←</span> Назад
+      </a>
+      <h2>Новый клиент</h2>
+    </div>
+    
+    <form id="addClientForm">
+      <div class="form-group">
+        <label for="clientName">Имя клиента:</label>
+        <input type="text" id="clientName" class="form-control" placeholder="Введите ФИО клиента" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="clientPhone">Телефон:</label>
+        <input type="tel" id="clientPhone" class="form-control" placeholder="+380" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="clientAddress">Адрес:</label>
+        <textarea id="clientAddress" class="form-control" placeholder="Введите адрес клиента"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="clientNotes">Примечания:</label>
+        <textarea id="clientNotes" class="form-control" placeholder="Дополнительная информация"></textarea>
+      </div>
+      
+      <button type="submit" class="btn btn-success btn-block save-btn">
+        💾 Сохранить
+      </button>
+    </form>
+  </div>
+  
+  <script src="../js/main.js"></script>
+  <script>
+    document.getElementById('addClientForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      // In a real app, this would save to a database
+      // For demo purposes, just redirect back to clients page
+      window.location.href = 'clients.html';
+    });
+  </script>
+</body>
+</html> 

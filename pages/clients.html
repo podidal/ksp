@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Комфорт Сервис Плюс - Клиенты</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .add-client-btn {
+      display: block;
+      width: 80%;
+      margin: 20px auto;
+      padding: 12px;
+      text-align: center;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .client-card {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 12px;
+      margin-bottom: 15px;
+      background-color: white;
+    }
+    
+    .client-name {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    
+    .client-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    
+    .client-phone, .client-date {
+      display: flex;
+      align-items: center;
+    }
+    
+    .client-phone i, .client-date i {
+      margin-right: 5px;
+      font-size: 14px;
+    }
+    
+    .client-status {
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    
+    .call-icon {
+      color: #28a745;
+    }
+    
+    .location-icon {
+      color: #fd7e14;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Film Manager</h1>
+      <div>
+        <span>👤 Иван П.</span>
+        <button class="menu-button" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+    
+    <button class="add-client-btn" onclick="location.href='add-client.html'">
+      ➕ Добавить нового клиента
+    </button>
+    
+    <div class="clients-list">
+      <div class="client-card" onclick="location.href='client-details.html'">
+        <div class="client-name">👤 Качан Д.Юван</div>
+        <div class="client-info">
+          <div class="client-phone">
+            <span>📱 +380501234567</span>
+          </div>
+          <div class="client-phone-actions">
+            <span class="call-icon">📞</span>
+          </div>
+        </div>
+        <div class="client-info">
+          <div class="client-date">
+            <span>📅 15.03.2024</span>
+          </div>
+          <div class="client-location">
+            <span class="location-icon">📍</span>
+          </div>
+        </div>
+        <div class="client-status">
+          <span class="status-badge status-scheduled">Статус: Замер назначен</span>
+        </div>
+      </div>
+      
+      <div class="client-card">
+        <div class="client-name">👤 Сидоров Петр</div>
+        <div class="client-info">
+          <div class="client-phone">
+            <span>📱 +380679876543</span>
+          </div>
+          <div class="client-phone-actions">
+            <span class="call-icon">📞</span>
+          </div>
+        </div>
+        <div class="client-info">
+          <div class="client-date">
+            <span>📅 12.03.2024</span>
+          </div>
+          <div class="client-location">
+            <span class="location-icon">📍</span>
+          </div>
+        </div>
+        <div class="client-status">
+          <span class="status-badge status-sent">Статус: Смета отправлена</span>
+        </div>
+      </div>
+      
+      <div class="client-card">
+        <div class="client-name">👤 Иванова Мария</div>
+        <div class="client-info">
+          <div class="client-phone">
+            <span>📱 +380504445566</span>
+          </div>
+          <div class="client-phone-actions">
+            <span class="call-icon">📞</span>
+          </div>
+        </div>
+        <div class="client-info">
+          <div class="client-date">
+            <span>📅 10.03.2024</span>
+          </div>
+          <div class="client-location">
+            <span class="location-icon">📍</span>
+          </div>
+        </div>
+        <div class="client-status">
+          <span class="status-badge status-completed">Статус: Заказ завершен</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Include side menu component -->
+  <div id="sideMenuContainer"></div>
+  
+  <script src="../js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load the side menu component
+      fetch('../components/sidebar.html')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('sideMenuContainer').innerHTML = html;
+        });
+    });
+  </script>
+</body>
+</html> 
