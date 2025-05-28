@@ -37,43 +37,40 @@
 <script>
   // This script will be evaluated by the parent page
   (function() {
-    // Import the authContext - this is already available in the parent page
-    const updateSidebar = () => {
-      if (window.authContext) {
-        const authContext = window.authContext;
-        
-        authContext.subscribe(({ user }) => {
-          const userName = document.getElementById('userName');
-          const userEmail = document.getElementById('userEmail');
-          
-          if (user) {
-            // Display user info
-            userName.textContent = `👤 ${user.displayName || 'Пользователь'}`;
-            userEmail.textContent = user.email || '';
-          } else {
-            // Reset to default
-            userName.textContent = '👤 Не авторизован';
-            userEmail.textContent = '';
-          }
+    // Set up logout button
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // Check if Firebase is initialized by the parent page
+      if (window.firebase && firebase.auth) {
+        firebase.auth().signOut().then(function() {
+          // Sign-out successful, redirect to login
+          window.location.href = 'login.html';
+        }).catch(function(error) {
+          // An error happened
+          console.error('Error signing out:', error);
         });
-        
-        // Set up logout button
-        document.getElementById('logoutBtn').addEventListener('click', async function(e) {
-          e.preventDefault();
-          
-          try {
-            // Sign out
-            await authContext.signOut();
-            // Redirect to login page
-            window.location.href = 'login.html';
-          } catch (error) {
-            console.error('Error signing out:', error);
-          }
-        });
+      } else {
+        console.error('Firebase Auth not available');
       }
-    };
+    });
     
-    // Run the update function
-    updateSidebar();
+    // Update user info if Firebase auth is available
+    if (window.firebase && firebase.auth) {
+      firebase.auth().onAuthStateChanged(function(user) {
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        
+        if (user) {
+          // Display user info
+          userName.textContent = `👤 ${user.displayName || 'Пользователь'}`;
+          userEmail.textContent = user.email || '';
+        } else {
+          // Reset to default
+          userName.textContent = '👤 Не авторизован';
+          userEmail.textContent = '';
+        }
+      });
+    }
   })();
 </script> 

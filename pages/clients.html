@@ -6,13 +6,6 @@
   <title>Комфорт Сервис Плюс - Клиенты</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="../css/styles.css">
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-  <script src="../js/firebase-config.js"></script>
-  <script src="../js/auth-context.js"></script>
-  <script src="../js/auth-guard.js"></script>
   <style>
     .add-client-btn {
       display: block;
@@ -162,9 +155,25 @@
   <!-- Include side menu component -->
   <div id="sideMenuContainer"></div>
   
+  <!-- Firebase SDK v9 with CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="../js/main.js"></script>
-  <script type="module">
-    import authContext from '../js/auth-context.js';
+  
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
+      authDomain: "ksplus-60132.firebaseapp.com",
+      projectId: "ksplus-60132",
+      storageBucket: "ksplus-60132.firebasestorage.app",
+      messagingSenderId: "1037863910173",
+      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
+      measurementId: "G-17JRYGSH0S"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
     
     document.addEventListener('DOMContentLoaded', function() {
       // Load the side menu component
@@ -180,16 +189,30 @@
           }
         });
       
-      // Display current user in header
-      authContext.subscribe(({ user }) => {
+      // Check authentication status
+      firebase.auth().onAuthStateChanged(function(user) {
         const userDisplay = document.getElementById('userDisplay');
+        
         if (user) {
-          // Show first name or display name
+          // User is signed in
           const displayName = user.displayName || 'Пользователь';
           const firstName = displayName.split(' ')[0];
           userDisplay.textContent = `👤 ${firstName}`;
+          
+          // Update user info in sidebar if it exists
+          const sidebarUserName = document.getElementById('userName');
+          const sidebarUserEmail = document.getElementById('userEmail');
+          
+          if (sidebarUserName) {
+            sidebarUserName.textContent = `👤 ${user.displayName || 'Пользователь'}`;
+          }
+          
+          if (sidebarUserEmail) {
+            sidebarUserEmail.textContent = user.email || '';
+          }
         } else {
-          userDisplay.textContent = '👤 Гость';
+          // User is signed out, redirect to login
+          window.location.href = 'login.html';
         }
       });
     });
