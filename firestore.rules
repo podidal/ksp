@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Разрешить доступ к клиентам только для аутентифицированных пользователей
+    match /clients/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Разрешить всем создавать заявки на обратный звонок
+    match /contactRequests/{document} {
+      allow read: if request.auth != null;
+      allow create: if true; // Разрешить создание заявок без аутентификации
+    }
+    
+    // Разрешить доступ к измерениям только для аутентифицированных пользователей
+    match /measurements/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Разрешить доступ к сметам только для аутентифицированных пользователей
+    match /estimates/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+} 
