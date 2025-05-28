@@ -6,7 +6,7 @@
   <title>Комфорт Сервис Плюс - Профессиональная установка пленок</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="../css/styles.css">
   <style>
     /* Landing page specific styles */
     body {
@@ -54,10 +54,26 @@
       text-decoration: none;
       font-weight: 500;
       transition: background-color 0.3s;
+      margin-right: 15px;
     }
     
     .login-btn:hover {
       background-color: #3a5b95;
+    }
+    
+    .contact-btn {
+      display: inline-block;
+      background-color: #28a745;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+    
+    .contact-btn:hover {
+      background-color: #218838;
     }
     
     .features {
@@ -81,6 +97,14 @@
     .feature-item {
       text-align: center;
       padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      transition: transform 0.3s ease;
+    }
+    
+    .feature-item:hover {
+      transform: translateY(-5px);
     }
     
     .feature-icon {
@@ -93,8 +117,49 @@
       margin-bottom: 15px;
     }
     
-    .about {
+    .benefits {
       background-color: #eef2f7;
+      padding: 80px 20px;
+    }
+    
+    .benefits-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .benefits h2 {
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 2.2rem;
+    }
+    
+    .benefits-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      flex: 1;
+      min-width: 280px;
+      max-width: 380px;
+    }
+    
+    .benefit-icon {
+      font-size: 1.8rem;
+      color: #28a745;
+      margin-right: 15px;
+      min-width: 40px;
+    }
+    
+    .about {
       padding: 80px 20px;
     }
     
@@ -120,37 +185,121 @@
       background-size: cover;
       background-position: center;
       border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .pricing {
+      background-color: #eef2f7;
+      padding: 80px 20px;
+    }
+    
+    .pricing-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .pricing h2 {
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 2.2rem;
+    }
+    
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .price-table th,
+    .price-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .price-table th {
+      background-color: #4a6da7;
+      color: white;
+    }
+    
+    .price-table tr:last-child td {
+      border-bottom: none;
     }
     
     .contact {
       padding: 80px 20px;
       max-width: 1200px;
       margin: 0 auto;
-      text-align: center;
     }
     
     .contact h2 {
+      text-align: center;
       margin-bottom: 50px;
       font-size: 2.2rem;
     }
     
-    .contact-info {
+    .contact-content {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
       gap: 40px;
     }
     
-    .contact-item {
+    .contact-info {
       flex: 1;
-      min-width: 250px;
-      max-width: 300px;
+      min-width: 300px;
+    }
+    
+    .contact-form {
+      flex: 1;
+      min-width: 300px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .contact-item {
+      margin-bottom: 30px;
     }
     
     .contact-icon {
-      font-size: 2.5rem;
+      font-size: 2rem;
       color: #4a6da7;
       margin-bottom: 15px;
+    }
+    
+    .contact-form .btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+    }
+    
+    .form-row {
+      margin-bottom: 20px;
+    }
+    
+    .form-row label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .form-row input,
+    .form-row textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    
+    .form-row textarea {
+      height: 120px;
+      resize: vertical;
     }
     
     footer {
@@ -158,6 +307,27 @@
       color: #fff;
       padding: 40px 20px;
       text-align: center;
+    }
+    
+    .languages {
+      margin-top: 20px;
+    }
+    
+    .language-btn {
+      display: inline-block;
+      padding: 5px 10px;
+      margin: 0 5px;
+      background-color: transparent;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background-color 0.3s;
+    }
+    
+    .language-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
     
     @media (max-width: 768px) {
@@ -169,7 +339,8 @@
         font-size: 1rem;
       }
       
-      .feature-grid {
+      .feature-grid,
+      .benefits-list {
         grid-template-columns: 1fr;
       }
       
@@ -180,6 +351,24 @@
       .about-image {
         width: 100%;
       }
+      
+      .contact-content {
+        flex-direction: column;
+      }
+      
+      .hero .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+      }
+      
+      .login-btn,
+      .contact-btn {
+        width: 80%;
+        margin: 5px 0;
+        text-align: center;
+      }
     }
   </style>
 </head>
@@ -188,8 +377,11 @@
     <!-- Hero Section -->
     <section class="hero">
       <h1>Комфорт Сервис Плюс</h1>
-      <p>Профессиональная установка бронепленки, солнцезащитной пленки и декоративных покрытий с гарантией качества</p>
-      <a href="pages/login.html" class="login-btn">Вход для менеджеров <i class="fas fa-sign-in-alt"></i></a>
+      <p>Профессиональная установка бронепленки, солнцезащитной пленки, матового оракала и других защитных покрытий с гарантией качества</p>
+      <div class="buttons">
+        <a href="login.html" class="login-btn">Вход для менеджеров <i class="fas fa-sign-in-alt"></i></a>
+        <a href="#contact" class="contact-btn">Оставить заявку <i class="fas fa-paper-plane"></i></a>
+      </div>
     </section>
     
     <!-- Features Section -->
@@ -201,7 +393,7 @@
             <i class="fas fa-shield-alt"></i>
           </div>
           <h3>Бронепленка</h3>
-          <p>Защитите свои окна от повреждений и увеличьте безопасность помещения с помощью высококачественной бронепленки</p>
+          <p>Защита окон от повреждений, обломков боеприпасов и разлета осколков стекла. Обеспечивает безопасность людей в помещении.</p>
         </div>
         
         <div class="feature-item">
@@ -209,7 +401,7 @@
             <i class="fas fa-sun"></i>
           </div>
           <h3>Солнцезащитная пленка</h3>
-          <p>Снижение нагрева помещения, защита от ультрафиолета и экономия на кондиционировании воздуха</p>
+          <p>Снижение нагрева помещения, защита от ультрафиолета и экономия на кондиционировании воздуха.</p>
         </div>
         
         <div class="feature-item">
@@ -217,15 +409,79 @@
             <i class="fas fa-pencil-ruler"></i>
           </div>
           <h3>Матовый Оракал</h3>
-          <p>Декоративное оформление окон и стеклянных поверхностей, создание приватности и индивидуального дизайна</p>
+          <p>Декоративное оформление окон и стеклянных поверхностей, создание приватности и индивидуального дизайна.</p>
         </div>
         
         <div class="feature-item">
           <div class="feature-icon">
-            <i class="fas fa-car"></i>
+            <i class="fas fa-store-alt"></i>
           </div>
-          <h3>Тонировка авто</h3>
-          <p>Профессиональное тонирование автомобильных стекол с соблюдением всех технологических норм и требований</p>
+          <h3>Рекламные пленки</h3>
+          <p>Поклейка наружной рекламы любой сложности на витрины, окна, перегородки и стеклянные двери.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Benefits Section -->
+    <section class="benefits">
+      <div class="benefits-content">
+        <h2>Преимущества бронепленки</h2>
+        <div class="benefits-list">
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <p>Безосколочность при повреждении стекла</p>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <p>Защита от разлета осколков внутри помещения</p>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <p>Качественное армирование стекла</p>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <p>Сохранность стекла от ударной волны определенной силы</p>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <p>Пропускает солнечный свет и задерживает ультрафиолет</p>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <p>Обладает энергосберегающими свойствами</p>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <p>Защита от взлома, разбиения окон и проникновения</p>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <p>Улучшение комфорта и приватности</p>
+          </div>
         </div>
       </div>
     </section>
@@ -235,49 +491,169 @@
       <div class="about-content">
         <div class="about-text">
           <h2>О нашей компании</h2>
-          <p>Компания "Комфорт Сервис Плюс" специализируется на профессиональной установке различных типов пленок для окон, автомобилей и других поверхностей. Мы работаем на рынке более 10 лет и завоевали репутацию надежного партнера.</p>
-          <p>Наши специалисты регулярно проходят обучение и имеют большой опыт работы с различными материалами. Мы используем только качественные пленки от проверенных производителей, предоставляем гарантию на все виды работ.</p>
+          <p>Компания "Комфорт Сервис Плюс" специализируется на профессиональной установке различных типов защитных и декоративных пленок для окон и других поверхностей.</p>
+          <p>Наша компания выполнит работы по поклейке затемняющей, светоотражающей пленки, а также бронированию окон путем установки ударопрочной пленки.</p>
+          <p>В случае, если Вы можете самостоятельно осуществить установку пленки – мы также предлагаем специальную бронированную пленку к продаже без услуги установки. Вы можете приобрести комплект плёнки нужного размера, через отправку Новой Почтой и с безопасной олх доставкой.</p>
           <p>Доверьте нам заботу о вашем комфорте и безопасности!</p>
         </div>
         <div class="about-image"></div>
       </div>
     </section>
     
+    <!-- Pricing Section -->
+    <section class="pricing">
+      <div class="pricing-content">
+        <h2>Стоимость услуг</h2>
+        <table class="price-table">
+          <tr>
+            <th>Услуга</th>
+            <th>Цена</th>
+          </tr>
+          <tr>
+            <td>Поклейка бронепленки с материалом</td>
+            <td>от 400 грн/м²</td>
+          </tr>
+          <tr>
+            <td>Комплект из 2х пленок 150 x 50 см</td>
+            <td>500 грн</td>
+          </tr>
+          <tr>
+            <td>Демонтаж/монтаж пленки</td>
+            <td>от 250 грн/м²</td>
+          </tr>
+          <tr>
+            <td>Демонтаж на высоте (ТРЦ, фасады, вывески)</td>
+            <td>от 1000 грн</td>
+          </tr>
+          <tr>
+            <td>Поклейка матовой пленки</td>
+            <td>Цена по запросу</td>
+          </tr>
+          <tr>
+            <td>Поклейка солнцезащитной пленки</td>
+            <td>Цена по запросу</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    
     <!-- Contact Section -->
-    <section class="contact">
+    <section id="contact" class="contact">
       <h2>Свяжитесь с нами</h2>
-      <div class="contact-info">
-        <div class="contact-item">
-          <div class="contact-icon">
-            <i class="fas fa-map-marker-alt"></i>
+      <div class="contact-content">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <h3>Адрес</h3>
+            <p>г. Киев, ул. Примерная, 123</p>
           </div>
-          <h3>Адрес</h3>
-          <p>г. Киев, ул. Примерная, 123</p>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <h3>Телефон</h3>
+            <p>+380 (50) 123-45-67</p>
+            <p>+380 (67) 987-65-43</p>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <h3>Email</h3>
+            <p>info@ksp.com.ua</p>
+          </div>
         </div>
         
-        <div class="contact-item">
-          <div class="contact-icon">
-            <i class="fas fa-phone"></i>
-          </div>
-          <h3>Телефон</h3>
-          <p>+380 (50) 123-45-67</p>
-          <p>+380 (67) 987-65-43</p>
-        </div>
-        
-        <div class="contact-item">
-          <div class="contact-icon">
-            <i class="fas fa-envelope"></i>
-          </div>
-          <h3>Email</h3>
-          <p>info@ksp.com.ua</p>
+        <div class="contact-form">
+          <h3>Оставьте заявку</h3>
+          <form id="contactForm">
+            <div class="form-row">
+              <label for="name">Ваше имя</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-row">
+              <label for="phone">Телефон</label>
+              <input type="tel" id="phone" name="phone" required>
+            </div>
+            
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email">
+            </div>
+            
+            <div class="form-row">
+              <label for="message">Сообщение</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Отправить заявку</button>
+          </form>
         </div>
       </div>
     </section>
     
     <!-- Footer -->
     <footer>
-      <p>&copy; 2025 Комфорт Сервис Плюс. Все права защищены.</p>
+      <p>&copy; 2023 Комфорт Сервис Плюс. Все права защищены.</p>
+      <div class="languages">
+        <a href="#" class="language-btn">Українська</a>
+        <a href="#" class="language-btn">Русский</a>
+      </div>
     </footer>
   </div>
+  
+  <!-- Firebase SDK v9 with CDN -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAGGpNFxQ1bfY4ViSdNM7uOBuk7u_cyxtk",
+      authDomain: "ksplus-60132.firebaseapp.com",
+      projectId: "ksplus-60132",
+      storageBucket: "ksplus-60132.firebasestorage.app",
+      messagingSenderId: "1037863910173",
+      appId: "1:1037863910173:web:76bebcb7310eaa78a23ff4",
+      measurementId: "G-17JRYGSH0S"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    
+    // Contact form submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      
+      // Save form data to Firestore
+      db.collection('inquiries').add({
+        name: name,
+        phone: phone,
+        email: email,
+        message: message,
+        createdAt: new Date()
+      })
+      .then(() => {
+        alert('Спасибо! Ваша заявка успешно отправлена. Мы свяжемся с вами в ближайшее время.');
+        document.getElementById('contactForm').reset();
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+        alert('Произошла ошибка при отправке заявки. Пожалуйста, попробуйте еще раз позже.');
+      });
+    });
+  </script>
 </body>
 </html>
